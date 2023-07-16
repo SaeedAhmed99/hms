@@ -704,6 +704,9 @@ return [
 
     //appointments
     'appointment'         => [
+        'total_appointments'                         => 'Total Appointments',
+        'appointments_today_print'                   => 'Print Today Appointments',
+        'appointments_today'                         => 'Today Appointments',
         'new_appointment'                            => 'New Appointment',
         'edit_appointment'                           => 'Edit Appointment',
         'appointment_details'                        => 'Appointment Details',

@@ -43,13 +43,18 @@
                             </div>
                           </form>
                         </div>
-                        <div class="mb-3 mb-sm-0" style="margin-left: 20px;">
+                        <div class="mb-3 mb-sm-0" style="margin-left: 10px;">
                           <div class="position-relative d-flex width-500">
-                            <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; padding-left: 10px; padding-right: 10px; cursor: auto;">Total Earning: {{ $total_earning }}</button>
-                            <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; padding-left: 10px; padding-right: 10px; cursor: auto;">Total Withdrawn: {{ $total_withdrawn }}</button>
-                            <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; padding-left: 10px; padding-right: 10px; cursor: auto;">Total Remaining: {{ $total_earning - $total_withdrawn }}</button>
+                            <button class="btn btn-primary" style="margin-right: 5px; width: fit-content; padding-left: 5px; padding-right: 5px; cursor: auto;">Total Earning: {{ $total_earning }}</button>
+                            <button class="btn btn-primary" style="margin-right: 5px; width: fit-content; padding-left: 5px; padding-right: 5px; cursor: auto;">Total Withdrawn: {{ $total_withdrawn }}</button>
+                            <button class="btn btn-primary" style="margin-right: 5px; width: fit-content; padding-left: 5px; padding-right: 5px; cursor: auto;">Total Remaining: {{ $total_earning - $total_withdrawn }}</button>
                           </div>
-                      </div>
+                        </div>
+                        <div class="mb-3 mb-sm-0" style="margin-left: 10px;">
+                          <div class="position-relative d-flex width-500">
+                            <a href="{{ route('incomes.print.last.day') }}" target="_blank" class="btn btn-primary" style="margin-right: 5px; width: fit-content; padding-left: 5px; padding-right: 5px;">print last day</a>
+                          </div>
+                        </div>
                       </div>
                 
                       {{-- <div class="d-flex justify-content-end ">
@@ -262,7 +267,6 @@
                                     </button>
                                     
                                     <a href="{{ route('incomes.more', $doctor->id) }}" class="btn btn-primary">more</a>
-                                   
                                 </div>
                                 </td>
                             </tr>

@@ -125,7 +125,6 @@ class AppointmentTable extends LivewireTableComponent
             $query = Appointment::query()->select('appointments.*')->with('patient', 'doctor',
                 'department')->where('doctor_id', $doctorId->id);
         }
-
         $query->when(isset($this->statusFilter), function (Builder $q) {
             if ($this->statusFilter == 2) {
             } else {
@@ -135,7 +134,6 @@ class AppointmentTable extends LivewireTableComponent
         $query->when(isset($this->startDate) && $this->endDate, function (Builder $q) {
             $q->whereBetween('opd_date', [$this->startDate, $this->endDate]);
         });
-
         return $query;
     }
 }

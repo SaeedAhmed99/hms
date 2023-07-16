@@ -357,7 +357,8 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
             ->name('appointment.status');
         Route::post('appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
             ->name('appointment.cancel');
-        Route::get('today-appointments', [AppointmentController::class, 'todayAppointments'])->name('appointments.today');
+        Route::get('today-appointments', [AppointmentController::class, 'todayAppointments'])->name('today.appointments');
+        Route::get('today-appointments-pdf', [AppointmentController::class, 'todayAppointmentsPDF'])->name('appointments.today');
     });
 
     Route::middleware('role:Admin|Receptionist|Patient')->group(function () {
@@ -703,6 +704,7 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::get('incomes/{income}/edit', [IncomeController::class, 'edit'])->name('incomes.edit');
         Route::get('incomes/{id}/more/', [IncomeController::class, 'financialMore'])->name('incomes.more');
         Route::post('incomes/withdraw/', [IncomeController::class, 'financialWithdraw'])->name('incomes.withdraw');
+        Route::get('income/print-last-day/', [IncomeController::class, 'incomesPrintLastDay'])->name('incomes.print.last.day');
 
         Route::get('center', [IncomeController::class, 'centerFinancial'])->name('center.index');
         Route::get('incomes/export-pdf/{doctor_id}/{date?}', [IncomeController::class, 'exportFinancialReportForDoctorAsPdf'])->name('incomes.doctors.exportPdf');

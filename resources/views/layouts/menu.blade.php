@@ -53,12 +53,13 @@
 @module('Appointments',$modules)
 <li class="nav-item {{ Request::is('appointment*') ? 'active' : '' }}">
     <a class="nav-link  d-flex align-items-center py-3"
-       href="{{ route('appointments.index') }}">
+       href="{{ route('today.appointments') }}">
         <span class="aside-menu-icon pe-3 pe-3"><i class="fas fa-calendar-check"></i></span>
         <span class="aside-menu-title">{{ __('messages.appointments') }}</span>
     </a>
 </li>
 @endmodule
+
 
 {{-- Billing --}}
 <?php

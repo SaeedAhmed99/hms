@@ -698,6 +698,9 @@ return [
 
     //appointments
     'appointment'         => [
+        'total_appointments'                         => 'اجمالي الحجوزات',
+        'appointments_today_print'                   => 'طباعة الحجوزات اليومية',
+        'appointments_today'                         => 'الحجوزات اليومية',
         'new_appointment'                            => 'موعد جديد',
         'edit_appointment'                           => 'تحرير موعد',
         'appointment_details'                        => 'تفاصيل الموعد',

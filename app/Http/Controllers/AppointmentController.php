@@ -7,6 +7,7 @@ use App\Http\Requests\CreateAppointmentRequest;
 use App\Http\Requests\CreateNewAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Appointment;
+use App\Models\Doctor;
 use App\Models\Document;
 use App\Models\DocumentType;
 use App\Models\Patient;
@@ -63,7 +64,35 @@ class AppointmentController extends AppBaseController
         return view('appointments.index', compact('statusArr'));
     }
 
-    public function todayAppointments() {
+    public function todayAppointments(Request $request) {
+        $doctor_id = $request->doctor_id ?? null;
+        $first_name = $request->first_name ?? '';
+        $middle_name = $request->middle_name ?? '';
+        $last_name = $request->last_name ?? '';
+
+        if (Auth::user()->hasRole('Doctor')) {
+            if ($first_name || $middle_name || $last_name) {
+                $appointments = Appointment::whereHas('patient.user', function ($query) use ($first_name, $middle_name, $last_name) {
+                    $query->where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%');
+                })->where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();    
+            } else {
+                $appointments = Appointment::with('patient', 'doctor', 'service')->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();
+            }
+        } else {
+            if ($doctor_id || $first_name || $middle_name || $last_name) {
+                $appointments = Appointment::whereHas('patient.user', function ($query) use ($first_name, $middle_name, $last_name) {
+                    $query->where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%');
+                })->where('doctor_id', $doctor_id)->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();    
+            } else {
+                $appointments = Appointment::with('patient', 'doctor', 'service')->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();
+            }
+        }
+       
+        $doctors = Doctor::get();
+        return view('appointments.todayAppointments', compact('appointments', 'doctors'));
+    }
+
+    public function todayAppointmentsPDF() {
         $appointments = Appointment::whereDate('created_at', Carbon::today())->orderBy('id', 'desc')->get();
         if (Auth::user()->hasRole('Doctor')) {
             $appointments = Appointment::where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->orderBy('id', 'desc')->get();
@@ -74,8 +103,8 @@ class AppointmentController extends AppBaseController
         if (file_exists(public_path() . '/' . $file_name )) {
             unlink(public_path() . '/' . $file_name);
         }
-        // $pdf = \PDF::loadView('appointments.today_appointments',compact('appointments'))->save(public_path($file_name)); 
-        $pdf = \PDF::loadView('appointments.today_appointments',compact('appointments')); 
+        // $pdf = \PDF::loadView('appointments.today_appointments_pdf',compact('appointments'))->save(public_path($file_name)); 
+        $pdf = \PDF::loadView('appointments.today_appointments_pdf',compact('appointments')); 
         $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
     
         return $pdf->stream('document.pdf');
@@ -85,7 +114,7 @@ class AppointmentController extends AppBaseController
         //     public_path($file_name)
         // );
 
-        // return view('appointments.today_appointments', compact('appointments'));
+        // return view('appointments.today_appointments_pdf', compact('appointments'));
     }
 
     /**
@@ -363,11 +392,11 @@ class AppointmentController extends AppBaseController
             $input['title'] = 'history paper for patient';
 
             $this->documentRepository->store($input);
-            return redirect()->route('appointments.index')->with('success', __('messages.document.document').' '.__('messages.common.saved_successfully'));
+            return redirect()->back()->with('success', __('messages.document.document').' '.__('messages.common.saved_successfully'));
 
         } catch (\Exception $e) {
         
-            return redirect()->route('appointments.index')->with('error', __('messages.document.document').' '.__('messages.incomes.document_error'));
+            return redirect()->back()->with('error', __('messages.document.document').' '.__('messages.incomes.document_error'));
         }
     
       

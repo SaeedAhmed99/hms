@@ -35,7 +35,7 @@
         <div class="d-flex flex-column">
             <livewire:appointment-table/>
              <!-- Modal -->
-             <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+            <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -93,7 +93,7 @@
 
                     </div>
                 </div>
-              </div>
+            </div>
         </div>
         @include('appointments.templates.templates')
     </div>

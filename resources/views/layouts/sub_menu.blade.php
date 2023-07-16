@@ -429,12 +429,15 @@
 @endmodule
 @endrole
 @module('Appointments',$modules)
-{{-- <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('appointments*','appointment-calendars', 'today-appointments')) ? 'd-none' : '' }}">
+@role('Admin|Doctor|Receptionist')
+<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('appointments*','appointment-calendars', 'today-appointments')) ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('today-appointments*') ? 'active' : '' }}"
-       href="{{ route('appointments.today') }}">
-       Today Appointments
+       href="{{ route('today.appointments') }}">
+       {{ __('messages.appointment.appointments_today') }}
     </a>
-</li> --}}
+</li>
+@endrole
+
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('appointments*','appointment-calendars', 'today-appointments')) ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('appointments*') ? 'active' : '' }}"
        href="{{ route('appointments.index') }}">
