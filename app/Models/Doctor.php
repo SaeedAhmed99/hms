@@ -64,6 +64,7 @@ class Doctor extends Model
         'user_id',
         'doctor_department_id',
         'specialist',
+        'receptionists',
     ];
 
     const STATUS_ALL = 2;
@@ -88,7 +89,9 @@ class Doctor extends Model
         'user_id' => 'integer',
         'doctor_department_id' => 'integer',
         'specialist' => 'string',
+        'receptionists' => 'array',
     ];
+
 
     /**
      * Validation rules

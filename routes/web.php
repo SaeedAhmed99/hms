@@ -345,6 +345,10 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::get('appointments', [AppointmentController::class, 'index'])->name('appointments.index')->middleware('modules');
         Route::get('appointments/create/new-appointment', [AppointmentController::class, 'createNewAppointment'])->name('appointments.create.new');
         Route::post('appointments/store/new-appointment', [AppointmentController::class, 'storeNewAppointment'])->name('appointments.store.new');
+        Route::get('appointment/old-patient-search', [AppointmentController::class, 'oldPatientSearch'])->name('appointments.old.patient.search');
+        Route::get('appointment/old-patient-search/result', [AppointmentController::class, 'oldPatientSearchResult'])->name('appointments.old.patient.search.result');
+        Route::get('appointment/old-patient-search/create/{id}', [AppointmentController::class, 'oldPatientSearchCreate'])->name('appointments.old.patient.search.create');
+        Route::post('appointment/old-patient-search/store', [AppointmentController::class, 'oldPatientSearchStore'])->name('appointments.old.patient.search.store');
         Route::get('appointments/store/print-appointment', [AppointmentController::class, 'printAppointment'])->name('appointments.print');
         Route::get('appointments/print-appointment/{id}', [AppointmentController::class, 'printAppointmentById'])->name('appointments.print.id');
         Route::post('appointments/{appointment}', [AppointmentController::class, 'update']);
@@ -649,7 +653,7 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::post('services/{service_id}/active-deactive', [ServiceController::class, 'activeDeActiveService']);
     });
 
-    Route::middleware('role:Admin|Accountant')->group(function () {
+    Route::middleware('role:Admin|Accountant|Receptionist')->group(function () {
         Route::resource('accounts', AccountController::class)->parameters(['accounts' => 'account']);
         Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index')->middleware('modules');
         Route::post('accounts/{account}/active-deactive', [AccountController::class, 'activeDeactiveAccount']);

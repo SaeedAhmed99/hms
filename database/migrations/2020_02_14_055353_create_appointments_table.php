@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('patient_id');
             $table->unsignedBigInteger('doctor_id');
             $table->unsignedBigInteger('department_id');
-            $table->unsignedBigInteger('service_id');
+            $table->json('service_id')->nullable();
             $table->unsignedBigInteger('user_entered')->nullable();
             $table->dateTime('opd_date');
             $table->text('problem')->nullable();

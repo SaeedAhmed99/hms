@@ -1299,7 +1299,7 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
     @endmodule
     @endrole
 
-    @role('Accountant')
+    @role('Accountant|Receptionist')
     {{-- Account Manager dropdown --}}
     <?php
     $billingAccountMGT = getMenuLinks(\App\Models\User::MAIN_ACCOUNT_MANAGER_MGT)

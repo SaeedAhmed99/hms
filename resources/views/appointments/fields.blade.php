@@ -107,7 +107,7 @@
             <div class="form-group col-sm-6 mb-5">
                 {{ Form::label('services', 'Services/Insurances'.':', ['class' => 'form-label']) }}
                 <span class="required"></span>
-                <select name="services_id" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true">
+                <select name="services_id[]" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true" multiple>
                     @foreach ($services as $service)
                         <option value="{{ $service->id }}">{{ $service->name }}</option>
                     @endforeach

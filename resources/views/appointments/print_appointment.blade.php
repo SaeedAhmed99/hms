@@ -189,10 +189,17 @@
 
         <ul style="margin-bottom: 30px">
             <li class="servicandtime">
-                <label class="title">{{$appointment->service->name ?? ''}}</label>
+                @php
+                    $servicesIds = $appointment->service_id;
+                    $gerServices = App\Models\Service::whereIn('id', $servicesIds)->get();
+                @endphp
+                {{-- <label class="title">{{$appointment->service->name ?? ''}}</label> --}}
+                @foreach ($gerServices as $service)
+                <label class="title">{{ $service->name . ', ' ?? '' }}</label>
+                @endforeach
                 <br>
                 {{-- <span class="date">{{ now() }}</span> --}}
-                <span class="date">#{{ $appointment->serial_number }}</span>
+                <span class="date">#{{ $appointment->patient->user->serial_number ?? '' }}</span>
             </li>
             <li class="logo">
                 <img style="width: 100%" src="{{ asset('assets/images/madian.jfif') }}"   >

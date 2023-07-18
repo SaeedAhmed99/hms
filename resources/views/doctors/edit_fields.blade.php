@@ -51,6 +51,17 @@
             {{ Form::text('qualification', null, ['class' => 'form-control', 'required']) }}
         </div>
     </div>
+    <div class="form-group col-sm-6  mb-5">
+        {{ Form::label('receptionists', __('messages.receptionists').':', ['class' => 'form-label']) }}
+        {{-- <span class="required"></span> --}}
+        {{-- {{ Form::select('doctor_department_id', $doctorsDepartments, null, ['class' => 'form-select', 'id' => 'doctorsDepartmentId', 'placeholder' => 'Select Department', 'data-control' => 'select2','required']) }} --}}
+        <select name="receptionists[]" multiple class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true">
+            <option value=""></option>
+            @foreach ($receptionists as $receptionist)
+                <option value="{{ $receptionist->id }}" @if(in_array($receptionist->id, $doctor->receptionists ?? [])) selected @endif>{{ $receptionist->user->first_name }} {{ $receptionist->user->middle_name }} {{ $receptionist->user->last_name }}</option>
+            @endforeach
+        </select>
+    </div>
     <div class="col-md-6">
         <div class="form-group mb-5">
             {{ Form::label('dob', __('messages.user.dob').':', ['class' => 'form-label']) }}

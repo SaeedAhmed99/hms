@@ -16,6 +16,7 @@ use App\Models\OperationReport;
 use App\Models\PatientAdmission;
 use App\Models\PatientCase;
 use App\Models\Prescription;
+use App\Models\Receptionist;
 use App\Models\Schedule;
 use App\Repositories\DoctorRepository;
 use Exception;
@@ -63,8 +64,8 @@ class DoctorController extends AppBaseController
     {
         $doctorsDepartments = getDoctorsDepartments();
         $bloodGroup = getBloodGroups();
-
-        return view('doctors.create', compact('doctorsDepartments', 'bloodGroup'));
+        $receptionists = Receptionist::get();
+        return view('doctors.create', compact('doctorsDepartments', 'bloodGroup', 'receptionists'));
     }
 
     /**
@@ -77,6 +78,7 @@ class DoctorController extends AppBaseController
     {
         $input = $request->all();
         $input['status'] = isset($input['status']) ? 1 : 0;
+        $input['receptionists'] = $request->receptionists;
         $doctor = $this->doctorRepository->store($input);
         Flash::success(__('messages.case.doctor').' '.__('messages.common.saved_successfully'));
 
@@ -119,8 +121,8 @@ class DoctorController extends AppBaseController
         $user = $doctor->doctorUser;
         $doctorsDepartments = getDoctorsDepartments();
         $bloodGroup = getBloodGroups();
-
-        return view('doctors.edit', compact('doctor', 'user', 'doctorsDepartments', 'bloodGroup'));
+        $receptionists = Receptionist::get();
+        return view('doctors.edit', compact('doctor', 'user', 'doctorsDepartments', 'bloodGroup', 'receptionists'));
     }
 
     /**
@@ -145,6 +147,7 @@ class DoctorController extends AppBaseController
         }
         $input = $request->all();
         $input['status'] = isset($input['status']) ? 1 : 0;
+        $input['receptionists'] = $request->receptionists;
         $doctor = $this->doctorRepository->update($doctor, $input);
         Flash::success(__('messages.case.doctor').' '.__('messages.common.saved_successfully'));
 

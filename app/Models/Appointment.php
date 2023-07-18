@@ -95,6 +95,7 @@ class Appointment extends Model
         'opd_date' => 'datetime',
         'problem' => 'string',
         'is_completed' => 'integer',
+        'service_id' => 'array',
     ];
 
     /**

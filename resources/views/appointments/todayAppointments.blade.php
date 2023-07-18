@@ -108,6 +108,7 @@
                                     <a href="{{ route('appointments.create') }}" class="dropdown-item  px-5">{{ __('messages.new_appointments') }}</a>
                                 @elseif (Auth::user()->hasRole('Receptionist'))
                                     <a href="{{ route('appointments.create.new') }}" class="dropdown-item  px-5">{{ __('messages.new_appointments') }}</a>
+                                    <a href="{{ route('appointments.old.patient.search') }}" class="dropdown-item  px-5">{{ __('messages.appointment.new_appointments_for_old_patient') }}</a>
                                 @endif
                               </li>
                               <li>
@@ -227,10 +228,17 @@
                                            class="mb-1 text-decoration-none">{{ $row->doctor->user->first_name ?? ''}} {{ $row->doctor->user->middle_name ?? ''}} {{ $row->doctor->user->last_name ?? ''}}</a>
                                     </div>
                                 </td>
-                    
+
+                                @php
+                                    $servicesIds = $row->service_id;
+                                    $gerServices = App\Models\Service::whereIn('id', $servicesIds)->get();
+                                @endphp
                                 <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                     <div class="d-flex align-items-center mt-4">
-                                        {{$row->service->name ?? ''}}
+                                        {{-- {{$row->service->name ?? ''}} --}}
+                                        @foreach ($gerServices as $service)
+                                            {{ $service->name . ', ' ?? '' }}
+                                        @endforeach
                                     </div>
                                 </td>
 

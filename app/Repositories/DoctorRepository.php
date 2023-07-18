@@ -69,6 +69,7 @@ class DoctorRepository extends BaseRepository
                 'user_id'              => $user->id,
                 'doctor_department_id' => $input['doctor_department_id'],
                 'specialist'           => $input['specialist'],
+                'receptionists'        => $input['receptionists']
             ]);
             $ownerId = $doctor->id;
             $ownerType = Doctor::class;

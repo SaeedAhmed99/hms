@@ -596,7 +596,7 @@
 @endmodule
 @endrole
 
-@role('Admin|Accountant')
+@role('Admin|Accountant|Receptionist')
 @module('Income',$modules)
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0  {{ (!Request::is('incomes*','expenses*', 'center*')) ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('incomes*') ? 'active' : '' }}"
@@ -606,7 +606,7 @@
 </li>
 @endmodule
 @endrole
-@role('Admin|Accountant')
+@role('Admin|Accountant|Receptionist')
 @module('Income',$modules)
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0  {{ (!Request::is('incomes*','expenses*', 'center*')) ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('center*') ? 'active' : '' }}"
@@ -616,7 +616,7 @@
 </li>
 @endmodule
 @endrole
-@role('Admin|Accountant')
+@role('Admin|Accountant|Receptionist')
 @module('Expense',$modules)
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('incomes*','expenses*', 'center*')) ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('expenses*') ? 'active' : '' }}"

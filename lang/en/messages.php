@@ -704,6 +704,10 @@ return [
 
     //appointments
     'appointment'         => [
+        'new_appointments_for_old_patient'           => 'New Appointments For Old Patient',
+        'search_old_patient'                         => 'Search Old Patient',
+        'file_number'                                => 'File Number',
+        'no_patients_found'                          => 'no patients found',
         'total_appointments'                         => 'Total Appointments',
         'appointments_today_print'                   => 'Print Today Appointments',
         'appointments_today'                         => 'Today Appointments',

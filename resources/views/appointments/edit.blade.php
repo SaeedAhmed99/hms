@@ -117,9 +117,9 @@
                         <div class="form-group col-sm-6 mb-5">
                             {{ Form::label('services', 'Services/Insurances'.':', ['class' => 'form-label']) }}
                             <span class="required"></span>
-                            <select name="services_id" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true">
+                            <select name="services_id[]" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true" multiple>
                                 @foreach ($services as $service)
-                                    <option value="{{ $service->id }}" @if($appointment->service != null) @if ($appointment->service->id == $service->id) selected @endif @endif>{{ $service->name }}</option>
+                                    <option value="{{ $service->id }}" @if($appointment->service != null) @if(in_array($service->id, $appointment->service_id ?? [])) selected @endif @endif>{{ $service->name }}</option>
                                 @endforeach
                             </select>
                             {{-- {{ Form::select('doctor_id',(isset($doctors) ? $doctors : []), null, ['class' => 'form-select','required','id' => '','placeholder'=>'Select Services', 'data-control' => 'select2']) }} --}}

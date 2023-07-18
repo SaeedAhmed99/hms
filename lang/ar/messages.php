@@ -698,6 +698,10 @@ return [
 
     //appointments
     'appointment'         => [
+        'new_appointments_for_old_patient'           => 'موعد جديد لمريض موجود',
+        'search_old_patient'                         => 'البحث عن مريض موجود مسبقا',
+        'file_number'                                => 'رقم الملف',
+        'no_patients_found'                      => 'لم يتم العثور على مرضى',
         'total_appointments'                         => 'اجمالي الحجوزات',
         'appointments_today_print'                   => 'طباعة الحجوزات اليومية',
         'appointments_today'                         => 'الحجوزات اليومية',

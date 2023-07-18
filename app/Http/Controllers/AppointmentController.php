@@ -74,17 +74,17 @@ class AppointmentController extends AppBaseController
             if ($first_name || $middle_name || $last_name) {
                 $appointments = Appointment::whereHas('patient.user', function ($query) use ($first_name, $middle_name, $last_name) {
                     $query->where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%');
-                })->where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();    
+                })->where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();    
             } else {
-                $appointments = Appointment::with('patient', 'doctor', 'service')->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();
+                $appointments = Appointment::with('patient', 'doctor')->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
             }
         } else {
             if ($doctor_id || $first_name || $middle_name || $last_name) {
                 $appointments = Appointment::whereHas('patient.user', function ($query) use ($first_name, $middle_name, $last_name) {
                     $query->where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%');
-                })->where('doctor_id', $doctor_id)->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();    
+                })->where('doctor_id', $doctor_id)->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();    
             } else {
-                $appointments = Appointment::with('patient', 'doctor', 'service')->whereDate('created_at', Carbon::today())->orderBy('doctor_id')->get();
+                $appointments = Appointment::with('patient', 'doctor')->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
             }
         }
        
@@ -307,6 +307,100 @@ class AppointmentController extends AppBaseController
 
         return $this->sendSuccess(__('messages.web_menu.appointment').' '.__('messages.common.saved_successfully'));
     }
+
+
+    public function oldPatientSearch(Request $request) {
+        $first_name = $request->first_name ?? '';
+        $middle_name = $request->middle_name ?? '';
+        $last_name = $request->last_name ?? '';
+        $phone = $request->phone ?? '';
+        $file_number = $request->file_number ?? '';
+
+        if ($file_number) {
+            $file_number = ltrim($file_number, '0');
+            $file_number = str_pad($file_number, 8, '0', STR_PAD_LEFT);
+        }
+        $patients = array();
+        if ($first_name || $middle_name || $last_name || $phone || $file_number) {
+            // $patients = User::where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%')->where('phone', 'like', '%'.$phone.'%')->where('serial_number', 'like', '%'.$file_number.'%')->get();   
+            $patients = User::where('owner_type', 'App\Models\Patient')
+            ->when($first_name, function ($q) use ($first_name) {
+                return $q->where('first_name', 'like', '%'.$first_name.'%');
+            })->when($middle_name, function ($q) use ($middle_name) {
+                return $q->where('middle_name', 'like', '%'.$middle_name.'%');
+            })->when($last_name, function ($q) use ($last_name) {
+                return $q->where('last_name', 'like', '%'.$last_name.'%');
+            })->when($phone, function ($q) use ($phone) {
+                return $q->where('phone', 'like', '%'.$phone.'%');
+            })->when($file_number, function ($q) use ($file_number) {
+                return $q->where('serial_number', 'like', '%'.$file_number.'%');
+            })
+            ->get(); 
+
+            if (count($patients) == 0) {
+                return redirect()->back()->with('error', __('messages.appointment.no_patients_found'));
+            }
+        }
+        
+        return view('appointments.old_patient_search', compact('patients'));
+    }
+
+    public function oldPatientSearchCreate($id) {
+        $patient = Patient::where('user_id', $id)->first();
+        $doctors = Doctor::get();
+        $services = Service::get();
+
+        return view('appointments.old_patient_create', compact('patient', 'doctors', 'services'));
+    }
+
+    public function oldPatientSearchStore(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'doctor_id' => 'required',
+            'fees' => 'required',
+            'service_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', __('messages.web_menu.appointment').' '.$validator->messages()->first());
+        } else {
+            $serial_number = Appointment::first();
+            if ($serial_number == null) {
+                $serial_number = 1;
+                $serial_number = '00000001';
+            } else {
+                $serial_number = Appointment::latest()->first()->serial_number;
+                $serial_number = number_format($serial_number); 
+                $serial_number = ltrim($serial_number, '0');
+                $serial_number += 1 ;
+                $serial_number = str_pad($serial_number, 8, '0', STR_PAD_LEFT);
+            }
+
+            $date = Carbon::today();
+            $max_number = Appointment::where('doctor_id', $request->doctor_id)->where('created_at', '>=', $date)->max('counter');
+            if ($max_number == null) {
+                $max_number = 1;
+            } else {
+                $max_number += 1 ;
+            }
+            
+            $appointment = Appointment::create([
+                'serial_number' => strval($serial_number),
+                'counter' => $max_number,
+                'patient_id' => $request->patient_id,
+                'doctor_id' => $request->doctor_id,
+                'department_id' => Doctor::find($request->doctor_id)->department->id,
+                'service_id' => $request->service_id,
+                'user_entered' => auth()->user()->id,
+                'opd_date' => Carbon::today(),
+                'is_completed' => 0,
+                'problem' => $request->problem,
+                'fees' => $request->fees
+            ]);
+
+            return redirect()->route('today.appointments')->with('success', __('messages.web_menu.appointment').' '.__('messages.common.saved_successfully'));
+        }
+    }
+
 
     /**
      * Display the specified appointment.

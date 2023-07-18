@@ -63,8 +63,12 @@ class IncomeController extends AppBaseController
 
         $appointments = Appointment::get();
         $doctors = Doctor::get();
-        $doctors_search = Doctor::get();
-        // dd($request->all());
+        if (auth()->user()->owner_type == 'App\Models\Receptionist') {
+            $doctors_search = Doctor::whereJsonContains('receptionists', (string) auth()->user()->owner_id)->get(); 
+        } else {
+            $doctors_search = Doctor::get();
+        }
+        
         if ($doctor_id && !$due) {
             $doctors = Doctor::where('id', $doctor_id)->get();
             $transactions = FinancialTransaction::where('id', $doctor_id)->get();
@@ -72,26 +76,55 @@ class IncomeController extends AppBaseController
             $total_withdrawn = $transactions->sum('transaction_amount');
 
         } elseif ($doctor_id && $due) {
+        
             $doctors = Doctor::with(['appointments' => function($q) use ($due){
                 $q->where('created_at', 'LIKE', '%' . $due . '%');
             }])->where('id', $doctor_id)->get();
-            $transactions = FinancialTransaction::where('doctor_id', $doctors[0]->id)->where('due_date', 'LIKE', '%' . $due . '%')->get();
             $total_earning = Appointment::where('doctor_id', $doctors[0]->id)->where('is_completed', '!=', '3')->where('created_at', 'LIKE', '%' . $due . '%')->sum('fees');
+            $transactions = FinancialTransaction::where('doctor_id', $doctors[0]->id)->where('due_date', 'LIKE', '%' . $due . '%')->get();
             $total_withdrawn = $transactions->sum('transaction_amount');
+           
         } elseif (!$doctor_id && $due) {
-            $doctors = Doctor::with(['appointments' => function($q) use ($due){
-                $q->where('created_at', 'LIKE', '%' . $due . '%');
-            }])->get();
-            $total_earning = Appointment::where('created_at', 'LIKE', '%' . $due . '%')->where('is_completed', '!=', '3')->sum('fees');
-            $transactions = FinancialTransaction::where('due_date', 'LIKE', '%' . $due . '%')->get();
-            $total_withdrawn = $transactions->sum('transaction_amount');
-        } else {
-            $doctors = Doctor::get();
-            $transactions = FinancialTransaction::get();
-            foreach ($doctors as $item) {
-                $total_earning += $item->appointments->where('is_completed', '!=', '3')->sum('fees');
+            
+            if (auth()->user()->owner_type == 'App\Models\Receptionist') {
+                $doctors = Doctor::with(['appointments' => function($q) use ($due){
+                    $q->where('created_at', 'LIKE', '%' . $due . '%');
+                }])->whereJsonContains('receptionists', (string) auth()->user()->owner_id)->orWhere('receptionists', null)->get();
+                
+                $doctorIds = [];
+                foreach ($doctors as $doctor) {
+                    $doctorIds[] = $doctor->id;
+                }
+                $total_earning = Appointment::where('created_at', 'LIKE', '%' . $due . '%')->where('is_completed', '!=', '3')->whereIn('doctor_id', $doctorIds)->sum('fees');
+                $transactions = FinancialTransaction::where('due_date', 'LIKE', '%' . $due . '%')->whereIn('doctor_id', $doctorIds)->get();
+                $total_withdrawn = $transactions->sum('transaction_amount');
+
+            } else {
+                dd('s');
+                $doctors = Doctor::with(['appointments' => function($q) use ($due){
+                    $q->where('created_at', 'LIKE', '%' . $due . '%');
+                }])->get();
+                $total_earning = Appointment::where('created_at', 'LIKE', '%' . $due . '%')->where('is_completed', '!=', '3')->sum('fees');
+                $transactions = FinancialTransaction::where('due_date', 'LIKE', '%' . $due . '%')->get();
+                $total_withdrawn = $transactions->sum('transaction_amount');
             }
-            $total_withdrawn = $transactions->sum('transaction_amount');
+            
+        } else {
+            if (auth()->user()->owner_type == 'App\Models\Receptionist') {
+                $doctors = Doctor::whereJsonContains('receptionists', (string) auth()->user()->owner_id)->orWhere('receptionists', null)->get();
+                $doctorIds = [];
+                foreach ($doctors as $doctor) {
+                    $doctorIds[] = $doctor->id;
+                }
+                $total_earning = Appointment::where('is_completed', '!=', '3')->whereIn('doctor_id', $doctorIds)->sum('fees');
+                $transactions = FinancialTransaction::whereIn('doctor_id', $doctorIds)->get();
+                $total_withdrawn = $transactions->sum('transaction_amount');
+            } else {
+                $doctors = Doctor::get();
+                $total_earning = Appointment::where('is_completed', '!=', '3')->sum('fees');
+                $transactions = FinancialTransaction::get();
+                $total_withdrawn = $transactions->sum('transaction_amount');
+            }
         }
 
         return view('incomes.index', compact('incomeHeads', 'filterIncomeHeads', 'doctors', 'due', 'doctors_search', 'doctor_id', 'dateby1', 'total_earning', 'total_withdrawn'));
@@ -213,12 +246,12 @@ class IncomeController extends AppBaseController
 
         if ($due != null) {
             $transactions = FinancialTransaction::where('doctor_id', $doctor->id)->where('due_date', 'LIKE', '%' . $due . '%')->orderBy('id', 'DESC')->simplePaginate(25);
-            $total_earning = Appointment::where('doctor_id', $doctor->id)->where('created_at', 'LIKE', '%' . $due . '%')->sum('fees');
+            $total_earning = Appointment::where('is_completed', '!=', '3')->where('doctor_id', $doctor->id)->where('created_at', 'LIKE', '%' . $due . '%')->sum('fees');
             $total_withdrawn = $transactions->sum('transaction_amount');
             $appointments = Appointment::where('doctor_id', $id)->whereDate('created_at', $due )->get();
         } else {
             $transactions = FinancialTransaction::where('doctor_id', $doctor->id)->orderBy('id', 'DESC')->simplePaginate(15);
-            $total_earning = Appointment::where('doctor_id', $doctor->id)->sum('fees');
+            $total_earning = Appointment::where('is_completed', '!=', '3')->where('doctor_id', $doctor->id)->sum('fees');
             $total_withdrawn = FinancialTransaction::where('doctor_id', $doctor->id)->sum('transaction_amount');
             $appointments = Appointment::where('doctor_id', $id)->get();
         }
