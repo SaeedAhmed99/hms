@@ -44,7 +44,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
-                        <form action="{{ route('appointment.add.file') }}" method="post" enctype="multipart/form-data">
+                        <form id="fileForm" action="{{ route('appointment.add.file') }}" method="post" enctype="multipart/form-data">
                           @csrf
                           @method('post')
                           {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
@@ -84,12 +84,13 @@
                               </div>
                           <div class="modal-footer pt-0">
                               {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
-                              <button type="submit" class="btn btn-primary">Save</button>
+                              {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                              <button type="button" class="btn btn-primary" id="submit_file_btn">Save</button>
                               <button type="button" class="btn btn-secondary"
                                       data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
                           </div>
                         {{-- {{ Form::close() }} --}}
-                      </form>
+                        </form>
 
                     </div>
                 </div>
@@ -110,14 +111,22 @@
     <script>
         $(function(){
             $('.iconAddFile').click(function(){
+                console.log('s');
                 var appointment_id = $(this).attr('data-appointment_id');
                 var patient_id = $(this).attr('data-patient_id');
                 // $(this).prev('input').val("hello world");
-                console.log(appointment_id);
-                console.log(patient_id);
+                // console.log(appointment_id);
+                // console.log(patient_id);
                 $("#appointment_id").val(appointment_id);
                 $("#patient_id").val(patient_id);
             });
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '#submit_file_btn', function () {
+            console.log('s');
+            $('#fileForm').submit();
         });
     </script>
 @endsection

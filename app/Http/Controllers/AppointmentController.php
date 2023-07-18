@@ -76,7 +76,7 @@ class AppointmentController extends AppBaseController
                     $query->where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%');
                 })->where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();    
             } else {
-                $appointments = Appointment::with('patient', 'doctor')->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
+                $appointments = Appointment::with('patient', 'doctor')->where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
             }
         } else {
             if ($doctor_id || $first_name || $middle_name || $last_name) {

@@ -515,11 +515,11 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
 @if(Auth::user()->email_verified_at != null)
     @role('Doctor')
     @module('Appointments',$modules)
-    <li class="nav-item  {{ Request::is('appointments*') ? 'active' : '' }}">
+    <li class="nav-item  @if(Request::is('appointments*') || Request::is('today-appointments*')) active @endif">
         <a class="nav-link  d-flex align-items-center py-3"
-           href="{{ route('appointments.index') }}">
-                                                                                                                                                                <span class="aside-menu-icon pe-3 pe-3"><i
-                                                                                                                                                                            class="nav-icon fas fa-calendar-check"></i></span>
+           href="{{ route('today.appointments') }}">
+            <span class="aside-menu-icon pe-3 pe-3"><i
+                        class="nav-icon fas fa-calendar-check"></i></span>
             <span class="aside-menu-title">{{ __('messages.appointments') }}</span>
         </a>
     </li>

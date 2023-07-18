@@ -135,6 +135,7 @@
                         {{ Session::get('error') }}
                     </div>
                 @endif
+                {{ Form::hidden('appointmentUrl', url('appointments'), ['class' => 'appointmentURL']) }}
                 <div class="table-responsive">
                   <table class="table table-striped">
                     <thead class="">
@@ -280,7 +281,23 @@
                                                 <i class="fa-solid fa-file"></i>
                                             </a>
                                         @endif
+                                        
+                                    @endif
 
+                                    @if (Auth::user()->hasRole('Doctor'))
+                                      @if (!getLoggedinPatient())
+                                        @if ($row->is_completed == 1 || $row->is_completed == 3)
+                                            <a title="Completed"
+                                              class="btn px-1 text-primary fs-3 pe-0 {{$row->is_completed == 3 ? "d-none"  : "" }}">
+                                                <i class="fas fa-calendar-check text-success {{$row->is_completed == 3 ? "d-none"  : ""}}"></i>
+                                            </a>
+                                        @endif
+                                        @if ($row->is_completed == 0)
+                                            <a title="{{ __('messages.common.confirm') }}" data-id="{{$row->id}}" class="appointment-complete-status btn px-1 text-primary fs-3 pe-0">
+                                                <i class="far fa-calendar-check"></i>
+                                            </a>
+                                        @endif
+                                      @endif
                                     @endif
                                 </td>
                     
@@ -296,12 +313,12 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                     </div>
-                                    <form action="{{ route('appointment.add.file') }}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('post')
-                                    {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
-                                    <div class="modal-body">
-                                        {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
+                                    <form id="fileForm" action="{{ route('appointment.add.file') }}" method="post" enctype="multipart/form-data">
+                                      @csrf
+                                      @method('post')
+                                      {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
+                                      <div class="modal-body">
+                                          {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
                                             <input type="number" name="appointment_id" id="appointment_id" hidden value="">
                                             <input type="number" name="patient_id" id="patient_id" hidden value="">
                                         <div class="form-group col-sm-6 mb-5">
@@ -332,16 +349,17 @@
                                             {{ Form::label('notes', __('messages.appointment.description').':', ['class' => 'form-label']) }}
                                             {{ Form::textarea('notes', null, ['class' => 'form-control', 'rows'=>'4']) }}
                                         </div>
-                                            
-                                        </div>
-                                    <div class="modal-footer pt-0">
-                                        {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                        <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
-                                    </div>
+                                              
+                                          </div>
+                                      <div class="modal-footer pt-0">
+                                          {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
+                                          {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                                          <button type="button" class="btn btn-primary" id="submit_file_btn">Save</button>
+                                          <button type="button" class="btn btn-secondary"
+                                                  data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                      </div>
                                     {{-- {{ Form::close() }} --}}
-                                </form>
+                                    </form>
 
                                 </div>
                             </div>
@@ -356,22 +374,27 @@
 @section('scripts')
     {{--    assets/js/incomes/incomes.js --}}
     {{--    assets/js/custom/new-edit-modal-form.js --}}
-    <script>
-      $(document).on('click', '.paidfees', function () {
-          const button = document.querySelector('#paidButton');
-  
-          const disableButton = () => {
-              button.disabled = true;
-          };
-  
-          var id = $(this).attr('data-id');
-          var total = $(this).attr('data-total');
-          var remaining = $(this).attr('data-remaining');
-  
-          $('#doctorId').attr('value', id)
-          $('#total').attr('value', total)
-          $('#remaining').attr('value', remaining)
-      });
 
+    
+    <script>
+      $(function(){
+          $('.iconAddFile').click(function(){
+              console.log('s');
+              var appointment_id = $(this).attr('data-appointment_id');
+              var patient_id = $(this).attr('data-patient_id');
+              // $(this).prev('input').val("hello world");
+              // console.log(appointment_id);
+              // console.log(patient_id);
+              $("#appointment_id").val(appointment_id);
+              $("#patient_id").val(patient_id);
+          });
+      });
+  </script>
+
+  <script>
+      $(document).on('click', '#submit_file_btn', function () {
+          console.log('s');
+          $('#fileForm').submit();
+      });
   </script>
 @endsection
