@@ -68,6 +68,7 @@ class Document extends Model implements HasMedia
         'document_type_id',
         'patient_id',
         'appointment_id',
+        'order_lab_id',
         'uploaded_by',
         'notes',
         'updated_at',

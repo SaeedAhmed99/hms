@@ -489,6 +489,11 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::get('patients/{id}/rochet-board', [PatientController::class, 'rochetBoard'])->name('patient.rochet.board');
         Route::post('patients/rochet-board/save', [PatientController::class, 'rochetBoardSave'])->name('patient.rochet.board.store');
         Route::post('patients/image/destroy', [PatientController::class, 'destroyImage'])->name('patient.destroy.image');
+        Route::get('patients/create-order/{id}', [PatientController::class, 'createOrder'])->name('patients.create.order');
+        Route::post('patients/create-order/store', [PatientController::class, 'createOrderStore'])->name('patients.store.order');
+        Route::get('patients/create-order/show/{id}', [PatientController::class, 'createOrderShow'])->name('patients.show.order');
+        Route::get('patients/create-order/edit/{id}', [PatientController::class, 'createOrderEdit'])->name('patients.edit.order');
+        Route::post('patients/order/update', [PatientController::class, 'updateOrder'])->name('patients.update.order');
 
         Route::resource('case-handlers', CaseHandlerController::class)->parameters(['case-handlers' => 'caseHandler']);
         Route::get('case-handlers', [CaseHandlerController::class, 'index'])->name('case-handlers.index')->middleware('modules');
@@ -931,6 +936,19 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::get('export-nurses', [NurseController::class, 'nurseExport'])->name('nurses.excel');
 
         Route::resource('lab-technicians', LabTechnicianController::class);
+        Route::get('lab-technician/category', [LabTechnicianController::class, 'labCategory'])->name('lab.category');
+        Route::post('lab-technician/category/store', [LabTechnicianController::class, 'labCategoryStore'])->name('lab.category.store');
+        Route::post('lab-technician/category/update', [LabTechnicianController::class, 'labCategoryUpdate'])->name('lab.category.update');
+        Route::delete('lab-technician/category/destroy/{id}', [LabTechnicianController::class, 'labCategoryDestroy'])->name('lab.category.destroy');
+        Route::get('lab-technician/category/add/type/{id}', [LabTechnicianController::class, 'labCategoryAddType'])->name('lab.category.add.type');
+        Route::post('lab-technician/category/add/type/store', [LabTechnicianController::class, 'labCategoryAddTypeStore'])->name('lab.category.add.type.store');
+        Route::post('lab-technician/category/add/type/update', [LabTechnicianController::class, 'labCategoryAddTypeUpdate'])->name('lab.category.add.type.update');
+        Route::delete('lab-technician/category/add/type/destroy/{id}', [LabTechnicianController::class, 'labCategoryAddTypeDestroy'])->name('lab.category.add.type.destroy');
+        Route::get('lab-technician/order-list', [LabTechnicianController::class, 'labOrderList'])->name('lab.order.list');
+        Route::get('lab-technician/order-list-request', [LabTechnicianController::class, 'labOrderRequestList'])->name('lab.order.request.list');
+        Route::post('lab-technician/order-list-request/paid', [LabTechnicianController::class, 'labOrderRequestListPaid'])->name('lab.order.request.list.post');
+        Route::post('lab-technician/order-list/add-file', [LabTechnicianController::class, 'addFile'])->name('lab.order.list.add.file');
+
         Route::get('lab-technicians',
             [LabTechnicianController::class, 'index'])->name('lab-technicians.index')->middleware('modules');
         Route::post('lab-technicians/{labTechnician}/active-deactive', [LabTechnicianController::class, 'activeDeactiveStatus']);

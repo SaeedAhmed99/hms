@@ -82,6 +82,10 @@
                     <a class="nav-link p-0" data-bs-toggle="tab"
                     href="#showPatientRochet">{{ __('messages.prescription.medical_rochet') }}</a>
                 </li>
+                <li class="nav-item position-relative me-7 mb-3">
+                    <a class="nav-link p-0" data-bs-toggle="tab"
+                    href="#showPatientOrderLab">{{ __('messages.prescription.order_lab') }}</a>
+                </li>
             @endif
 
             <li class="nav-item position-relative me-7 mb-3">
@@ -194,7 +198,6 @@
                                 {{-- <a class="btn btn-danger delete delete-image" image-name=""><i class="fa-solid fa-trash"></i></a> --}}
                             </div>
                         @empty
-                            
                         @endforelse
                         @forelse ($historyBoard as $item)
                             <div class="col-md-4 containerImage" id="history-image">
@@ -267,6 +270,72 @@
                         </form>  
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="showPatientOrderLab" role="tabpanel">
+            {{-- <livewire:patient-appoinment-detail-table patientId="{{ $data->id }}"/> --}}
+            <a href="{{ route('patients.create.order', $data->id) }}" class="btn btn-primary mb-3">{{ __('messages.prescription.create_order') }}</a>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="">
+                    <tr>
+                        <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
+                        <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
+                            <span>#</span>
+                            <span class="relative">
+                            </span>
+                        </div>
+                        </th>
+
+                        <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
+                        <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
+                            <span>{{ __('messages.common.status') }}</span>
+                            <span class="relative">
+                            </span>
+                        </div>
+                        </th>
+
+                        <th scope="col" class="" style="padding-right: 7rem !important; width: 20%;"
+                        wire:key="header-col-4-WpskoqwzxJ5BdNxsPOsu">
+                        <div class="" wire:click="sortBy('amount')" style="cursor:pointer;">
+                            <span>{{ __('messages.common.action')}}</span>
+                            <span class="relative">
+                            </span>
+                        </div>
+                        </th>
+                    </tr>
+                    </thead>
+            
+                    <tbody class="">
+                        @foreach ($orderlabs as $item)
+                            <tr id="Category" wire:loading.class.delay="" class="" wire:key="row-0-WpskoqwzxJ5BdNxsPOsu">
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $loop->iteration }}</td>
+
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                    @if ($item->status == '0')
+                                        {{ __('messages.common.cancel') }}
+                                    @elseif ($item->status == '1')
+                                        {{ __('messages.appointment.pending') }}
+                                    @elseif ($item->status == '2')
+                                        {{ __('messages.appointment.completed') }}
+                                    @endif
+                                </td>
+
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                     <a href="{{ route('patients.show.order', $item->id) }}" class="btn px-1 text-primary fs-3 ps-0 edit-btn">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>   
+                                    @if ($item->status == '1')
+                                        <a href="{{ route('patients.edit.order', $item->id) }}" title="{{__('messages.common.edit') }}"
+                                            class="btn px-1 text-primary fs-3 ps-0 edit-btn">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a> 
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     @endif

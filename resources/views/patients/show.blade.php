@@ -69,7 +69,8 @@
 @section('scripts')
 {{-- <script src="{{ asset('js/ckeditor/build/ckeditor.js') }}"></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.tiny.cloud/1/1urw5cscdnze9hew8gcr7tyxcb4b6u92tly1h2xe433kvw92/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script><script>
+{{-- <script src="https://cdn.tiny.cloud/1/1urw5cscdnze9hew8gcr7tyxcb4b6u92tly1h2xe433kvw92/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> --}}
+<script>
     tinymce.init({
       selector: 'textarea#section_text_for_history_editor',
       plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',

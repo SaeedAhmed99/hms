@@ -416,8 +416,15 @@
         {{ __('messages.lab_technicians') }}
     </a>
 </li>
+<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('lab-technicians*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('lab-technician/category') ? 'active' : '' }}"
+       href="{{ route('lab.category') }}">
+        {{ __('messages.lab_technician_category') }}
+    </a>
+</li>
 @endmodule
 @endrole
+
 @role('Admin')
 @module('Pharmacists',$modules)
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('pharmacists*') ? 'd-none' : '' }}">

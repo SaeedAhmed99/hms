@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('document_type_id');
             $table->integer('patient_id');
             $table->integer('appointment_id')->nullable();
+            $table->integer('order_lab_id')->nullable();
             $table->unsignedBigInteger('uploaded_by');
             $table->timestamps();
 

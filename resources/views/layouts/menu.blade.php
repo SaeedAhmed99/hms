@@ -294,6 +294,27 @@ $inventoryMgt = getMenuLinks(\App\Models\User::MAIN_INVENTORY)
 </li>
 @endmodule
 
+@role('Admin|Lab Technicians')
+<li class="nav-item  {{ Request::is('lab-technician/order-list-request') ? 'active' : '' }}">
+    <a class="nav-link  d-flex align-items-center py-3"
+       href="{{ route('lab.order.request.list') }}">
+        <span class="aside-menu-icon pe-3 pe-3"><i
+                    class="fas fa-microscope"></i></span>
+        <span class="aside-menu-title">{{ __('messages.prescription.order_lab_request_list') }}</span>
+    </a>
+</li>
+@endrole
+
+@role('Admin|Lab Technicians')
+<li class="nav-item  {{ Request::is('lab-technician/order-list') ? 'active' : '' }}">
+    <a class="nav-link  d-flex align-items-center py-3"
+       href="{{ route('lab.order.list') }}">
+        <span class="aside-menu-icon pe-3 pe-3"><i
+                    class="fas fa-microscope"></i></span>
+        <span class="aside-menu-title">{{ __('messages.prescription.order_lab_list') }}</span>
+    </a>
+</li>
+@endrole
 {{-- Live Consultation --}}
 <?php
 $liveConsultation = getMenuLinks(\App\Models\User::MAIN_LIVE_CONSULATION)

@@ -261,19 +261,24 @@ class IncomeController extends AppBaseController
 
     public function financialWithdraw(Request $request) {
         $doctor = Doctor::findOrFail($request->id);
-        if ($request->remaining - $request->transaction_amount >= 0) {
-            FinancialTransaction::create([
-                'doctor_id' => $request->id,
-                'type' => $request->type,
-                'transaction_amount' => $request->transaction_amount,
-                'due_date' => $request->created_at,
-                'note' => $request->note,
-            ]);
-
-            return redirect()->back()->with('success','Paid successfully');
+        if ($request->transaction_amount <= 0) {
+            return redirect()->back()->with('error', __('messages.check_value_paid'));
         } else {
-            return redirect()->back()->with('error', 'Paid error');
+            if ($request->remaining - $request->transaction_amount >= 0) {
+                FinancialTransaction::create([
+                    'doctor_id' => $request->id,
+                    'type' => $request->type,
+                    'transaction_amount' => $request->transaction_amount,
+                    'due_date' => $request->created_at,
+                    'note' => $request->note,
+                ]);
+    
+                return redirect()->back()->with('success','Paid successfully');
+            } else {
+                return redirect()->back()->with('error', 'Paid error');
+            }
         }
+        
         
         // return redirect()->route('incomes.index');
     }

@@ -18,7 +18,10 @@ use App\Models\DocumentType;
 use App\Models\InvestigationReport;
 use App\Models\Invoice;
 use App\Models\IpdPatientDepartment;
+use App\Models\labCategory;
 use App\Models\OperationReport;
+use App\Models\OrderLab;
+use App\Models\OrderLabDetails;
 use App\Models\Patient;
 use App\Models\PatientAdmission;
 use App\Models\PatientCase;
@@ -43,6 +46,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Validator;
 
 class PatientController extends AppBaseController
 {
@@ -132,9 +136,12 @@ class PatientController extends AppBaseController
             $historyPaper = null;
             $historyBoard = null;
             $rochetBoard = null;
+            $orderlabs = null;
+            $orderlabsPaper = null;
             if (Auth::user()->hasRole('Doctor')) {
                 $historyBoard = BoardHistoryAndRochet::where('type', 'historyBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
                 $rochetBoard = BoardHistoryAndRochet::where('type', 'rochetBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
+                $orderlabs = OrderLab::where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->orderBy('created_at', 'desc')->get();
             }
             $advancedPaymentRepo = App::make(AdvancedPaymentRepository::class);
             $patients = $advancedPaymentRepo->getPatients();
@@ -149,7 +156,8 @@ class PatientController extends AppBaseController
             $vaccinations = Vaccination::toBase()->pluck('name', 'id')->toArray();
             natcasesort($vaccinations);
 
-            return view('patients.show', compact('data', 'patients', 'vaccinations', 'vaccinationPatients', 'historyBoard', 'rochetBoard'));
+
+            return view('patients.show', compact('data', 'patients', 'vaccinations', 'vaccinationPatients', 'historyBoard', 'rochetBoard', 'orderlabs'));
         }
     }
 
@@ -407,6 +415,76 @@ class PatientController extends AppBaseController
         $image->delete();
         }
         return true;
+    }
+
+    public function createOrder($id) {
+        $categoryLabs = labCategory::get();
+        return view('patients.create_order', compact('categoryLabs', 'id'));
+    }
+
+    public function createOrderStore(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'patient_id' => 'required',
+            'labs' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            Flash::error($validator->messages()->first());
+            return redirect()->back();
+        } else {
+            $order = OrderLab::create([
+                'doctor_id' => auth()->user()->doctor->id,
+                'patient_id' => $request->patient_id,
+                'status' => 1,
+                'is_paid' => 0
+            ]);
+
+            foreach ($request->labs as $item) {
+                $order_details = OrderLabDetails::create([
+                    'order_lab_id' => $order->id,
+                    'lab_type_id' => $item
+                ]);
+            }
+
+            Flash::success(__('messages.prescription.success_order'));
+            return redirect()->route('patients.show', $request->patient_id);
+        }
+    }
+
+    public function createOrderShow($id) {
+        $order = OrderLab::findOrFail($id);
+        $categoryLabs = labCategory::get();
+        $listSelectedLabs = [];
+        foreach ($order->orderDetails as $item) {
+            $listSelectedLabs[] = $item->lab_type_id;
+        }
+        return view('patients.show_order', compact('order', 'categoryLabs', 'listSelectedLabs'));
+    }
+
+    public function createOrderEdit($id) {
+        $order = OrderLab::findOrFail($id);
+        $categoryLabs = labCategory::get();
+        $listSelectedLabs = [];
+        foreach ($order->orderDetails as $item) {
+            $listSelectedLabs[] = $item->lab_type_id;
+        }
+        return view('patients.edit_order', compact('order', 'categoryLabs', 'listSelectedLabs'));
+    }
+
+    public function updateOrder(Request $request) {
+        $order = OrderLab::findOrFail($request->order_id);
+        foreach ($order->orderDetails as $item) {
+            $item->delete();
+        }
+
+        foreach ($request->labs as $item) {
+            $order_details = OrderLabDetails::create([
+                'order_lab_id' => $request->order_id,
+                'lab_type_id' => $item
+            ]);
+        }
+        Flash::success(__('messages.prescription.update_order'));
+        return redirect()->back();
     }
 
 }
