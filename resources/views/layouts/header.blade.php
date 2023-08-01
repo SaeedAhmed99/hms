@@ -1,6 +1,9 @@
 @php
     $notifications = getNotification(Auth::user()->roles->pluck('name')->first());
     $notificationCount = count($notifications);
+
+    $noteNotify = getNoteAppointment();
+    $noteNotifyCount = count(getNoteAppointment());
 @endphp
 <header class='d-flex align-items-center justify-content-between flex-grow-1 header px-3 px-xl-0'>
     <button type="button" class="btn px-0 aside-menu-container__aside-menubar d-block d-xl-none sidebar-btn ">
@@ -74,6 +77,58 @@
                 </div>
             </div>
         </li>
+
+        <li class="px-sm-3 px-2">
+            <div class="dropdown custom-dropdown d-flex align-items-center py-4">
+                <button class="btn hide-arrow p-0 position-relative" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-bell text-primary fs-2"></i>
+                    @if($noteNotifyCount != 0)
+                        <span
+                                class="position-absolute top-0 start-100 translate-middle badge badge-circle bg-info {{($notificationCount > 9)?'end-1':'counter-0'}}"
+                                id="counter">{{ $noteNotifyCount }}</span>
+                    @endif
+                </button>
+                <div class="dropdown-menu py-0 my-2" aria-labelledby="dropdownMenuButton1">
+                    <div class="text-start border-bottom py-4 px-7">
+                        <h3 class="text-gray-900 mb-0">{{__('messages.visitor.note')}}</h3>
+                    </div>
+                    <div class="px-7 mt-5 inner-scroll height-270">
+                        @if($noteNotifyCount > 0)
+                            @foreach($noteNotify as $item)
+                                <a href="javascript:void(0)"
+                                   class="item d-flex position-relative mb-5  d-flex position-relative mb-5 text-decoration-none text-hover-primary"
+                                   >
+                                    <span class="me-5 text-primary fs-2 icon-label">
+                                            <i class="{{ getNotificationIcon($item->problem) }}"></i>
+                                    </span>
+                                    ({{ $item->patient->user->first_name }} {{ $item->patient->user->middle_name }} {{ $item->patient->user->last_name }}) <br>
+                                    
+                                </a>
+                                <div>
+                                    <h5 class="text-gray-900 fs-6 mb-2"> {{ $item->problem }}</h5>
+                                    <h6 class="text-gray-600 fs-small fw-light mb-0">{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans(null, true)}}</h6>
+                                </div>
+                            @endforeach
+                        @else
+                            <div>
+                                <h5 class="text-gray-900 fs-6 mb-2 empty-state text-center">{{ __('messages.notification.you_don`t_have_any_new_notification') }}</h5>
+                            </div>
+                        @endif
+                        <div>
+                            <h5 class="text-gray-900 text-center fs-6 mb-2 empty-state empty-notification d-none">{{ __('messages.notification.you_don`t_have_any_new_notification') }}</h5>
+                        </div>
+                    </div>
+                    {{-- @if($noteNotifyCount > 0)
+                        <div class="text-center border-top p-4 mark-read">
+                            <h5><a href="#" class="text-primary mb-0 fs-5 read-all-notification text-decoration-none"
+                                   id="readAllNotification">{{ __('messages.notification.mark_all_as_read') }}</a></h5>
+                        </div>
+                    @endif --}}
+                </div>
+            </div>
+        </li>
+
         <li class="px-xxl-3 px-2">
             <div class="dropdown d-flex align-items-center py-4">
                 <div class="image image-circle image-mini">

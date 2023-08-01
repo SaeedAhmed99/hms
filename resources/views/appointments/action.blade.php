@@ -30,9 +30,9 @@
         <i class="fa-solid fa-pen-to-square"></i>
     </a>  
 
-<a href="{{ route('appointments.print.id', $row->id) }}" title="{{ __('messages.common.print') }}"  class="btn px-1 text-primary fs-3 pe-0">
-    <i class="fa-solid fa-print"></i>
-</a>
+    <a href="{{ route('appointments.print.id', $row->id) }}" title="{{ __('messages.common.print') }}"  class="btn px-1 text-primary fs-3 pe-0">
+        <i class="fa-solid fa-print"></i>
+    </a>
     @if (count($row->documents) == 0)
         <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
             <i class="fa-regular fa-file"></i>

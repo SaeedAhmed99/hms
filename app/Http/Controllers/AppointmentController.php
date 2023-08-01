@@ -406,7 +406,7 @@ class AppointmentController extends AppBaseController
      * Display the specified appointment.
      *
      * @param  Appointment  $appointment
-     * @return Factory|View|RedirectResponse
+     * @return Factory|View|RedirectResponsex
      */
     public function show(Appointment $appointment)
     {
@@ -595,5 +595,11 @@ class AppointmentController extends AppBaseController
 
             return $this->sendSuccess(__('messages.web_menu.appointment').' '.__('messages.common.canceled'));
         }
+    }
+
+    public function AddAppointmentNote(Request $request) {
+        $appointment = Appointment::findOrFail($request->id);
+        $appointment->update(['problem' => $request->note]);
+        return redirect()->back()->with('success', __('messages.web_menu.appointment').' '.__('messages.common.updated_successfully'));
     }
 }

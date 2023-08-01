@@ -51,7 +51,7 @@
 
 {{--Appointments--}}
 @module('Appointments',$modules)
-<li class="nav-item {{ Request::is('appointment*') ? 'active' : '' }}">
+<li class="nav-item {{ Request::is('today-appointments') ? 'active' : '' }}">
     <a class="nav-link  d-flex align-items-center py-3"
        href="{{ route('today.appointments') }}">
         <span class="aside-menu-icon pe-3 pe-3"><i class="fas fa-calendar-check"></i></span>
@@ -59,7 +59,6 @@
     </a>
 </li>
 @endmodule
-
 
 {{-- Billing --}}
 <?php
@@ -287,8 +286,8 @@ $inventoryMgt = getMenuLinks(\App\Models\User::MAIN_INVENTORY)
 <li class="nav-item  {{ Request::is('lab-technicians*') ? 'active' : '' }}">
     <a class="nav-link  d-flex align-items-center py-3"
        href="{{ route('lab-technicians.index') }}">
-                                                                                        <span class="aside-menu-icon pe-3 pe-3"><i
-                                                                                                    class="fas fa-microscope"></i></span>
+        <span class="aside-menu-icon pe-3 pe-3"><i
+                    class="fas fa-microscope"></i></span>
         <span class="aside-menu-title">{{ __('messages.lab_technicians') }}</span>
     </a>
 </li>
@@ -315,6 +314,7 @@ $inventoryMgt = getMenuLinks(\App\Models\User::MAIN_INVENTORY)
     </a>
 </li>
 @endrole
+
 {{-- Live Consultation --}}
 <?php
 $liveConsultation = getMenuLinks(\App\Models\User::MAIN_LIVE_CONSULATION)
@@ -563,7 +563,7 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
     @endif
 
     @module('Doctors',$modules)
-    <li class="nav-item  {{ Request::is('employee/doctor*','prescriptions*','schedules*','doctors*') ? 'active' : '' }}">
+    {{-- <li class="nav-item  {{ Request::is('employee/doctor*','prescriptions*','schedules*','doctors*') ? 'active' : '' }}">
         <a class="nav-link  d-flex align-items-center py-3"
            href="{{ url('employee/doctor') }}">
                                                                                                                                                                 <span class="aside-menu-icon pe-3 pe-3"><i
@@ -572,7 +572,7 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
             <span class="d-none">{{__('messages.schedules')}}</span>
             <span class="d-none">{{__('messages.prescriptions')}}</span>
         </a>
-    </li>
+    </li> --}}
     @endmodule
 
     @module('Documents',$modules)
@@ -805,9 +805,9 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
     @role('Receptionist')
     {{--Appointments--}}
     @module('Appointments',$modules)
-    <li class="nav-item  {{ Request::is('appointments*') ? Request::is('appointments/create/new-appointment') ? '' : 'active' : '' }}">
+    <li class="nav-item  {{ Request::is('today-appointments') ? 'active' : '' }} {{ Request::is('appointments') ? 'active' : '' }}">
         <a class="nav-link  d-flex align-items-center py-3"
-           href="{{ route('appointments.index') }}">
+           href="{{ route('today.appointments') }}">
             <span class="aside-menu-icon pe-3 pe-3"><i class="fas fa-calendar-check"></i></span>
             <span class="aside-menu-title">{{ __('messages.appointments') }}</span>
         </a>
@@ -846,6 +846,18 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
             </a>
         </li>
     @endif
+
+    
+    @role('Receptionist')
+    <li class="nav-item  {{ Request::is('lab-technician/order-list-request') ? 'active' : '' }}">
+        <a class="nav-link  d-flex align-items-center py-3"
+        href="{{ route('lab.order.request.list') }}">
+            <span class="aside-menu-icon pe-3 pe-3"><i
+                        class="fas fa-microscope"></i></span>
+            <span class="aside-menu-title">{{ __('messages.prescription.order_lab_request_list') }}</span>
+        </a>
+    </li>
+    @endrole
 
     {{--Enquires--}}
     @module('Enquires',$modules)
@@ -1218,6 +1230,15 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
             </a>
         </li>
     @endif
+
+    <li class="nav-item  {{ Request::is('lab-technician/order-list') ? 'active' : '' }}">
+        <a class="nav-link  d-flex align-items-center py-3"
+        href="{{ route('lab.order.list') }}">
+            <span class="aside-menu-icon pe-3 pe-3"><i
+                        class="fas fa-microscope"></i></span>
+            <span class="aside-menu-title">{{ __('messages.prescription.order_lab_list') }}</span>
+        </a>
+    </li>
 
     @module('Doctors',$modules)
     <li class="nav-item {{ Request::is('employee/doctor*') ? 'active' : '' }}">

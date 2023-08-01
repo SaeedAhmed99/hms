@@ -342,11 +342,11 @@
 @section('scripts')
     {{--    assets/js/incomes/incomes.js --}}
     {{--    assets/js/custom/new-edit-modal-form.js --}}
-      <script>
-        $(document).on('click', '#submit_btn', function () {
-          $('#formPaid').submit();
-        });
-      </script>
+    <script>
+      $(document).on('click', '#submit_btn', function () {
+        $('#formPaid').submit();
+      });
+    </script>
     <script>
       $(document).on('click', '.paidfees', function () {
           const button = document.querySelector('#paidButton');

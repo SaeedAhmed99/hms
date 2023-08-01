@@ -10,7 +10,7 @@
         <div class="d-md-flex align-items-center justify-content-between mb-7">
             <h1 class="mb-0">@yield('title')</h1>
             <div class="text-end mt-4 mt-md-0">
-                <a href="{{ url()->previous()}}"
+                <a href="{{ url()->previous() }}"
                    class="btn btn-outline-primary">{{ __('messages.common.back') }}</a>
             </div>
         </div>
@@ -27,26 +27,35 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="container">
-                                <h1 class="mb-3">{{ __('messages.choose_medical_tests') }}</h1>
+                                <h1 class="mb-5">{{ __('messages.choose_medical_tests') }}</h1>
                                 <ul class="list-group">
                                     <form action="{{ route('patients.store.order') }}" method="post">
                                         @csrf
                                         @method('post')
                                         <input type="number" name="patient_id" value="{{ $id }}" hidden>
+                                        <div class="row">
+
                                         @foreach ($categoryLabs as $item)
-                                            <li style="cursor: pointer;" class="list-group-item category" data-toggle="collapse" data-target="#category{{ $item->id }}"><h3>{{ $item->name }}</h3></li>
-                                            <div id="category{{ $item->id }}" class="collapse">
-                                                <ul class="list-group">
+                                           <div class="col-3 mb-3">
+                                                <li style="cursor: pointer;" class="" data-toggle="" data-target=""><h3>{{ $item->name }}</h3></li>
+                                                <div id="" class="" style="margin-left: 10px;">
                                                     @foreach ($item->labs as $item1)
-                                                        <li class="list-group-item">
-                                                            <label>
-                                                                <input type="checkbox" name="labs[]" value="{{ $item1->id }}">  {{ $item1->name }}
-                                                            </label>
-                                                        </li>
+                                                        <input type="checkbox" name="labs[]" value="{{ $item1->id }}">  {{ $item1->name }} <br>
                                                     @endforeach
-                                                </ul>
-                                            </div>   
+                                                    {{-- <ul class="list-group">
+                                                        @foreach ($item->labs as $item1)
+                                                            <li class="list-group-item">
+                                                                <label>
+                                                                    <input type="checkbox" name="labs[]" value="{{ $item1->id }}">  {{ $item1->name }}
+                                                                </label>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul> --}}
+                                                </div>   
+                                           </div>
                                         @endforeach
+                                    </div>
+
                                         <button type="submit" class="btn btn-primary mt-3">{{ __('messages.prescription.create_order') }}</button>
                                     </form>
                                 </ul>

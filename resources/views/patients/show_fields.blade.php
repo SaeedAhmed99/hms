@@ -223,9 +223,9 @@
                             {{-- <input type="number" name="doctor_id" value="{{ auth()->user()->doctor->id }}" hidden> --}}
                             <div class="d-flex mb-2 p-4 form-floating card">
                                 <textarea name="history" placeholder="" class="form-control"
-                                    id="section_text_for_history_editor">{!! $data->textHistoryAndRochet->history ?? '' !!}</textarea>
+                                    id="section_text_for_history_editor">{!! $textHistoryAndRochet->history ?? '' !!}</textarea>
                                 <button class="btn btn-primary ms-2 mt-3 p-2" style="font-size: 20px;" name="save_history">{{ __('messages.common.save') }}</button>
-                            </div>
+                            </div> 
                         </form>
                     </div>
                 </div>
@@ -264,7 +264,7 @@
                             <input type="number" name="patient_id" value="{{ $data->id }}" hidden>
                             <div class="d-flex mb-2 p-4 form-floating card">
                                 <textarea name="rochet" placeholder="" class="form-control"
-                                    id="section_text_for_rochet_editor">{!! $data->textHistoryAndRochet->rochet ?? '' !!}</textarea>
+                                    id="section_text_for_rochet_editor">{!! $textHistoryAndRochet->rochet ?? '' !!}</textarea>
                                 <input type="submit" name="textRochet" class="btn btn-primary ms-2 mt-3 p-2" value="{{ __('messages.common.save') }}" style="font-size: 20px;">
                             </div>
                         </form>  

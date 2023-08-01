@@ -262,7 +262,7 @@
                                     </div>
                                 </td>
 
-                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                            <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                   @if($row->is_completed == 3)
                                   <a data-bs-toggle="tooltip" data-placement="top" data-bs-original-title=" {{__('messages.common.canceled')}} " class="btn px-1 text-danger fs-3 pe-0">
                                       <i class="fas fa-calendar-times text-danger"></i>
@@ -275,6 +275,7 @@
                                       </a>
                                   @endif
                               @endif
+
                               @if (!getLoggedinPatient())
                                   @if ($row->is_completed == 1 || $row->is_completed == 3)
                                       <a title="Completed"
@@ -307,7 +308,6 @@
                                           <i class="fa-solid fa-file"></i>
                                       </a>
                                   @endif
-                              
                               @endif
                               
                               
@@ -318,10 +318,55 @@
                               </a>
                               <?php }?>
                               
-                              
-                    
+                              {{-- @if (Auth::user()->hasRole('Doctor')) --}}
+                                <button data-appointmentId="{{ $row->id }}" data-note="{{ $row->problem }}" type="button" class="btn px-1 @if($row->problem) text-success @else text-primary @endif fs-3 pe-0 appNote" data-bs-toggle="modal" data-bs-target="#appointmentNote" title="note"><i class="fa-solid fa-notes-medical"></i></button>
+                              {{-- @endif --}} 
                             </tr>
                         @endforeach
+
+                          <!-- Modal -->
+                      <div id="appointmentNote" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.visitor.note') }}</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                {{-- {{ Form::open(['id'=>'addExpenseForm', 'files' => true]) }} --}}
+                                <form action="{{ route('appointment.add.note') }}" method="post" id="FormNote">
+                                  @csrf
+                                  @method('post')
+                                  <input id="appointmentId" type="hidden" name="id" value="">
+              
+                                  {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
+                                  <div class="modal-body">
+                                      {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
+                                      <div class="row">
+                                          
+                                      </div>
+                                          <div class="form-group col-sm-12 mb-5">
+                                            {{ Form::label('description', __('Note').(':'),['class' => 'form-label']) }}
+                                            {{-- {{ Form::textarea('note', null, ['class' => 'form-control', 'rows' => 4, 'id' => 'notes']) }} --}}
+                                            <textarea name="note" id="notes" rows="4" class="form-control" @if(!Auth::user()->hasRole('Doctor')) readonly @endif></textarea>
+                                          </div>
+                                      </div>
+                                  <div class="modal-footer pt-0">
+                                      {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
+                                      @if(Auth::user()->hasRole('Doctor'))
+                                        <button type="button" class="btn btn-primary" id="submit_btn">Save</button>
+                                      @endif
+                                      <button type="button" id="cancel_btn" class="btn btn-secondary"
+                                              data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                  </div>
+                                {{-- {{ Form::close() }} --}}
+                              </form>
+
+                            </div>
+                        </div>
+                      </div>
+
                        <!-- Modal -->
                         <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -394,6 +439,22 @@
     {{--    assets/js/incomes/incomes.js --}}
     {{--    assets/js/custom/new-edit-modal-form.js --}}
 
+    
+    <script>
+      $(document).on('click', '.appNote', function () {
+          var id = $(this).attr('data-appointmentId');
+          var note = $(this).attr('data-note');
+  
+          $('#appointmentId').attr('value', id)
+          $('#notes').val(note)
+      });
+    </script>
+
+    <script>
+      $(document).on('click', '#submit_btn', function () {
+        $('#FormNote').submit();
+      });
+    </script>
     
     <script>
       $(function(){

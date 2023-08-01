@@ -130,6 +130,7 @@ class PatientController extends AppBaseController
         if (!$data) {
             return view('errors.404');
         }
+        
         if (getLoggedinPatient() && checkRecordAccess($data->id)) {
             return view('errors.404');
         } else {
@@ -138,10 +139,12 @@ class PatientController extends AppBaseController
             $rochetBoard = null;
             $orderlabs = null;
             $orderlabsPaper = null;
+            $texthistory = null;
             if (Auth::user()->hasRole('Doctor')) {
                 $historyBoard = BoardHistoryAndRochet::where('type', 'historyBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
                 $rochetBoard = BoardHistoryAndRochet::where('type', 'rochetBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
                 $orderlabs = OrderLab::where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->orderBy('created_at', 'desc')->get();
+                $textHistoryAndRochet = TextHistoryAndRochet::where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->first();
             }
             $advancedPaymentRepo = App::make(AdvancedPaymentRepository::class);
             $patients = $advancedPaymentRepo->getPatients();
@@ -157,7 +160,7 @@ class PatientController extends AppBaseController
             natcasesort($vaccinations);
 
 
-            return view('patients.show', compact('data', 'patients', 'vaccinations', 'vaccinationPatients', 'historyBoard', 'rochetBoard', 'orderlabs'));
+            return view('patients.show', compact('data', 'patients', 'vaccinations', 'vaccinationPatients', 'historyBoard', 'rochetBoard', 'orderlabs', 'textHistoryAndRochet'));
         }
     }
 

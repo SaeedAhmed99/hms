@@ -363,6 +363,7 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
             ->name('appointment.cancel');
         Route::get('today-appointments', [AppointmentController::class, 'todayAppointments'])->name('today.appointments');
         Route::get('today-appointments-pdf', [AppointmentController::class, 'todayAppointmentsPDF'])->name('appointments.today');
+        Route::post('appointment/add-note', [AppointmentController::class, 'AddAppointmentNote'])->name('appointment.add.note');
     });
 
     Route::middleware('role:Admin|Receptionist|Patient')->group(function () {
@@ -491,14 +492,20 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::post('patients/image/destroy', [PatientController::class, 'destroyImage'])->name('patient.destroy.image');
         Route::get('patients/create-order/{id}', [PatientController::class, 'createOrder'])->name('patients.create.order');
         Route::post('patients/create-order/store', [PatientController::class, 'createOrderStore'])->name('patients.store.order');
-        Route::get('patients/create-order/show/{id}', [PatientController::class, 'createOrderShow'])->name('patients.show.order');
-        Route::get('patients/create-order/edit/{id}', [PatientController::class, 'createOrderEdit'])->name('patients.edit.order');
-        Route::post('patients/order/update', [PatientController::class, 'updateOrder'])->name('patients.update.order');
+        // Route::get('patients/create-order/show/{id}', [PatientController::class, 'createOrderShow'])->name('patients.show.order');
+        // Route::get('patients/create-order/edit/{id}', [PatientController::class, 'createOrderEdit'])->name('patients.edit.order');
+        // Route::post('patients/order/update', [PatientController::class, 'updateOrder'])->name('patients.update.order');
 
         Route::resource('case-handlers', CaseHandlerController::class)->parameters(['case-handlers' => 'caseHandler']);
         Route::get('case-handlers', [CaseHandlerController::class, 'index'])->name('case-handlers.index')->middleware('modules');
         Route::post('case-handlers/{case_id}/active-deactive', [CaseHandlerController::class, 'activeDeactiveStatus']);
         Route::get('export-case-handlers', [CaseHandlerController::class, 'caseHandlerExport'])->name('case.handler.excel');
+    });
+
+    Route::middleware('role:Admin|Doctor|Lab Technician|Receptionist')->group(function () {
+        Route::get('patients/create-order/show/{id}', [PatientController::class, 'createOrderShow'])->name('patients.show.order');
+        Route::get('patients/create-order/edit/{id}', [PatientController::class, 'createOrderEdit'])->name('patients.edit.order');
+        Route::post('patients/order/update', [PatientController::class, 'updateOrder'])->name('patients.update.order');
     });
 
     Route::middleware('role:Admin|Doctor|Lab Technician|Pharmacist|Case Manager|Accountant|Receptionist')->group(function () {
@@ -870,6 +877,16 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::get('employees-list', [EmployeePayrollController::class, 'getEmployeesList'])->name('employees.list');
     });
 
+    Route::middleware('role:Receptionist|Admin')->group(function () {
+        Route::get('lab-technician/order-list-request', [LabTechnicianController::class, 'labOrderRequestList'])->name('lab.order.request.list');
+        Route::post('lab-technician/order-list-request/paid', [LabTechnicianController::class, 'labOrderRequestListPaid'])->name('lab.order.request.list.post');
+    });
+    
+    Route::middleware('role:Admin|Lab Technician')->group(function () {
+        Route::get('lab-technician/order-list', [LabTechnicianController::class, 'labOrderList'])->name('lab.order.list');
+        Route::post('lab-technician/order-list/add-file', [LabTechnicianController::class, 'addFile'])->name('lab.order.list.add.file');
+    });
+
     Route::middleware('role:Admin')->group(function () {
 //        Route::resource('departments', 'DepartmentController');
 //        Route::post('departments/{department}/active-deactive', 'DepartmentController@activeDeactiveDepartment');
@@ -944,10 +961,10 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::post('lab-technician/category/add/type/store', [LabTechnicianController::class, 'labCategoryAddTypeStore'])->name('lab.category.add.type.store');
         Route::post('lab-technician/category/add/type/update', [LabTechnicianController::class, 'labCategoryAddTypeUpdate'])->name('lab.category.add.type.update');
         Route::delete('lab-technician/category/add/type/destroy/{id}', [LabTechnicianController::class, 'labCategoryAddTypeDestroy'])->name('lab.category.add.type.destroy');
-        Route::get('lab-technician/order-list', [LabTechnicianController::class, 'labOrderList'])->name('lab.order.list');
-        Route::get('lab-technician/order-list-request', [LabTechnicianController::class, 'labOrderRequestList'])->name('lab.order.request.list');
-        Route::post('lab-technician/order-list-request/paid', [LabTechnicianController::class, 'labOrderRequestListPaid'])->name('lab.order.request.list.post');
-        Route::post('lab-technician/order-list/add-file', [LabTechnicianController::class, 'addFile'])->name('lab.order.list.add.file');
+        // Route::get('lab-technician/order-list-request', [LabTechnicianController::class, 'labOrderRequestList'])->name('lab.order.request.list');
+        // Route::post('lab-technician/order-list-request/paid', [LabTechnicianController::class, 'labOrderRequestListPaid'])->name('lab.order.request.list.post');
+        // Route::get('lab-technician/order-list', [LabTechnicianController::class, 'labOrderList'])->name('lab.order.list');
+        // Route::post('lab-technician/order-list/add-file', [LabTechnicianController::class, 'addFile'])->name('lab.order.list.add.file');
 
         Route::get('lab-technicians',
             [LabTechnicianController::class, 'index'])->name('lab-technicians.index')->middleware('modules');

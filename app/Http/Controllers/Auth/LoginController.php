@@ -67,8 +67,8 @@ class LoginController extends Controller
             $this->redirectTo = 'dashboard';
         } else {
             if ($request->user()->hasRole(['Receptionist'])) {
-                $this->redirectTo = 'appointments';
-            } elseif ($request->user()->hasRole(['Doctor', 'Case Manager', 'Lab Technician', 'Pharmacist'])) {
+                $this->redirectTo = 'today-appointments';
+            } elseif ($request->user()->hasRole(['Case Manager', 'Lab Technician', 'Pharmacist'])) {
                 $this->redirectTo = 'employee/doctor';
             } elseif ($request->user()->hasRole(['Patient'])) {
                 $this->redirectTo = 'patient/my-cases';
@@ -76,6 +76,8 @@ class LoginController extends Controller
                 $this->redirectTo = 'bed-types';
             } elseif ($request->user()->hasRole(['Accountant'])) {
                 $this->redirectTo = 'accounts';
+            } elseif ($request->user()->hasRole(['Doctor'])) {
+                $this->redirectTo = 'today-appointments';
             } else {
                 $this->redirectTo = 'employee/notice-board';
             }

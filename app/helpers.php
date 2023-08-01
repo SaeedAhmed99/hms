@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Appointment;
 use App\Models\BloodBank;
 use App\Models\CurrencySetting;
 use App\Models\Department;
@@ -15,6 +16,7 @@ use App\Models\Schedule;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\VaccinatedPatients;
+use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -783,6 +785,13 @@ function getNotification($role)
 {
     return Notification::whereUserId(Auth::id())->whereNotificationFor(Notification::NOTIFICATION_FOR[$role])->where('read_at',
         null)->orderByDesc('created_at')->toBase()->get();
+}
+
+function getNoteAppointment()
+{
+    // return Appointment::where('created_at', Carbon::today())->where('problem', '!=', null)->orderByDesc('created_at')->get();
+    return Appointment::orderByDesc('created_at')->where('problem', '!=', null)->whereDate('created_at', Carbon::today())->get();
+
 }
 
 /**

@@ -44,7 +44,7 @@
                                                 @foreach ($item->labs as $item1)
                                                     <li class="list-group-item" @if(in_array($item1->id, $listSelectedLabs)) style="background-color: #ccc;" @endif>
                                                         <label>
-                                                            <input disabled type="checkbox" name="labs[]" @if(in_array($item1->id, $listSelectedLabs)) checked @endif  >  {{ $item1->name }}
+                                                            <input disabled type="checkbox" name="labs[]" @if(in_array($item1->id, $listSelectedLabs)) checked @endif  >  {{ $item1->name }} - {{ $item1->price }}
                                                         </label>
                                                     </li>
                                                 @endforeach

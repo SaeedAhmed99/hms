@@ -163,7 +163,6 @@
                                                         data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
                                             </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
