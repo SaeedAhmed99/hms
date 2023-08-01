@@ -166,7 +166,7 @@
                                     <h3 class="modal-title" id="exampleModalLabel">Pay the amount</h3>
                                 </div>
                                 {{-- {{ Form::open(['id'=>'addExpenseForm', 'files' => true]) }} --}}
-                                <form action="{{ route('incomes.withdraw') }}" method="post" id="formPaid">
+                                <form action="{{ route('incomes.withdraw') }}" method="post" id="formPaid" onsubmit="disableButton()">
                                   @csrf
                                   @method('post')
                                   <input id="doctorId" type="hidden" name="id" value="{{ $doctor->id }}">
@@ -311,6 +311,10 @@
       $(document).on('click', '#submit_btn', function () {
         $('#formPaid').submit();
       });
+
+      function disableButton() {
+        document.getElementById("submit_btn").disabled = true;
+      }
     </script>
     
     <script>

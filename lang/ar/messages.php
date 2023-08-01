@@ -13,6 +13,7 @@ return [
     'paid_successfully'       => 'تم الدفع بنجاح',
     'paid_error'              => 'يوجد مشكلة في الدفع الرجاع ادخال قيمة اصغر او يساوي المبلغ الاصلي',
     'check_value_paid'        => 'يجب ان تكون القيمة المدخلة اكبر من صفر',
+    'check_time_paid'        => 'يرجى الانتظار قبل الدفع مرة أخرى.',
     'choose_medical_tests'    => 'اختر التحاليل الطبية',
     'choose_medical_tests'    => 'عرض التحاليل الطبية',
     'show_medical_tests'    => 'عرض التحاليل الطبية',

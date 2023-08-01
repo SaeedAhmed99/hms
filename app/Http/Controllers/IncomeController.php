@@ -20,6 +20,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 use Storage;
 use Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -260,6 +261,18 @@ class IncomeController extends AppBaseController
     }
 
     public function financialWithdraw(Request $request) {
+        if (Session::has('last_request_time')) {
+            $lastRequestTime = Session::get('last_request_time');
+            $currentTime = time();
+            $timeDiffInSeconds = $currentTime - $lastRequestTime;
+            
+            $minimumTimeBetweenRequests = 5;
+            
+            if ($timeDiffInSeconds < $minimumTimeBetweenRequests) {
+                return redirect()->back()->with('error', __('messages.check_time_paid'));
+            }
+        }
+
         $doctor = Doctor::findOrFail($request->id);
         if ($request->transaction_amount <= 0) {
             return redirect()->back()->with('error', __('messages.check_value_paid'));
@@ -272,13 +285,13 @@ class IncomeController extends AppBaseController
                     'due_date' => $request->created_at,
                     'note' => $request->note,
                 ]);
-    
+
+                Session::put('last_request_time', time());
                 return redirect()->back()->with('success','Paid successfully');
             } else {
                 return redirect()->back()->with('error', 'Paid error');
             }
         }
-        
         
         // return redirect()->route('incomes.index');
     }

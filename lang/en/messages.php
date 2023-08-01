@@ -13,6 +13,7 @@ return [
     'paid_successfully'       => 'Paid Successfully',
     'paid_error'              => 'Paid Error',
     'check_value_paid'        => 'The entered value must be greater than zero',
+    'check_time_paid'        => 'Please wait before submitting again.',
     'choose_medical_tests'    => 'Choose medical tests',
     'show_medical_tests'    => 'Show medical tests',
     'edit_medical_tests'    => 'Edit medical tests',

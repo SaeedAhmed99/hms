@@ -282,7 +282,7 @@
                                             aria-label="Close"></button>
                                 </div>
                                 {{-- {{ Form::open(['id'=>'addExpenseForm', 'files' => true]) }} --}}
-                                <form action="{{ route('incomes.withdraw') }}" method="post" id="formPaid">
+                                <form action="{{ route('incomes.withdraw') }}" method="post" id="formPaid" onsubmit="disableButton()">
                                   @csrf
                                   @method('post')
                                   <input id="doctorId" type="hidden" name="id" value="">
@@ -346,7 +346,12 @@
       $(document).on('click', '#submit_btn', function () {
         $('#formPaid').submit();
       });
+
+      function disableButton() {
+        document.getElementById("submit_btn").disabled = true;
+      }
     </script>
+    
     <script>
       $(document).on('click', '.paidfees', function () {
           const button = document.querySelector('#paidButton');
