@@ -101,7 +101,6 @@ class IncomeController extends AppBaseController
                 $total_withdrawn = $transactions->sum('transaction_amount');
 
             } else {
-                dd('s');
                 $doctors = Doctor::with(['appointments' => function($q) use ($due){
                     $q->where('created_at', 'LIKE', '%' . $due . '%');
                 }])->get();

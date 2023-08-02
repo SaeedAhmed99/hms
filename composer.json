@@ -18,6 +18,8 @@
         "php": "^8.0|^8.0.28",
         "ext-json": "*",
         "barryvdh/laravel-dompdf": "^1.0",
+        "carlos-meneses/laravel-mpdf": "^2.1",
+        "dompdf/dompdf": "^1.2",
         "doctrine/dbal": "~2.3",
         "firebase/php-jwt": "^5.2",
         "guzzlehttp/guzzle": "^7.2",

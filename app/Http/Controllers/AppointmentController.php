@@ -105,7 +105,7 @@ class AppointmentController extends AppBaseController
         }
         // $pdf = \PDF::loadView('appointments.today_appointments_pdf',compact('appointments'))->save(public_path($file_name)); 
         $pdf = \PDF::loadView('appointments.today_appointments_pdf',compact('appointments')); 
-        $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
+        // $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
     
         return $pdf->stream('document.pdf');
         // dd('s');
