@@ -70,7 +70,7 @@
                             <div class="form-group mb-5">
                                 {{ Form::label('national_number', __('messages.user.national_number').':', ['class' => 'form-label']) }}
                                 {{-- {{ Form::number('national_number', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => 'nationalNumber', 'autocomplete' => 'off', 'tabindex' => '4']) }} --}}
-                                <input type="number" value="{{ $appointment->patient->user->national_number }}" name="national_number" class="form-control" required id="nationalNumber" tabindex="4" autocomplete="off">
+                                <input type="number" value="{{ $appointment->patient->user->national_number }}" name="national_number" class="form-control" id="nationalNumber" tabindex="4" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -112,7 +112,7 @@
                         <div class="form-group col-sm-6 mb-5">
                             {{ Form::label('opd_date', __('messages.appointment.date').':', ['class' => 'form-label']) }}
                             <span class="required"></span>
-                            {{ Form::text('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : null, ['id'=>'appointmentOpdDate', 'class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'required', 'autocomplete'=>'off']) }}
+                            {{ Form::text('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : null, ['id'=>'appointmentOpdDate', 'class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'autocomplete'=>'off']) }}
                         </div>
                         <div class="form-group col-sm-6 mb-5">
                             {{ Form::label('services', 'Services/Insurances'.':', ['class' => 'form-label']) }}

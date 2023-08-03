@@ -430,7 +430,7 @@ class AppointmentController extends AppBaseController
 
         // $newText = str_replace("http://localhost", "http://127.0.0.1:8000", $appointment->documents[0]->document_url);
 
-        // dd($newText);
+        // dd('s');
 
 
         $patients = $this->appointmentRepository->getPatients();

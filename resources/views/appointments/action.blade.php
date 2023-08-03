@@ -25,10 +25,10 @@
 @endif
 
 @if (!Auth::user()->hasRole('Doctor'))
-    <a href="{{ route('appointments.edit', $row->id) }}" title="{{__('messages.common.edit') }}"
+    {{-- <a href="{{ route('appointments.edit', $row->id) }}" title="{{__('messages.common.edit') }}"
         class="btn px-1 text-primary fs-3 ps-0">
         <i class="fa-solid fa-pen-to-square"></i>
-    </a>  
+    </a>   --}}
 
     <a href="{{ route('appointments.print.id', $row->id) }}" title="{{ __('messages.common.print') }}"  class="btn px-1 text-primary fs-3 pe-0">
         <i class="fa-solid fa-print"></i>
