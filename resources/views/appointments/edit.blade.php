@@ -17,21 +17,28 @@
             <div class="row">
                 <div class="col-12">
                     @include('layouts.errors')
+                    @if (Session::has('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
                     <div class="alert alert-danger d-none hide" id="editAppointmentErrorsBox"></div>
                 </div>
             </div>
             <div class="card">
-                {{ Form::hidden('doctorDepartmentUrl', url('doctors-list'), ['class' => 'doctorDepartmentUrl']) }}
+                {{-- {{ Form::hidden('doctorDepartmentUrl', url('doctors-list'), ['class' => 'doctorDepartmentUrl']) }}
                 {{ Form::hidden('doctorScheduleList', url('doctor-schedule-list'), ['class' => 'doctorScheduleList']) }}
                 {{ Form::hidden('getBookingSlot', route('get.booking.slot'), ['class' => 'getBookingSlot']) }}
                 {{ Form::hidden('isEdit', true, ['class' => 'isEdit']) }}
                 {{ Form::hidden('isCreate', false, ['class' => 'isCreate']) }}
                 {{ Form::hidden('appointmentIndexPage', route('appointments.edit', $appointment), ['class' => 'appointmentIndexPage']) }}
                 {{ Form::hidden('appointmentEditId', $appointment->id, ['id' => 'appointmentEditsID']) }}
-                {{ Form::hidden('appointmentUpdateUrl', route('appointments.update', ['appointment' => $appointment->id]), ['id' => 'appointmentUpdateUrl']) }}
+                {{ Form::hidden('appointmentUpdateUrl', route('appointments.update', ['appointment' => $appointment->id]), ['id' => 'appointmentUpdateUrl']) }} --}}
                 <div class="card-body">
-                    {{ Form::model($appointment, ['route' => ['appointments.update', $appointment->id], 'method' => 'patch','files' => true, 'id' => 'editAppointmentForm', 'class' => 'editAppointmentForm']) }}
-
+                    {{-- {{ Form::model($appointment, ['route' => ['appointments.update', $appointment->id], 'method' => 'patch','files' => true, 'id' => '', 'class' => '']) }} --}}
+                    <form action="{{ route('appointments.update', $appointment->id) }}" method="post">
+                        @csrf
+                        @method('POST')
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-5">
@@ -99,20 +106,28 @@
                         </div>
                         <!-- Department Name Field -->
                         <div class="form-group col-sm-6 mb-5">
-                            {{ Form::label('department_name', __('messages.appointment.doctor_department').':', ['class' => 'form-label']) }}
+                            {{-- {{ Form::label('department_name', __('messages.appointment.doctor_department').':', ['class' => 'form-label']) }}
                             <span class="required"></span>
-                            {{ Form::select('department_id',$departments, null, ['class' => 'form-select','required','id' => 'appointmentDepartmentId','placeholder'=>'Select Department', 'data-control' => 'select2']) }}
+                            {{ Form::select('department_id',$departments, null, ['class' => 'form-select','required','id' => 'appointmentDepartmentId','placeholder'=>'Select Department', 'data-control' => 'select2']) }} --}}
+                            <label for="" class="form-label">{{ __('messages.case.doctor') }}:</label>
+                            <span class="required"></span>
+                            <select name="doctor_id" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true" required>
+                                <option value=""></option>
+                                @foreach ($doctors as $doctor)
+                                    <option value="{{ $doctor->id }}" @if($appointment->doctor_id == $doctor->id) selected @endif>{{ $doctor->user->first_name }} {{ $doctor->user->middle_name }} {{ $doctor->user->last_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <!-- Doctor Name Field -->
-                        <div class="form-group col-sm-6 mb-5">
+                        {{-- <div class="form-group col-sm-6 mb-5">
                             {{ Form::label('doctor_name', __('messages.case.doctor').':', ['class' => 'form-label']) }}
                             <span class="required"></span>
                             {{ Form::select('doctor_id',(isset($doctors) ? $doctors : []), null, ['class' => 'form-select','required','id' => 'appointmentDoctorId','placeholder'=>'Select Doctor', 'data-control' => 'select2']) }}
-                        </div>
+                        </div> --}}
                         <div class="form-group col-sm-6 mb-5">
                             {{ Form::label('opd_date', __('messages.appointment.date').':', ['class' => 'form-label']) }}
                             <span class="required"></span>
-                            {{ Form::text('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : null, ['id'=>'appointmentOpdDate', 'class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'autocomplete'=>'off']) }}
+                            {{ Form::text('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : null, ['id'=>'', 'class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'autocomplete'=>'off']) }}
                         </div>
                         <div class="form-group col-sm-6 mb-5">
                             {{ Form::label('services', 'Services/Insurances'.':', ['class' => 'form-label']) }}
@@ -128,7 +143,7 @@
                             <div class="form-group mb-5">
                                 {{ Form::label('fees', __('messages.bill.price').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
-                                {{ Form::number('fees', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => '', 'autocomplete' => 'off', 'tabindex' => '4']) }}
+                                {{ Form::number('fees', $appointment->fees, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => '', 'autocomplete' => 'off', 'tabindex' => '4']) }}
                             </div>
                         </div>
                         <!-- Notes Field -->
@@ -136,7 +151,7 @@
                             {{ Form::label('problem', __('messages.appointment.description').':', ['class' => 'form-label']) }}
                             {{ Form::textarea('problem', null, ['class' => 'form-control', 'rows'=>'4']) }}
                         </div>
-                        <div class="form-group col-sm-6 mb-5">
+                        {{-- <div class="form-group col-sm-6 mb-5">
                             <div class="doctor-schedule" style="display: none">
                                 <i class="fas fa-calendar-alt"></i>
                                 <span class="day-name"></span>
@@ -154,7 +169,7 @@
                             <div align="right" style="display: none">
                                 <span><i class="fa fa-circle color-information" aria-hidden="true"> </i> {{ __('messages.appointment.no_available') }}</span>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group col-sm-12 mb-5">
                             <div class="row">
                                 @foreach ($appointment->documents as $item)
@@ -173,11 +188,13 @@
                             {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary me-3','id'=>'saveAppointment']) }}
                         </div>
                     </div>
-                    {{ Form::close() }}
+                    {{-- {{ Form::close() }} --}}
+                        
+                    </form>
                 </div>
             </div>
         </div>
-        @include('appointments.templates.appointment_slot')
+        {{-- @include('appointments.templates.appointment_slot') --}}
     </div>
 @endsection
 {{-- Js :: assets/js/appointments/create-edit.js --}}

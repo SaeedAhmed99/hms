@@ -137,8 +137,9 @@ class AppointmentController extends AppBaseController
         $statusArr = Appointment::STATUS_PENDING;
         $bloodGroup = getBloodGroups();
         $services = Service::all();
+        $doctors = Doctor::get();
 
-        return view('appointments.create_new_appointment', compact('bloodGroup', 'patients', 'departments', 'statusArr', 'services'));
+        return view('appointments.create_new_appointment', compact('bloodGroup', 'patients', 'departments', 'statusArr', 'services', 'doctors'));
     }
 
     public function storeNewAppointment(Request $request) {
@@ -149,9 +150,9 @@ class AppointmentController extends AppBaseController
             'dob' => 'required',
             'phone' => 'required',
             'gender' => 'required',
-            'department_id' => 'required',
-            'doctor_id' => 'required',
-            'time' => 'required',
+            // 'department_id' => 'required',
+            // 'doctor_id' => 'required',
+            // 'time' => 'required',
             'fees' => 'required',
             'services_id' => 'required',
         ]);
@@ -221,16 +222,18 @@ class AppointmentController extends AppBaseController
                 $serial_number = str_pad($serial_number, 8, '0', STR_PAD_LEFT);
             }
 
+            $doc = Doctor::findOrFail($request->doctor_id);
+            $opd_date = Carbon::now();
 
             $appointment = Appointment::create([
                 'serial_number' => strval($serial_number),
                 'counter' => $max_number,
                 'patient_id' => $patient->id,
                 'doctor_id' => $request->doctor_id,
-                'department_id' => $request->department_id,
+                'department_id' => $doc->department->id,
                 'service_id' => $request->services_id,
                 'user_entered' => auth()->user()->id,
-                'opd_date' => $request->time,
+                'opd_date' => $opd_date,
                 'is_completed' => 0,
                 'problem' => $request->problem,
                 'fees' => $request->fees
@@ -238,14 +241,16 @@ class AppointmentController extends AppBaseController
 
             
             $input = $request->all();
-            $input['opd_date'] = $input['opd_date'].$input['time'];
+            // $input['opd_date'] = $input['opd_date'].$input['time'];
+            // $input['opd_date'] = $input[$opd_date];
             $input['is_completed'] = 0;
             $input['patient_id'] = $patient->id;
             $input['user_id'] = $user->id;
             $input['appointment_id'] = $appointment->id;
             $this->appointmentRepository->createNotification($input);
 
-            return $this->sendSuccess(__('messages.web_menu.appointment').' '.__('messages.common.saved_successfully'));
+            // return $this->sendSuccess(__('messages.web_menu.appointment').' '.__('messages.common.saved_successfully'));
+            return redirect()->route('appointments.print');
         }
 
        
@@ -434,7 +439,8 @@ class AppointmentController extends AppBaseController
 
 
         $patients = $this->appointmentRepository->getPatients();
-        $doctors = $this->appointmentRepository->getDoctors($appointment->department_id);
+        // $doctors = $this->appointmentRepository->getDoctors($appointment->department_id);
+        $doctors = Doctor::get();
         $departments = $this->appointmentRepository->getDoctorDepartments();
         $statusArr = $appointment->is_completed;
         $services = Service::all();
@@ -448,13 +454,13 @@ class AppointmentController extends AppBaseController
      * @param  UpdateAppointmentRequest  $request
      * @return JsonResponse
      */
-    public function update(Appointment $appointment, UpdateAppointmentRequest $request)
+    public function update(Appointment $appointment, Request $request)
     {
         $age = $request->dob;                    
         $input = $request->except('dob');
         // $input = $request->all();
         $input['age'] = $age;
-        $input['opd_date'] = $input['opd_date'].$input['time'];
+        // $input['opd_date'] = $input['opd_date'].$input['time'];
         // $input['is_completed'] = isset($input['status']) ? Appointment::STATUS_COMPLETED : Appointment::STATUS_PENDING;
         if ($request->user()->hasRole('Patient')) {
             $input['patient_id'] = $request->user()->owner_id;
@@ -462,7 +468,8 @@ class AppointmentController extends AppBaseController
         $input['service_id'] = $request->services_id;                    
         $appointment = $this->appointmentRepository->update($input, $appointment->id);
         $appointment->patient->user->update($input);
-        return $this->sendSuccess(__('messages.web_menu.appointment').' '.__('messages.common.updated_successfully'));
+        // return $this->sendSuccess(__('messages.web_menu.appointment').' '.__('messages.common.updated_successfully'));
+        return redirect()->back()->with('success', __('messages.web_menu.appointment').' '.__('messages.common.updated_successfully'));
     }
 
     public function addFile(Request $request) {
