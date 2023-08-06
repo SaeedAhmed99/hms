@@ -33,7 +33,7 @@
                             <div class="position-relative d-flex width-500">
                                 <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; cursor: auto;">Total Earning <svg style="font-size: 23px; margin-right: 7px; color: #fff;" class="svg-inline--fa fa-money-bill" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="money-bill" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M512 64C547.3 64 576 92.65 576 128V384C576 419.3 547.3 448 512 448H64C28.65 448 0 419.3 0 384V128C0 92.65 28.65 64 64 64H512zM128 384C128 348.7 99.35 320 64 320V384H128zM64 192C99.35 192 128 163.3 128 128H64V192zM512 384V320C476.7 320 448 348.7 448 384H512zM512 128H448C448 163.3 476.7 192 512 192V128zM288 352C341 352 384 309 384 256C384 202.1 341 160 288 160C234.1 160 192 202.1 192 256C192 309 234.1 352 288 352z"></path></svg>
                                     : {{ $appointments->sum('fees') }}</button>
-                                <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; cursor: auto;">{{ __('messages.appointment.total_appointments') }} : {{ count($appointments) }}</button>
+                                {{-- <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; cursor: auto;">{{ __('messages.appointment.total_appointments') }} : {{ count($appointments) }}</button> --}}
                                 {{-- <button class="btn btn-primary" style="margin-right: 10px; width: fit-content;">Total Remaining: {{ $total_earning - $total_withdrawn }}</button> --}}
                               </div>
                           </div>
