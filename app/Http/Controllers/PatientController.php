@@ -140,6 +140,7 @@ class PatientController extends AppBaseController
             $orderlabs = null;
             $orderlabsPaper = null;
             $texthistory = null;
+            $textHistoryAndRochet = null;
             if (Auth::user()->hasRole('Doctor')) {
                 $historyBoard = BoardHistoryAndRochet::where('type', 'historyBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
                 $rochetBoard = BoardHistoryAndRochet::where('type', 'rochetBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
