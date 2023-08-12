@@ -56,23 +56,27 @@
     </div>
     <div class="mt-7 overflow-hidden">
         <ul class="nav nav-tabs mb-5 pb-1 overflow-auto flex-nowrap text-nowrap">
-            <li class="nav-item position-relative me-7 mb-3">
+            {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link active p-0" data-bs-toggle="tab"
                    href="#PatientOverview">{{ __('messages.overview') }}</a>
-            </li>
-            <li class="nav-item position-relative me-7 mb-3">
+            </li> --}}
+            {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
                    href="#showPatientCases">{{ __('messages.cases') }}</a>
-            </li>
-            <li class="nav-item position-relative me-7 mb-3">
+            </li> --}}
+            {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
                    href="#showPatientAdmissions">{{ __('messages.patient_admissions') }}</a>
-            </li>
+            </li> --}}
+            
             <li class="nav-item position-relative me-7 mb-3">
-                <a class="nav-link p-0" data-bs-toggle="tab"
+                <a class="nav-link active p-0" data-bs-toggle="tab"
                    href="#showPatientAppointments">{{ __('messages.appointments') }}</a>
             </li>
-
+            {{-- <li class="nav-item position-relative me-7 mb-3">
+                <a class="nav-link p-0" data-bs-toggle="tab"
+                   href="#showPatientDocument">{{ __('messages.documents') }}</a>
+            </li> --}}
             @if (Auth::user()->hasRole('Doctor'))
                 <li class="nav-item position-relative me-7 mb-3">
                     <a class="nav-link p-0" data-bs-toggle="tab"
@@ -88,26 +92,23 @@
                 </li>
             @endif
 
-            <li class="nav-item position-relative me-7 mb-3">
+            {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
                    href="#showPatientBills">{{ __('messages.bills') }}</a>
-            </li>
-            <li class="nav-item position-relative me-7 mb-3">
+            </li> --}}
+            {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
                    href="#showPatientInvoices">{{ __('messages.invoices') }}</a>
-            </li>
-            <li class="nav-item position-relative me-7 mb-3">
+            </li> --}}
+            {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
                    href="#showPatientAdvancedPayments">{{ __('messages.advanced_payments') }}</a>
-            </li>
-            <li class="nav-item position-relative me-7 mb-3">
-                <a class="nav-link p-0" data-bs-toggle="tab"
-                   href="#showPatientDocument">{{ __('messages.documents') }}</a>
-            </li>
-            <li class="nav-item position-relative me-7 mb-3">
+            </li> --}}
+            
+            {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
                    href="#showPatientVaccinated">{{ __('messages.vaccinations') }}</a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </div>
@@ -305,7 +306,7 @@
                         </th>
                     </tr>
                     </thead>
-            
+                    
                     <tbody class="">
                         @foreach ($orderlabs as $item)
                             <tr id="Category" wire:loading.class.delay="" class="" wire:key="row-0-WpskoqwzxJ5BdNxsPOsu">

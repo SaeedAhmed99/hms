@@ -62,6 +62,10 @@
                                     @endforeach
                                 </div>
                             </div>
+                            <div class="form-group col-sm-12 mb-5">
+                                {{ Form::label('other', __('messages.prescription.others').':', ['class' => 'form-label']) }}
+                                <textarea class="form-control" name="other" rows="4" readonly>{{ $order->other }}</textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

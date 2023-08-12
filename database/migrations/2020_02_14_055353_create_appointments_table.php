@@ -24,6 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_entered')->nullable();
             $table->dateTime('opd_date');
             $table->text('problem')->nullable();
+            $table->text('cancel_reason')->nullable();
             $table->integer('fees');
             $table->timestamps();
 

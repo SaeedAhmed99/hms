@@ -855,6 +855,7 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
             <span class="aside-menu-icon pe-3 pe-3"><i
                         class="fas fa-microscope"></i></span>
             <span class="aside-menu-title">{{ __('messages.prescription.order_lab_request_list') }}</span>
+            <span class="badge badge-circle bg-info" style="margin-left: 5px;">{{ getCountLabRequestForRec() }} </span>
         </a>
     </li>
     @endrole
@@ -1237,6 +1238,7 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
             <span class="aside-menu-icon pe-3 pe-3"><i
                         class="fas fa-microscope"></i></span>
             <span class="aside-menu-title">{{ __('messages.prescription.order_lab_list') }}</span>
+            <span class="badge badge-circle bg-info" style="margin-left: 5px;">{{ getCountLabRequestForLab() }} </span>
         </a>
     </li>
 

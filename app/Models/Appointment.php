@@ -79,7 +79,8 @@ class Appointment extends Model
         'opd_date',
         'problem',
         'is_completed',
-        'fees'
+        'fees',
+        'cancel_reason'
     ];
 
     /**

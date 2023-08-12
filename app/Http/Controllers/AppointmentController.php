@@ -584,7 +584,6 @@ class AppointmentController extends AppBaseController
         } else {
             $isCompleted = ! $appointment->is_completed;
             $appointment->update(['is_completed' => $isCompleted]);
-
             return $this->sendSuccess(__('messages.common.status_updated_successfully'));
         }
     }
@@ -602,6 +601,15 @@ class AppointmentController extends AppBaseController
 
             return $this->sendSuccess(__('messages.web_menu.appointment').' '.__('messages.common.canceled'));
         }
+    }
+
+    public function appointmentCancellation(Request $request)
+    {
+        $appointment = Appointment::findOrFail($request->appointment_id);
+        $appointment->update(['is_completed' => Appointment::STATUS_CANCELLED]);
+        $appointment->update(['cancel_reason' => $request->cancel_reason]);
+        return redirect()->back()->with('success', __('messages.web_menu.appointment').' '.__('messages.common.canceled'));
+
     }
 
     public function AddAppointmentNote(Request $request) {

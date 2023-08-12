@@ -264,13 +264,21 @@
 
                             <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                   @if($row->is_completed == 3)
-                                  <a data-bs-toggle="tooltip" data-placement="top" data-bs-original-title=" {{__('messages.common.canceled')}} " class="btn px-1 text-danger fs-3 pe-0">
+                                  {{-- <a data-bs-toggle="tooltip" data-placement="top" data-bs-toggle="modal" data-bs-target="#showCancelAppointment" data-bs-original-title=" {{__('messages.common.canceled')}} " class="btn px-1 text-danger fs-3 pe-0">
+                                      <i class="fas fa-calendar-times text-danger"></i>
+                                  </a> --}}
+                                  <a data-reason="{{ $row->cancel_reason }}" data-bs-toggle="modal" data-bs-target="#showCancelAppointment" data-bs-original-title="{{ __('messages.common.cancel')}}"
+                                      class="btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }} show-appointment-cancellation">
                                       <i class="fas fa-calendar-times text-danger"></i>
                                   </a>
                               @else
                                   @if (!Auth::user()->hasRole('Doctor'))
-                                      <a data-bs-toggle="tooltip" data-placement="top" data-bs-original-title="{{ __('messages.common.cancel')}}" data-id="{{$row->id}}"
+                                      {{-- <a data-bs-toggle="tooltip" data-placement="top" data-bs-original-title="{{ __('messages.common.cancel')}}" data-id="{{$row->id}}"
                                           class="cancel-appointment btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }}">
+                                          <i class="far fa-calendar-times {{$row->is_completed == 1 ? "text-danger"  : "" }}"></i>
+                                      </a> --}}
+                                      <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#cancelAppointment" data-bs-original-title="{{ __('messages.common.cancel')}}"
+                                          class="btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }} appointment-cancellation">
                                           <i class="far fa-calendar-times {{$row->is_completed == 1 ? "text-danger"  : "" }}"></i>
                                       </a>
                                   @endif
@@ -283,10 +291,12 @@
                                           <i class="fas fa-calendar-check text-success {{$row->is_completed == 3 ? "d-none"  : ""}}"></i>
                                       </a>
                                   @endif
-                                  @if ($row->is_completed == 0)
-                                      <a title="{{ __('messages.common.confirm') }}" data-id="{{$row->id}}" class="appointment-complete-status btn px-1 text-primary fs-3 pe-0">
-                                          <i class="far fa-calendar-check"></i>
-                                      </a>
+                                  @if (Auth::user()->hasRole('Doctor'))
+                                    @if ($row->is_completed == 0)
+                                        <a title="{{ __('messages.common.confirm') }}" data-id="{{$row->id}}" class="appointment-complete-status btn px-1 text-primary fs-3 pe-0">
+                                            <i class="far fa-calendar-check"></i>
+                                        </a>
+                                    @endif
                                   @endif
                               @endif
                               
@@ -418,12 +428,77 @@
                                       <div class="modal-footer pt-0">
                                           {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
                                           {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
-                                          <button type="button" class="btn btn-primary" id="submit_file_btn">Save</button>
+                                          <button type="button" class="btn btn-primary" id="submit_file_btn">{{ __('messages.common.save') }}</button>
                                           <button type="button" class="btn btn-secondary"
                                                   data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
                                       </div>
                                     {{-- {{ Form::close() }} --}}
                                     </form>
+
+                                </div>
+                            </div>
+                        </div>
+                       <!-- Modal -->
+                        <div id="cancelAppointment" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.common.cancel_appointment') }}</h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <form id="cancelForm" action="{{ route('appointment.cancellation') }}" method="post">
+                                      @csrf
+                                      @method('post')
+                                      {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
+                                      <div class="modal-body">
+                                          {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
+                                            <input type="number" name="appointment_id" id="cancel_appointment_id" hidden value="">
+                                        
+                                        <!-- Notes Field -->
+                                        <div class="form-group col-sm-12 mb-5">
+                                            {{ Form::label('cancel_reason', __('messages.common.Reason_for_cancellation').':', ['class' => 'form-label']) }}
+                                            {{ Form::textarea('cancel_reason', null, ['class' => 'form-control', 'rows'=>'4']) }}
+                                        </div>
+                                              
+                                          </div>
+                                      <div class="modal-footer pt-0">
+                                          {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
+                                          {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                                          <button type="button" class="btn btn-primary" id="submit_cancel_btn">{{ __('messages.common.confirm') }}</button>
+                                          <button type="button" class="btn btn-secondary"
+                                                  data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                      </div>
+                                    {{-- {{ Form::close() }} --}}
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                       <!-- Modal -->
+                        <div id="showCancelAppointment" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.common.cancel_appointment') }}</h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                      <div class="modal-body">                                        
+                                        <!-- Notes Field -->
+                                        <div class="form-group col-sm-12 mb-5">
+                                            {{ Form::label('cancel_reason', __('messages.common.Reason_for_cancellation').':', ['class' => 'form-label']) }}
+                                            {{-- {{ Form::textarea('cancel_reason', null, ['class' => 'form-control', 'rows'=>'4']) }} --}}
+                                            <textarea class="form-control" id="show_cancel" rows="4" readonly></textarea>
+                                        </div>
+                                              
+                                          </div>
+                                      <div class="modal-footer pt-0">
+                                          <button type="button" class="btn btn-secondary"
+                                                  data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                      </div>
 
                                 </div>
                             </div>
@@ -472,9 +547,33 @@
   </script>
 
   <script>
+      $(function(){
+          $('.appointment-cancellation').click(function(){
+              var appointment_id = $(this).attr('data-appointment_id');
+              $("#cancel_appointment_id").val(appointment_id);
+              console.log(appointment_id);
+          });
+      });
+  </script>
+
+  <script>
+      $(function(){
+          $('.show-appointment-cancellation').click(function(){
+              var reason = $(this).attr('data-reason');
+              $("#show_cancel").val(reason);
+          });
+      });
+  </script>
+
+  <script>
       $(document).on('click', '#submit_file_btn', function () {
-          console.log('s');
           $('#fileForm').submit();
+      });
+  </script>
+
+  <script>
+      $(document).on('click', '#submit_cancel_btn', function () {
+          $('#cancelForm').submit();
       });
   </script>
 @endsection

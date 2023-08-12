@@ -440,7 +440,8 @@ class PatientController extends AppBaseController
                 'doctor_id' => auth()->user()->doctor->id,
                 'patient_id' => $request->patient_id,
                 'status' => 1,
-                'is_paid' => 0
+                'is_paid' => 0,
+                'other' => $request->other
             ]);
 
             foreach ($request->labs as $item) {

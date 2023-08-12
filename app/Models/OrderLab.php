@@ -9,7 +9,7 @@ class OrderLab extends Model
 {
     use HasFactory;
     protected $table = 'order_labs';
-    protected $fillable = ['doctor_id', 'patient_id', 'status', 'is_paid', 'original_price', 'price_after_discount'];
+    protected $fillable = ['doctor_id', 'patient_id', 'status', 'is_paid', 'original_price', 'price_after_discount', 'other'];
 
 
     /**

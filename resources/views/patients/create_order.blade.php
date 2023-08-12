@@ -62,8 +62,11 @@
                                            </div>
                                         @endforeach
                                     </div>
-
-                                        <button type="submit" class="btn btn-primary mt-3">{{ __('messages.prescription.create_order') }}</button>
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('other', __('messages.prescription.others').':', ['class' => 'form-label']) }}
+                                        <textarea class="form-control" name="other" rows="4"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3">{{ __('messages.prescription.create_order') }}</button>
                                     </form>
                                 </ul>
                             </div>

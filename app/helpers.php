@@ -9,6 +9,7 @@ use App\Models\DoctorDepartment;
 use App\Models\FrontSetting;
 use App\Models\Invoice;
 use App\Models\Notification;
+use App\Models\OrderLab;
 use App\Models\Patient;
 use App\Models\PatientAdmission;
 use App\Models\PatientCase;
@@ -791,7 +792,16 @@ function getNoteAppointment()
 {
     // return Appointment::where('created_at', Carbon::today())->where('problem', '!=', null)->orderByDesc('created_at')->get();
     return Appointment::orderByDesc('created_at')->where('problem', '!=', null)->whereDate('created_at', Carbon::today())->get();
+}
 
+function getCountLabRequestForRec()
+{
+    return OrderLab::where('is_paid', 0)->count();
+}
+
+function getCountLabRequestForLab()
+{
+    return OrderLab::where('status', 1)->where('is_paid', 1)->count();
 }
 
 /**

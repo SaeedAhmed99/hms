@@ -2,6 +2,32 @@
 @section('title')
     {{ __('messages.documents') }}
 @endsection
+@section('css')
+<style>
+    #image-container {
+      text-align: center;
+      cursor: pointer;
+    }
+  
+    #fullscreen-image {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+    }
+  
+    #fullscreen-image img {
+      max-width: 100%;
+      max-height: 100%;
+      margin: auto;
+      display: block;
+    }
+  </style>
+@endsection
 @section('content')
 {{--    @include('flash::message')--}}
     <div class="container-fluid">
@@ -16,10 +42,30 @@
             <livewire:document-table/>
             @include('documents.add_modal')
             @include('documents.edit_modal')
+
+            <div id="fullscreen-image">
+                <img src="">
+            </div>
+
         </div>
     </div>
 @endsection
 @section('scripts')
     {{--   assets/js/document/document.js --}}
     {{--   assets/js/custom/new-edit-modal-form.js --}}
+
+    <script>
+        $(document).ready(function() {
+            // عند النقر على الايقونة
+            $('.action-container').on('click', '#show-button', function() {
+                var imageUrl = $(this).attr('data-href');
+                $('#fullscreen-image img').attr('src', imageUrl);
+                $('#fullscreen-image').fadeIn();
+            });
+
+            $('#fullscreen-image').on('click', function() {
+                $(this).fadeOut();
+            });
+        });
+    </script>
 @endsection

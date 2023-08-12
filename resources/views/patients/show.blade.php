@@ -141,6 +141,7 @@
         // (A) GET ALL IMAGES
         let all = document.getElementsByClassName("zoomE");
         console.log(all);
+        
 
         // (B) CLICK TO GO FULLSCREEN
         if (all.length>0) { for (let i of all) {

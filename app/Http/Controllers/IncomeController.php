@@ -86,7 +86,6 @@ class IncomeController extends AppBaseController
             $total_withdrawn = $transactions->sum('transaction_amount');
            
         } elseif (!$doctor_id && $due) {
-            
             if (auth()->user()->owner_type == 'App\Models\Receptionist') {
                 $doctors = Doctor::with(['appointments' => function($q) use ($due){
                     $q->where('created_at', 'LIKE', '%' . $due . '%');
@@ -99,7 +98,6 @@ class IncomeController extends AppBaseController
                 $total_earning = Appointment::where('created_at', 'LIKE', '%' . $due . '%')->where('is_completed', '!=', '3')->whereIn('doctor_id', $doctorIds)->sum('fees');
                 $transactions = FinancialTransaction::where('due_date', 'LIKE', '%' . $due . '%')->whereIn('doctor_id', $doctorIds)->get();
                 $total_withdrawn = $transactions->sum('transaction_amount');
-
             } else {
                 $doctors = Doctor::with(['appointments' => function($q) use ($due){
                     $q->where('created_at', 'LIKE', '%' . $due . '%');

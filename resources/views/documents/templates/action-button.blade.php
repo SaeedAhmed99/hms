@@ -1,4 +1,7 @@
-<div class="d-flex align-items-center">
+<div class="d-flex align-items-center action-container">
+    <a title="" class="btn px-1 fs-3 ps-0 text-info" id="show-button" data-href="{{ asset(str_replace("http://localhost", "", $row->document_url)) }}">
+        <i class="fa-solid fa-eye"></i>
+    </a>
     @if(!empty($row->media[0]))
         <a title="{{ __('messages.common.save')}}" class="btn px-1 fs-3 ps-0 text-info" href="{{url('document-download').'/'.$row->id}}" target="_blank">
             <i class="fa fa-download"></i>

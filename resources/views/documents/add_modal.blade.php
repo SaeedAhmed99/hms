@@ -14,7 +14,8 @@
                     <div class="form-group col-sm-6 mb-5">
                         {{ Form::label('title', __('messages.document.title').(':'), ['class' => 'form-label']) }}
                         <span class="required"></span>
-                        {{ Form::text('title', null, ['class' => 'form-control','required']) }}
+                        {{-- {{ Form::text('title', null, ['class' => 'form-control','required']) }} --}}
+                        <input type="text" name="title" class="form-control" required value="history paper for patient">
                     </div>
                     <div class="form-group col-sm-6 mb-5">
                         {{ Form::label('document_type', __('messages.document.document_type').(':'), ['class' => 'form-label']) }}

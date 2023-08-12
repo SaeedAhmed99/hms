@@ -361,6 +361,8 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
             ->name('appointment.status');
         Route::post('appointments/{appointment}/cancel', [AppointmentController::class, 'cancelAppointment'])
             ->name('appointment.cancel');
+        Route::post('appointments/cancellation/rec', [AppointmentController::class, 'appointmentCancellation'])
+            ->name('appointment.cancellation');
         Route::get('today-appointments', [AppointmentController::class, 'todayAppointments'])->name('today.appointments');
         Route::get('today-appointments-pdf', [AppointmentController::class, 'todayAppointmentsPDF'])->name('appointments.today');
         Route::post('appointment/add-note', [AppointmentController::class, 'AddAppointmentNote'])->name('appointment.add.note');

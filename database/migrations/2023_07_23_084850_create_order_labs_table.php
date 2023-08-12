@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('is_paid')->default(0);
             $table->integer('original_price')->nullable();
             $table->integer('price_after_discount')->nullable();
+            $table->text('other')->nullable();
             $table->timestamps();
         });
     }

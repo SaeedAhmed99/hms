@@ -232,6 +232,8 @@ return [
         'action'                                        => 'عمل',
         'save'                                          => 'حفظ',
         'cancel'                                        => 'إلغاء',
+        'cancel_appointment'                            => 'إلغاء الحجز',
+        'Reason_for_cancellation'                            => 'سبب الالغاء',
         'canceled'                                      => 'إلغاء',
         'back'                                          => 'عودة',
         'created_on'                                    => 'تم إنشاؤها على',

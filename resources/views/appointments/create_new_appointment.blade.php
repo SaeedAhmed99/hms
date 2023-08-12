@@ -108,7 +108,7 @@
                             <div class="form-group col-sm-6 mb-5">
                                 {{ Form::label('opd_date', __('messages.appointment.date').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
-                                {{ Form::text('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : Carbon\Carbon::now(), ['class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'required', 'autocomplete'=>'off', 'value' => '2023-08-05']) }}
+                                {{ Form::date('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : Carbon\Carbon::now(), ['class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'required', 'autocomplete'=>'off']) }}
                             </div>
 
                             <div class="form-group col-sm-6 mb-5">
