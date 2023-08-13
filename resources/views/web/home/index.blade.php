@@ -2,6 +2,15 @@
 @section('title')
     {{ __('web.home') }}
 @endsection
+@section('css')
+    @if (app()->getLocale() == 'ar')
+        <style>
+            body {
+                direction: rtl;
+            }
+        </style>
+    @endif
+@endsection
 @section('content')
     <div class="home-page">
         <!-- start hero section -->
@@ -34,7 +43,7 @@
         <!-- end hero section -->
 
         <!--start book-appointment section-->
-        <section class="appointment-section">
+        {{-- <section class="appointment-section">
             <div class="container">
                 <div class="book-appintment position-relative br-2 bg-white">
                     <form action="{{ route('appointment.post') }}" method="POST" turbo:load>
@@ -65,7 +74,7 @@
                     </form>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!--end book-appointment section-->
 
         <!-- start easy-solution section -->
@@ -180,8 +189,8 @@
                         <div class="about-right pb-5 pt-lg-5 text-lg-start text-center">
                             <h2 class="mt-md-3">{{ \Illuminate\Support\Str::limit(getFrontSettingValue(\App\Models\FrontSetting::ABOUT_US, 'about_us_title'), 31) }}</h2>
                             <p class="mt-4">{!!  \Illuminate\Support\Str::limit(getFrontSettingValue(\App\Models\FrontSetting::ABOUT_US, 'about_us_description'), 615)  !!}</p>
-                            <a href="{{ route('appointment') }}"
-                               class="btn btn-primary mt-4">{{ __('messages.web_home.book_appointment') }}</a>
+                            {{-- <a href="{{ route('appointment') }}"
+                               class="btn btn-primary mt-4">{{ __('messages.web_home.book_appointment') }}</a> --}}
                         </div>
                     </div>
 
@@ -234,8 +243,8 @@
                             <p>
                                 {{ \Illuminate\Support\Str::limit($frontSetting['home_page_certified_doctor_description'], 326) }}
                             </p>
-                            <a href="{{ route('appointment') }}"
-                               class="btn btn-primary mt-lg-4 mb-lg-0 mb-4">{{ __('messages.web_home.book_appointment') }}</a>
+                            {{-- <a href="{{ route('appointment') }}"
+                               class="btn btn-primary mt-lg-4 mb-lg-0 mb-4">{{ __('messages.web_home.book_appointment') }}</a> --}}
                         </div>
                     </div>
 

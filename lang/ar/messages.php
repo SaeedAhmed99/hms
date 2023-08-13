@@ -930,7 +930,7 @@ return [
     ],
 
     'dashboard' => [
-        'dashboard'                  => 'لوحة القيادة',
+        'dashboard'                  => 'لوحة التحكم',
         'total_invoices'             => 'المبلغ الإجمالي للفاتورة',
         'total_bills'                => 'إجمالي مبلغ الفاتورة',
         'total_payments'             => 'المبلغ الإجمالي للدفع',
@@ -950,7 +950,7 @@ return [
     'enquiry'   => [
         'name'                      => 'اسم',
         'email'                     => 'البريد الإلكتروني',
-        'contact'                   => 'اتصل',
+        'contact'                   => 'اتصل بنا',
         'type'                      => 'اكتب',
         'message'                   => 'رسالة',
         'viewed_by'                 => 'تم عرضها بواسطة',
@@ -1608,7 +1608,7 @@ return [
         'services'                                           => 'خدمات',
         'doctors'                                            => 'الأطباء',
         'about_us'                                           => 'معلومات عنا',
-        'contact'                                            => 'اتصل',
+        'contact'                                            => 'اتصل بنا',
         'make_appointment'                                   => 'حدد موعدا',
         'working_hours'                                      => 'ساعات العمل',
         'testimonials'                                       => 'الشهادات - التوصيات',
@@ -1663,7 +1663,7 @@ return [
     ],
 
     'web_menu' => [
-        'about'                  => 'عن',
+        'about'                  => 'من نحن',
         'our_features'           => 'ميزاتنا',
         'appointment'            => 'ميعاد',
         'working_hours'          => 'ساعات العمل',

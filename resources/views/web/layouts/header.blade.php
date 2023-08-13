@@ -52,21 +52,21 @@
                                     <i class="fa-solid fa-angle-down ms-1"></i>
                                 </a>
                                 <ul class="nav submenu">
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a class="nav-link {{ Request::is('appointment') ? 'active' : '' }}" href="{{ route('appointment') }}">
                                             {{ __('messages.web_menu.appointment') }}
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class="nav-item ">
                                         <a class="nav-link {{ Request::is('working-hours') ? 'active' : '' }}" href="{{ route('working-hours') }}">
                                             {{ __('messages.web_menu.working_hours') }}
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a class="nav-link {{ Request::is('testimonial') ? 'active' : '' }}" href="{{ route('testimonials') }}">
                                             {{ __('messages.web_home.testimonials') }}
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class="nav-item">
                                         <a class="nav-link {{ Request::is('terms-of-service') ? 'active' : '' }}" href="{{ route('terms-of-service') }}">
                                             {{ __('messages.web_home.terms_of_service') }}
@@ -113,7 +113,7 @@
                                     </a>
                                 @endrole 
                                 @role('Doctor')
-                                    <a href="{{ url('employee/doctor') }}"
+                                    <a href="{{ url('today-appointments') }}"
                                        data-turbo="false"
                                        class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
                                     </a>
@@ -125,7 +125,7 @@
                                     </a>
                                 @endrole 
                                 @role('Receptionist')
-                                    <a href="{{ url('appointments') }}"
+                                    <a href="{{ url('today-appointments') }}"
                                        data-turbo="false"
                                        class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
                                     </a>
@@ -155,9 +155,9 @@
                                     {{ __('messages.web_menu.login') }}
                                 </a>
                             @endif
-                                <a href="{{ route('appointment') }}" class="btn btn-primary mb-3 mb-xl-0">
+                                {{-- <a href="{{ route('appointment') }}" class="btn btn-primary mb-3 mb-xl-0">
                                     {{ __('messages.web_home.book_appointment') }}    
-                                </a>
+                                </a> --}}
                         </div>
                     </div>
                 </nav>

@@ -39,7 +39,7 @@
         <!-- end hero section -->
 
         <!--start book-appointment section-->
-        <section class="appointment-section pt-xl-5">
+        {{-- <section class="appointment-section pt-xl-5">
             <div class="container">
                 <div class="book-appintment position-relative p-4 br-2 bg-white">
                     <form action="{{ route('appointment.post') }}" method="POST" turbo:load>
@@ -70,7 +70,7 @@
                     </form>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!--end book-appointment section-->
 
         <!--start opening-hours section-->

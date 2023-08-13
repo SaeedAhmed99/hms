@@ -120,15 +120,15 @@ Route::middleware('setLanguage')->group(function () {
     Route::post('send-enquiry', [EnquiryController::class, 'store'])->name('send.enquiry');
     Route::get('/contact-us', [EnquiryController::class, 'contactUs'])->name('contact');
     Route::get('/about-us', [Web\WebController::class, 'aboutUs'])->name('aboutUs');
-    Route::post('/book-appointment', [Web\WebController::class, 'bookAppointment'])->name('book-appointment');
-    Route::get('/appointment', [Web\WebController::class, 'appointment'])->name('appointment');
-    Route::post('/appointment-form', [Web\WebController::class, 'appointmentFromOther'])->name('appointment.post');
+    // Route::post('/book-appointment', [Web\WebController::class, 'bookAppointment'])->name('book-appointment');
+    // Route::get('/appointment', [Web\WebController::class, 'appointment'])->name('appointment');
+    // Route::post('/appointment-form', [Web\WebController::class, 'appointmentFromOther'])->name('appointment.post');
     Route::get('/our-services', [Web\WebController::class, 'services'])->name('our-services');
     Route::get('/our-doctors', [Web\WebController::class, 'doctors'])->name('our-doctors');
     Route::get('/terms-of-service', [Web\WebController::class, 'termsOfService'])->name('terms-of-service');
     Route::get('/privacy-policy', [Web\WebController::class, 'privacyPolicy'])->name('privacy-policy');
     Route::get('/working-hours', [Web\WebController::class, 'workingHours'])->name('working-hours');
-    Route::get('/testimonial', [Web\WebController::class, 'testimonials'])->name('testimonials');
+    // Route::get('/testimonial', [Web\WebController::class, 'testimonials'])->name('testimonials');
 });
 
 //Change language

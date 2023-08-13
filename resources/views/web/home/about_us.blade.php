@@ -87,9 +87,9 @@
                         <div class="about-right pb-5 pt-lg-5 text-lg-start text-center">
                             <h2 class="mt-md-3">{{ \Illuminate\Support\Str::limit($frontSetting['about_us_title'], 50)  }}</h2>
                             <p class="mt-4">{!! \Illuminate\Support\Str::limit($frontSetting['about_us_description'], 615)  !!}</p>
-                            <a href="{{ route('appointment') }}" class="btn btn-primary mt-4">
+                            {{-- <a href="{{ route('appointment') }}" class="btn btn-primary mt-4">
                                 {{ __('messages.web_home.book_appointment') }}
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
 
