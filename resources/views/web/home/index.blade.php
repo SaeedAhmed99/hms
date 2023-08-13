@@ -2,15 +2,7 @@
 @section('title')
     {{ __('web.home') }}
 @endsection
-@section('css')
-    @if (app()->getLocale() == 'ar')
-        <style>
-            body {
-                direction: rtl;
-            }
-        </style>
-    @endif
-@endsection
+
 @section('content')
     <div class="home-page">
         <!-- start hero section -->
@@ -154,16 +146,19 @@
                             <div class="col-lg-7 col-md-7 about-count-block">
                                 <div class="about-count h-100 br-2 text-center d-flex align-items-center justify-content-center py-lg-3 py-5 px-3">
                                     <div>
-                                        <h3 class="text-green">{{ $totalbeds }}</h3>
-                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.patients_beds') }}</h4>
+                                        {{-- <h3 class="text-green">{{ $totalbeds }}</h3> --}}
+                                        {{-- <h4 class="fw-normal mb-0">{{ __('messages.web_home.patients_beds') }}</h4> --}}
+                                        <img src="{{ asset('images/about_us_image_01.jpeg') }}" style="border-radius: 8px;" alt="">
                                     </div>
                                 </div>
                             </div>
                             <div class=" col-lg-5 col-md-5 about-count-block">
                                 <div class="about-count h-100 br-2 text-center d-flex align-items-center justify-content-center py-lg-3 py-5 px-3">
                                     <div>
-                                        <h3 class="text-pink">{{ $totalDoctorNurses }}</h3>
-                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.doctors_nurses') }}</h4>
+                                        {{-- <h3 class="text-pink">{{ $totalDoctorNurses }}</h3>
+                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.doctors_nurses') }}</h4> --}}
+                                        <h3 class="text-blue">{{ $frontSetting['home_page_experience'] }}</h3>
+                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.years_experience') }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -178,8 +173,9 @@
                             <div class="col-lg-7 col-md-7 about-count-block">
                                 <div class="about-count h-100 br-2 text-center d-flex align-items-center justify-content-center py-lg-3 py-5 px-3">
                                     <div>
-                                        <h3 class="text-blue">{{ $frontSetting['home_page_experience'] }}</h3>
-                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.years_experience') }}</h4>
+                                        {{-- <h3 class="text-blue">{{ $frontSetting['home_page_experience'] }}</h3>
+                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.years_experience') }}</h4> --}}
+                                        <img src="{{ asset('images/about_us_image_02.jpeg') }}" style="border-radius: 8px;" alt="">
                                     </div>
                                 </div>
                             </div>

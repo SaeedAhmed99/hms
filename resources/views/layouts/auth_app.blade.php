@@ -17,6 +17,7 @@
 {{--    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages.css') }}">--}}
     <!-- CSS Libraries -->
     @yield('css')
+    
 </head>
 <body class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed">
 <div class="d-flex flex-column flex-root">

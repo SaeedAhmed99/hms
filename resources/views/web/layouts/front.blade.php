@@ -33,6 +33,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"/>
     @yield('page_css')
     @yield('css')
+    @if (app()->getLocale() == 'ar')
+        <style>
+            body {
+                direction: rtl;
+            }
+        </style>
+    @endif
 <!-- Links of JS files -->
 {{--    @livewireScripts--}}
     <script src="{{ asset('livewire/livewire.js') }}" data-turbolinks-eval="false" data-turbo-eval="false"></script> 

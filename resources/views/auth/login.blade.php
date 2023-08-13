@@ -5,6 +5,15 @@
 @section('title')
     {{ __('auth.logins') }}
 @endsection
+@section('css')
+    @if (app()->getLocale() == 'ar')
+    <style>
+        body {
+            direction: rtl !important;
+        }
+    </style>
+    @endif
+@endsection
 @section('content')
     <!--begin::Authentication - Sign-in -->
     @php
