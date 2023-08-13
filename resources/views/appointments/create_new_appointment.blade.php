@@ -35,41 +35,41 @@
                         @method('post')
                         {{-- @include('appointments.fields') --}}
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mb-5">
                                     {{ Form::label('first_name', __('messages.user.first_name').':', ['class' => 'form-label']) }}
                                     <span class="required"></span>
                                     {{ Form::text('first_name', null, ['class' => 'form-control', 'required', 'id' => 'patientFirstName','tabindex' => '1']) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mb-5">
                                     {{ Form::label('middle_name', __('messages.user.middle_name').':', ['class' => 'form-label']) }}
                                     <span class="required"></span>
                                     {{ Form::text('middle_name', null, ['class' => 'form-control', 'required', 'id' => 'middleName','tabindex' => '1']) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mb-5">
                                     {{ Form::label('last_name', __('messages.user.last_name').':', ['class' => 'form-label']) }}
                                     <span class="required"></span>
                                     {{ Form::text('last_name', null, ['class' => 'form-control', 'required', 'tabindex' => '2']) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mb-5">
                                     {{ Form::label('dob', __('Age').':', ['class' => 'form-label']) }}
                                     <span class="required"></span>
                                     {{ Form::number('dob', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => 'patientBirthDate', 'autocomplete' => 'off', 'tabindex' => '4']) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mb-5">
                                     {{ Form::label('national_number', __('messages.user.national_number').':', ['class' => 'form-label']) }}
                                     {{ Form::number('national_number', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => 'nationalNumber', 'autocomplete' => 'off', 'tabindex' => '4']) }}
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mobile-overlapping  mb-5">
                                     {{ Form::label('phone', __('messages.user.phone').':', ['class' => 'form-label']) }}
                                     <span class="required"></span><br>
@@ -79,7 +79,7 @@
                                     <span class="text-danger error-msg d-none fw-400 fs-small mt-2"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mb-5">
                                     {{ Form::label('gender', __('messages.user.gender').':', ['class' => 'form-label']) }}
                                     <span
@@ -94,7 +94,7 @@
                             </div>
 
                             <!-- Doctor Name Field -->
-                            <div class="form-group col-sm-6 mb-5">
+                            <div class="form-group col-sm-4 mb-5">
                                 <label for="" class="form-label">{{ __('messages.case.doctor') }}:</label>
                                 <span class="required"></span>
                                 <select name="doctor_id" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true" required>
@@ -105,13 +105,13 @@
                                 </select>
                             </div>
 
-                            <div class="form-group col-sm-6 mb-5">
+                            <div class="form-group col-sm-4 mb-5">
                                 {{ Form::label('opd_date', __('messages.appointment.date').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
                                 {{ Form::date('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : Carbon\Carbon::now(), ['class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'required', 'autocomplete'=>'off']) }}
                             </div>
 
-                            <div class="form-group col-sm-6 mb-5">
+                            <div class="form-group col-sm-4 mb-5">
                                 {{ Form::label('services', 'Services/Insurances'.':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
                                 <select name="services_id[]" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true" multiple>
@@ -121,7 +121,7 @@
                                 </select>
                                 {{-- {{ Form::select('doctor_id',(isset($doctors) ? $doctors : []), null, ['class' => 'form-select','required','id' => '','placeholder'=>'Select Services', 'data-control' => 'select2']) }} --}}
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group mb-5">
                                     {{ Form::label('fees', __('messages.bill.price').':', ['class' => 'form-label']) }}
                                     <span class="required"></span>
@@ -129,10 +129,10 @@
                                 </div>
                             </div>
                             <!-- Notes Field -->
-                            <div class="form-group col-sm-6 mb-5">
+                            {{-- <div class="form-group col-sm-4 mb-5">
                                 {{ Form::label('problem', __('messages.appointment.description').':', ['class' => 'form-label']) }}
                                 {{ Form::textarea('problem', null, ['class' => 'form-control', 'rows'=>'4']) }}
-                            </div>
+                            </div> --}}
 
                             <div class="form-group col-sm-6">
                                 <input class="btn btn-primary" id="submit_btn" type="submit" value="{{ __('messages.common.save') }}">

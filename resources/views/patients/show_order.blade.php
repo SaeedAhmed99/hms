@@ -53,6 +53,11 @@
                                     @endforeach
                                 </ul>
                             </div>
+                           
+                            <div class="form-group col-sm-12 mb-5">
+                                {{ Form::label('other', __('messages.prescription.others').':', ['class' => 'form-label']) }}
+                                <textarea class="form-control" name="other" rows="4" readonly>{{ $order->other }}</textarea>
+                            </div>
                             <div class="container">
                                 <div class="row mt-5">
                                     @foreach ($order->documents as $item)
@@ -61,10 +66,6 @@
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>
-                            <div class="form-group col-sm-12 mb-5">
-                                {{ Form::label('other', __('messages.prescription.others').':', ['class' => 'form-label']) }}
-                                <textarea class="form-control" name="other" rows="4" readonly>{{ $order->other }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -79,6 +80,7 @@
 @section('scripts')
 <script>
     window.onload = () => {
+
         // (A) GET ALL IMAGES
         let all = document.getElementsByClassName("zoomE");
         console.log(all);

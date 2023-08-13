@@ -609,7 +609,6 @@ class AppointmentController extends AppBaseController
         $appointment->update(['is_completed' => Appointment::STATUS_CANCELLED]);
         $appointment->update(['cancel_reason' => $request->cancel_reason]);
         return redirect()->back()->with('success', __('messages.web_menu.appointment').' '.__('messages.common.canceled'));
-
     }
 
     public function AddAppointmentNote(Request $request) {

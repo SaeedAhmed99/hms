@@ -233,6 +233,7 @@
     <script>
         $(function(){
             $('.iconAddFile').click(function(){
+                
                 // var original_price = $(this).attr('data-original_price');
                 var order_lab_id = $(this).attr('data-order_lab_id');
                 var row = $(this).closest('tr');

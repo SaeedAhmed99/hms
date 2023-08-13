@@ -69,17 +69,13 @@
                    href="#showPatientAdmissions">{{ __('messages.patient_admissions') }}</a>
             </li> --}}
             
-            <li class="nav-item position-relative me-7 mb-3">
-                <a class="nav-link active p-0" data-bs-toggle="tab"
-                   href="#showPatientAppointments">{{ __('messages.appointments') }}</a>
-            </li>
             {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
                    href="#showPatientDocument">{{ __('messages.documents') }}</a>
             </li> --}}
             @if (Auth::user()->hasRole('Doctor'))
                 <li class="nav-item position-relative me-7 mb-3">
-                    <a class="nav-link p-0" data-bs-toggle="tab"
+                    <a class="nav-link active p-0" data-bs-toggle="tab"
                     href="#showPatientHistory">{{ __('messages.prescription.medical_history') }}</a>
                 </li>
                 <li class="nav-item position-relative me-7 mb-3">
@@ -89,6 +85,10 @@
                 <li class="nav-item position-relative me-7 mb-3">
                     <a class="nav-link p-0" data-bs-toggle="tab"
                     href="#showPatientOrderLab">{{ __('messages.prescription.order_lab') }}</a>
+                </li>
+                <li class="nav-item position-relative me-7 mb-3">
+                    <a class="nav-link p-0" data-bs-toggle="tab"
+                       href="#showPatientAppointments">{{ __('messages.appointments') }}</a>
                 </li>
             @endif
 
@@ -113,7 +113,7 @@
     </div>
 </div>
 <div class="tab-content" id="myPatientTabContent">
-    <div class="tab-pane fade show active" id="PatientOverview" role="tabpanel">
+    {{-- <div class="tab-pane fade show active" id="PatientOverview" role="tabpanel">
         <div class="card mb-5 mb-xl-10">
             <div>
                 <div class="card-body  border-top p-9">
@@ -170,18 +170,16 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="tab-pane fade" id="showPatientCases" role="tabpanel">
+    </div> --}}
+    {{-- <div class="tab-pane fade" id="showPatientCases" role="tabpanel">
         <livewire:patient-case-table patientId="{{ $data->id }}"/>
-    </div>
-    <div class="tab-pane fade" id="showPatientAdmissions" role="tabpanel">
+    </div> --}}
+    {{-- <div class="tab-pane fade" id="showPatientAdmissions" role="tabpanel">
         <livewire:patient-admission-detail-table patientId="{{ $data->id }}"/>
-    </div>
-    <div class="tab-pane fade" id="showPatientAppointments" role="tabpanel">
-        <livewire:patient-appoinment-detail-table patientId="{{ $data->id }}"/>
-    </div>
+    </div> --}}
+    
     @if (Auth::user()->hasRole('Doctor'))   
-        <div class="tab-pane fade" id="showPatientHistory" role="tabpanel">
+        <div class="tab-pane show active     fade" id="showPatientHistory" role="tabpanel">
             {{-- <livewire:patient-appoinment-detail-table patientId="{{ $data->id }}"/> --}}
             <div class="card">
                 <div class="card-body">
@@ -340,8 +338,10 @@
             </div>
         </div>
     @endif
-
-    <div class="tab-pane fade" id="showPatientBills" role="tabpanel">
+    <div class="tab-pane fade" id="showPatientAppointments" role="tabpanel">
+        <livewire:patient-appoinment-detail-table patientId="{{ $data->id }}"/>
+    </div>
+    {{-- <div class="tab-pane fade" id="showPatientBills" role="tabpanel">
         <livewire:patient-bill-detail-table patientId="{{ $data->id }}"/>
     </div>
     <div class="tab-pane fade" id="showPatientInvoices" role="tabpanel">
@@ -355,5 +355,5 @@
     </div>
     <div class="tab-pane fade" id="showPatientVaccinated" role="tabpanel">
         <livewire:patient-vaccination-detail-table patient-id="{{ $data->id }}"/>
-    </div>
+    </div> --}}
 </div>
