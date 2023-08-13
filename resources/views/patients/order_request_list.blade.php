@@ -182,46 +182,47 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            <!-- Modal -->
-                            <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.paid') }}</h3>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <form id="fileForm" action="{{ route('lab.order.request.list.post') }}" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('post')
-                                        <div class="modal-body">
-                                            <input type="number" name="order_lab_id" id="order_lab_id" hidden value="">
-                                            <div class="form-group col-sm-12 mb-5">
-                                                {{ Form::label('Price', __('messages.original_price').':', ['class' => 'form-label']) }}
-                                                {{-- {{ Form::text('price', null, ['class' => 'form-control']) }}  --}}
-                                                <input readonly type="number" name="original_price" class="form-control" id="original_price" value="">
-                                            </div>
-                                            <div class="form-group col-sm-12 mb-5">
-                                                {{ Form::label('Price After Discount', __('messages.price_after_discount').':', ['class' => 'form-label']) }}
-                                                {{ Form::number('price_after_discount', null, ['class' => 'form-control', 'require']) }} 
-                                            </div>
-                                            </div>
-                                        <div class="modal-footer pt-0">
-                                            {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
-                                            {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
-                                            <button type="button" class="btn btn-primary" id="submit_file_btn">Save</button>
-                                            <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
-                                        </div>
-                                        {{-- {{ Form::close() }} --}}
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </tbody>
                     </table>
+                     <!-- Modal -->
+                     <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.paid') }}</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <form id="fileForm" action="{{ route('lab.order.request.list.post') }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('post')
+                                <div class="modal-body">
+                                    <input type="number" name="order_lab_id" id="order_lab_id" hidden value="">
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('Price', __('messages.original_price').':', ['class' => 'form-label']) }}
+                                        {{-- {{ Form::text('price', null, ['class' => 'form-control']) }}  --}}
+                                        <input readonly type="number" name="original_price" class="form-control" id="original_price" value="">
+                                    </div>
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('Price After Discount', __('messages.price_after_discount').':', ['class' => 'form-label']) }}
+                                        {{ Form::number('price_after_discount', null, ['class' => 'form-control', 'require']) }} 
+                                    </div>
+                                    </div>
+                                <div class="modal-footer pt-0">
+                                    {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
+                                    {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                                    <button type="button" class="btn btn-primary" id="submit_file_btn">Save</button>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                </div>
+                                {{-- {{ Form::close() }} --}}
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,6 +237,7 @@
                 var order_lab_id = $(this).attr('data-order_lab_id');
                 var row = $(this).closest('tr');
                 var price = row.find('td:eq(5)').text();
+                console.log(price);
                 console.log(order_lab_id);
                 $("#original_price").val(price);
                 $("#order_lab_id").val(order_lab_id);

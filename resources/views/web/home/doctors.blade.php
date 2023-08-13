@@ -22,6 +22,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="{{ url('/') }}">{{ __('messages.web_home.home') }}</a>
                                     </li>
+                                    <li class="mx-3">/</li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {{ __('messages.web_home.doctors') }}
                                     </li>

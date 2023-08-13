@@ -56,6 +56,7 @@ class LabTechnicianController extends AppBaseController
         return view('lab_technicians.index', $data);
     }
 
+
     /**
      * Show the form for creating a new LabTechnician.
      *
@@ -177,6 +178,7 @@ class LabTechnicianController extends AppBaseController
     }
 
     public function labCategoryStore(Request $request) {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);

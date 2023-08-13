@@ -156,64 +156,65 @@
                     
                             </tr>
                         @endforeach
-                          <!-- Modal -->
-                      <div id="payTheAmount" class="modal fade" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="exampleModalLabel">Pay the amount</h3>
-                                </div>
-                                {{-- {{ Form::open(['id'=>'addExpenseForm', 'files' => true]) }} --}}
-                                <form action="{{ route('incomes.withdraw') }}" method="post" id="formPaid" onsubmit="disableButton()">
-                                  @csrf
-                                  @method('post')
-                                  <input id="doctorId" type="hidden" name="id" value="{{ $doctor->id }}">
-                                  <input id="total" type="hidden" name="total" value="{{ $total_earning }}">
-                                  <input id="remaining" type="hidden" name="remaining" value="{{ $total_earning - $total_withdrawn }}">
-                                  <input type="hidden" name="created_at" value="{{$due == null ? date('Y-m-d H:i:s') : $due}}">
-              
-                                  {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
-                                  <div class="modal-body">
-                                      {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
-                                      <div class="row">
-                                          
-                                      </div>
-                                          <div class="form-group mb-5">
-                                            {{ Form::label('Amount', __('Amount').':', ['class' => 'form-label']) }}
-                                            <span class="required"></span>
-                                            {{ Form::number('transaction_amount', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'required', 'id' => 'amount', 'autocomplete' => 'off', 'tabindex' => '4']) }}
-                                          </div>
-                                          <div class="form-group col-sm-12 mb-5">
-                                              {{ Form::label('description', __('Select Option').(':'),['class' => 'form-label']) }}
-                                              <span class="required"></span>
-                                              <select name="type" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true">
-                                                <option value="doctor">Doctor</option>
-                                                <option value="center">Center</option>
-                                              </select>                                        
-                                          </div>
-                                          <div class="form-group col-sm-12 mb-5">
-                                            {{ Form::label('description', __('Note').(':'),['class' => 'form-label']) }}
-                                            {{ Form::textarea('note', null, ['class' => 'form-control', 'rows' => 4]) }}
-                                          </div>
-                                      </div>
-                                  <div class="modal-footer pt-0">
-                                      {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
-                                      {{-- <button type="submit"  class="btn btn-primary" id="btn_order">Save</button> --}}
-                                      <button type="button" class="btn btn-primary" id="submit_btn">Save</button>
-                                      <button type="button" class="btn btn-secondary"
-                                              data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
-                                  </div>
-                                {{-- {{ Form::close() }} --}}
-                              </form>
-
-                            </div>
-                        </div>
-                      </div>
+                       
                     </tbody>
               
                   </table>
+                     <!-- Modal -->
+                     <div id="payTheAmount" class="modal fade" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                     <div class="modal-dialog modal-lg">
+                         <!-- Modal content-->
+                         <div class="modal-content">
+                             <div class="modal-header">
+                                 <h3 class="modal-title" id="exampleModalLabel">Pay the amount</h3>
+                             </div>
+                             {{-- {{ Form::open(['id'=>'addExpenseForm', 'files' => true]) }} --}}
+                             <form action="{{ route('incomes.withdraw') }}" method="post" id="formPaid" onsubmit="disableButton()">
+                               @csrf
+                               @method('post')
+                               <input id="doctorId" type="hidden" name="id" value="{{ $doctor->id }}">
+                               <input id="total" type="hidden" name="total" value="{{ $total_earning }}">
+                               <input id="remaining" type="hidden" name="remaining" value="{{ $total_earning - $total_withdrawn }}">
+                               <input type="hidden" name="created_at" value="{{$due == null ? date('Y-m-d H:i:s') : $due}}">
+           
+                               {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
+                               <div class="modal-body">
+                                   {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
+                                   <div class="row">
+                                       
+                                   </div>
+                                       <div class="form-group mb-5">
+                                         {{ Form::label('Amount', __('Amount').':', ['class' => 'form-label']) }}
+                                         <span class="required"></span>
+                                         {{ Form::number('transaction_amount', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'required', 'id' => 'amount', 'autocomplete' => 'off', 'tabindex' => '4']) }}
+                                       </div>
+                                       <div class="form-group col-sm-12 mb-5">
+                                           {{ Form::label('description', __('Select Option').(':'),['class' => 'form-label']) }}
+                                           <span class="required"></span>
+                                           <select name="type" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true">
+                                             <option value="doctor">Doctor</option>
+                                             <option value="center">Center</option>
+                                           </select>                                        
+                                       </div>
+                                       <div class="form-group col-sm-12 mb-5">
+                                         {{ Form::label('description', __('Note').(':'),['class' => 'form-label']) }}
+                                         {{ Form::textarea('note', null, ['class' => 'form-control', 'rows' => 4]) }}
+                                       </div>
+                                   </div>
+                               <div class="modal-footer pt-0">
+                                   {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
+                                   {{-- <button type="submit"  class="btn btn-primary" id="btn_order">Save</button> --}}
+                                   <button type="button" class="btn btn-primary" id="submit_btn">Save</button>
+                                   <button type="button" class="btn btn-secondary"
+                                           data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                               </div>
+                             {{-- {{ Form::close() }} --}}
+                           </form>
+
+                         </div>
+                     </div>
+                   </div>
                 </div>
 
 

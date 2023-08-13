@@ -23,6 +23,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="{{ url('/') }}">{{ __('messages.web_home.home') }}</a>
                                     </li>
+                                    <li class="mx-3">/</li>
                                     <li class="breadcrumb-item active" aria-current="page">{{ __('messages.web_home.about_us') }}</li>
                                 </ol>
                             </nav>
@@ -70,8 +71,10 @@
                                 <div
                                         class="about-count h-100 br-2 text-center d-flex align-items-center justify-content-center py-lg-3 py-5 px-3">
                                     <div>
-                                        <h3 class="text-primary">{{ $totalPatient }}</h3>
-                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.happy_patients') }}</h4>
+                                        {{-- <h3 class="text-primary">{{ $totalPatient }}</h3>
+                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.happy_patients') }}</h4> --}}
+                                        <h3 class="text-pink">{{ $totalDoctorNurses }}</h3>
+                                        <h4 class="fw-normal mb-0">{{ __('messages.web_home.doctors_nurses') }}</h4>
                                     </div>
                                 </div>
                             </div>

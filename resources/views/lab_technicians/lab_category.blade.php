@@ -121,79 +121,80 @@
                                 </td>
                             </tr>
                         @endforeach
-                       <!-- Modal -->
-                        <div id="labCategoryModal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.lab_category') }}</h3>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <form id="addCategoryForm" action="{{ route('lab.category.store') }}" method="post">
-                                      @csrf
-                                      @method('post')
-                                      <div class="modal-body">
-                                            <!-- Notes Field -->
-                                            <div class="form-group col-sm-12 mb-5">
-                                                {{ Form::label('Name', __('messages.item.name').':', ['class' => 'form-label']) }}
-                                                {{ Form::text('name', null, ['class' => 'form-control']) }}
-                                            </div>
-                                            <div class="form-group col-sm-12 mb-5">
-                                                {{ Form::label('Description', __('messages.appointment.description').':', ['class' => 'form-label']) }}
-                                                {{ Form::textarea('description', null, ['class' => 'form-control', 'rows'=>'4']) }}
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer pt-0">
-                                            <button type="button" class="btn btn-primary" id="submit_category_btn">Save</button>
-                                            <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                       <!-- Modal -->
-                        <div id="updateCategoryModal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.lab_category_edit') }}</h3>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <form id="updateCategoryForm" action="{{ route('lab.category.update') }}" method="post">
-                                      @csrf
-                                      @method('post')
-                                      <input hidden type="number" name="id" id="categoryId-input">
-                                      <div class="modal-body">
-                                            <!-- Notes Field -->
-                                            <div class="form-group col-sm-12 mb-5">
-                                                {{ Form::label('Name', __('messages.item.name').':', ['class' => 'form-label']) }}
-                                                {{-- {{ Form::text('name', null, ['class' => 'form-control']) }} --}}
-                                                <input type="text" name="name" class="form-control" id="title-input">
-                                            </div>
-                                            <div class="form-group col-sm-12 mb-5">
-                                                {{ Form::label('Description', __('messages.appointment.description').':', ['class' => 'form-label']) }}
-                                                {{-- {{ Form::textarea('description', null, ['class' => 'form-control', 'rows'=>'4']) }} --}}
-                                                <textarea name="description" id="description-input" class="form-control" id="" cols="30" rows="4"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer pt-0">
-                                            <button type="button" class="btn btn-primary" id="update_category_btn">Save</button>
-                                            <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
+                      
                     </tbody>
                   </table>
+                   <!-- Modal -->
+                   <div id="labCategoryModal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.lab_category') }}</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <form id="addCategoryForm" action="{{ route('lab.category.store') }}" method="post">
+                              @csrf
+                              @method('post')
+                              <div class="modal-body">
+                                    <!-- Notes Field -->
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('Name', __('messages.item.name').':', ['class' => 'form-label']) }}
+                                        {{ Form::text('name', null, ['class' => 'form-control']) }}
+                                    </div>
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('Description', __('messages.appointment.description').':', ['class' => 'form-label']) }}
+                                        {{ Form::textarea('description', null, ['class' => 'form-control', 'rows'=>'4']) }}
+                                    </div>
+                                </div>
+                                <div class="modal-footer pt-0">
+                                    <button type="submit" class="btn btn-primary" id="submit_category_btn">Save</button>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+               <!-- Modal -->
+                <div id="updateCategoryModal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.lab_category_edit') }}</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <form id="updateCategoryForm" action="{{ route('lab.category.update') }}" method="post">
+                              @csrf
+                              @method('post')
+                              <input hidden type="number" name="id" id="categoryId-input">
+                              <div class="modal-body">
+                                    <!-- Notes Field -->
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('Name', __('messages.item.name').':', ['class' => 'form-label']) }}
+                                        {{-- {{ Form::text('name', null, ['class' => 'form-control']) }} --}}
+                                        <input type="text" name="name" class="form-control" id="title-input">
+                                    </div>
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('Description', __('messages.appointment.description').':', ['class' => 'form-label']) }}
+                                        {{-- {{ Form::textarea('description', null, ['class' => 'form-control', 'rows'=>'4']) }} --}}
+                                        <textarea name="description" id="description-input" class="form-control" id="" cols="30" rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer pt-0">
+                                    <button type="button" class="btn btn-primary" id="update_category_btn">Save</button>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
                 </div>
               </div>
         </div>

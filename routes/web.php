@@ -953,6 +953,7 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::get('nurses', [NurseController::class, 'index'])->name('nurses.index')->middleware('modules');
         Route::post('nurses/{nurse}/active-deactive', [NurseController::class, 'activeDeactiveStatus']);
         Route::get('export-nurses', [NurseController::class, 'nurseExport'])->name('nurses.excel');
+        Route::post('lab-technician/category/store', [LabTechnicianController::class, 'labCategoryStore'])->name('lab.category.store');
 
         Route::resource('lab-technicians', LabTechnicianController::class);
         Route::get('lab-technician/category', [LabTechnicianController::class, 'labCategory'])->name('lab.category');
