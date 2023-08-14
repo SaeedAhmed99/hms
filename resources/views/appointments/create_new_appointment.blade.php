@@ -60,7 +60,7 @@
                                 <div class="form-group mb-5">
                                     {{ Form::label('dob', __('Age').':', ['class' => 'form-label']) }}
                                     <span class="required"></span>
-                                    {{ Form::number('dob', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => 'patientBirthDate', 'autocomplete' => 'off', 'tabindex' => '4']) }}
+                                    {{ Form::number('age', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => 'patientBirthDate', 'autocomplete' => 'off', 'tabindex' => '4']) }}
                                 </div>
                             </div>
                             <div class="col-md-4">
