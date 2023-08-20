@@ -219,7 +219,7 @@
                 <span class="list">{{ $appointment->patient->user->age }}</span>
                 <br>
                 <label class="lable right" style="font-weight: bold">التاريخ: </label>
-                <span class="list">{{ $appointment->opd_date }}</span>
+                <span class="list">{{ date('d-m-Y', strtotime($appointment->opd_date)) }}</span>
             </li>
 
             <li class="textCenter infoleft">

@@ -198,6 +198,14 @@
                             </div>
                         @empty
                         @endforelse
+
+                        @foreach($data->appointments as $item)
+                            <div class="col-md-4 containerImage" id="history-image">
+                                <img src="{{ asset($item->image_from_old_system) }}" alt="Report 1" class="img-fluid mb-3 zoomE" style="width: 300px; height: 300px; cursor: pointer;">
+                                <a class="btn btn-danger delete delete-image" image-name="{{ $item->image_from_old_system }}"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        @endforeach
+
                         @forelse ($historyBoard as $item)
                             <div class="col-md-4 containerImage" id="history-image">
                                 <img src="{{ asset($item->link) }}" alt="Report 1" class="img-fluid mb-3 zoomE" style="width: 300px; height: 300px; cursor: pointer;">

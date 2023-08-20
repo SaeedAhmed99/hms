@@ -107,7 +107,7 @@ class PatientController extends AppBaseController
             } else {
                 $serial_number_for_user = number_format($serial_number_for_user); 
                 $serial_number_for_user = ltrim($serial_number_for_user, '0');
-                $serial_number_for_user += 1 ;
+                $serial_number_for_user = intval(str_replace(',', '', $serial_number_for_user)) + 1;
                 $serial_number_for_user = str_pad($serial_number_for_user, 8, '0', STR_PAD_LEFT);
             }
         }

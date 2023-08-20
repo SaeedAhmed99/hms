@@ -136,9 +136,9 @@
                                 <tr id="Category" wire:loading.class.delay="" class="" wire:key="row-0-WpskoqwzxJ5BdNxsPOsu">
                                     <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $loop->iteration }}</td>
 
-                                    <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $item->patient->user->first_name }} {{ $item->patient->user->middle_name }} {{ $item->patient->user->last_name }}</td>
+                                    <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $item->patient->user->first_name ?? '' }} {{ $item->patient->user->middle_name ?? '' }} {{ $item->patient->user->last_name ?? '' }}</td>
 
-                                    <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $item->doctor->user->first_name }} {{ $item->doctor->user->middle_name }} {{ $item->doctor->user->last_name }}</td>
+                                    <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $item->doctor->user->first_name ?? '' }} {{ $item->doctor->user->middle_name ?? '' }} {{ $item->doctor->user->last_name ?? '' }}</td>
     
                                     <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                         @if ($item->status == '0')

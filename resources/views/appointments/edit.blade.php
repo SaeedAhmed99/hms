@@ -40,7 +40,7 @@
                         @csrf
                         @method('POST')
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-5">
                                 {{ Form::label('first_name', __('messages.user.first_name').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
@@ -48,7 +48,7 @@
                                 <input type="text" value="{{ $appointment->patient->user->first_name }}" name="first_name" class="form-control" required id="patientFirstName" tabindex="1">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-5">
                                 {{ Form::label('middle_name', __('messages.user.middle_name').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
@@ -57,7 +57,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-5">
                                 {{ Form::label('last_name', __('messages.user.last_name').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
@@ -65,7 +65,7 @@
                                 <input type="text" value="{{ $appointment->patient->user->last_name }}" name="last_name" class="form-control" required id="lastName" tabindex="2">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-5">
                                 {{ Form::label('dob', __('Age').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
@@ -73,14 +73,14 @@
                                 <input type="number" class="form-control" autocomplete="off" tabindex="4" value="{{ $appointment->patient->user->age }}">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-5">
                                 {{ Form::label('national_number', __('messages.user.national_number').':', ['class' => 'form-label']) }}
                                 {{-- {{ Form::number('national_number', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => 'nationalNumber', 'autocomplete' => 'off', 'tabindex' => '4']) }} --}}
                                 <input type="number" value="{{ $appointment->patient->user->national_number }}" name="national_number" class="form-control" id="nationalNumber" tabindex="4" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mobile-overlapping  mb-5">
                                 {{ Form::label('phone', __('messages.user.phone').':', ['class' => 'form-label']) }}
                                 <span class="required"></span><br>
@@ -91,7 +91,7 @@
                                 <span class="text-danger error-msg d-none fw-400 fs-small mt-2"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-5">
                                 {{ Form::label('gender', __('messages.user.gender').':', ['class' => 'form-label']) }}
                                 <span
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <!-- Department Name Field -->
-                        <div class="form-group col-sm-6 mb-5">
+                        <div class="form-group col-sm-4 mb-5">
                             {{-- {{ Form::label('department_name', __('messages.appointment.doctor_department').':', ['class' => 'form-label']) }}
                             <span class="required"></span>
                             {{ Form::select('department_id',$departments, null, ['class' => 'form-select','required','id' => 'appointmentDepartmentId','placeholder'=>'Select Department', 'data-control' => 'select2']) }} --}}
@@ -124,7 +124,7 @@
                             <span class="required"></span>
                             {{ Form::select('doctor_id',(isset($doctors) ? $doctors : []), null, ['class' => 'form-select','required','id' => 'appointmentDoctorId','placeholder'=>'Select Doctor', 'data-control' => 'select2']) }}
                         </div> --}}
-                        <div class="form-group col-sm-6 mb-5">
+                        <div class="form-group col-sm-4 mb-5">
                             {{ Form::label('opd_date', __('messages.appointment.date').':', ['class' => 'form-label']) }}
                             <span class="required"></span>
                             {{ Form::text('opd_date', isset($appointment) ? $appointment->opd_date->format('Y-m-d') : null, ['id'=>'', 'class' => (getLoggedInUser()->thememode ? 'bg-light opdDate form-control' : 'bg-white opdDate form-control'), 'autocomplete'=>'off']) }}
@@ -139,7 +139,7 @@
                             </select>
                             {{-- {{ Form::select('doctor_id',(isset($doctors) ? $doctors : []), null, ['class' => 'form-select','required','id' => '','placeholder'=>'Select Services', 'data-control' => 'select2']) }} --}}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-5">
                                 {{ Form::label('fees', __('messages.bill.price').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
@@ -147,10 +147,10 @@
                             </div>
                         </div>
                         <!-- Notes Field -->
-                        <div class="form-group col-sm-6 mb-5">
+                        {{-- <div class="form-group col-sm-4 mb-5">
                             {{ Form::label('problem', __('messages.appointment.description').':', ['class' => 'form-label']) }}
                             {{ Form::textarea('problem', null, ['class' => 'form-control', 'rows'=>'4']) }}
-                        </div>
+                        </div> --}}
                         {{-- <div class="form-group col-sm-6 mb-5">
                             <div class="doctor-schedule" style="display: none">
                                 <i class="fas fa-calendar-alt"></i>

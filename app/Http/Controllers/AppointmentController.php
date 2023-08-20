@@ -79,6 +79,7 @@ class AppointmentController extends AppBaseController
                 $appointments = Appointment::with('patient', 'doctor')->where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->where('is_completed', '!=', 3)->orderBy('created_at', 'desc')->get();
             }
         } else {
+
             if ($doctor_id || $first_name || $middle_name || $last_name) {
                 $appointments = Appointment::whereHas('patient.user', function ($query) use ($first_name, $middle_name, $last_name) {
                     $query->where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%');
@@ -172,11 +173,19 @@ class AppointmentController extends AppBaseController
                 if ($serial_number_for_user == null) {
                     $serial_number_for_user = '00000001';
                 } else {
-                    $serial_number_for_user = number_format($serial_number_for_user); 
+                    $serial_number_for_user = number_format($serial_number_for_user);
                     $serial_number_for_user = ltrim($serial_number_for_user, '0');
-                    $serial_number_for_user += 1 ;
+                    $serial_number_for_user = intval(str_replace(',', '', $serial_number_for_user)) + 1 ;
                     $serial_number_for_user = str_pad($serial_number_for_user, 8, '0', STR_PAD_LEFT);
                 }
+            }
+
+            $owner_id = DB::table('patients')->orderBy('created_at', 'desc')->first()->id;
+
+            if ($owner_id == null) {
+                $owner_id = 1;
+            } else {
+                $owner_id = DB::table('patients')->orderBy('created_at', 'desc')->first()->id + 1;
             }
 
             $user = User::create([
@@ -193,7 +202,7 @@ class AppointmentController extends AppBaseController
                 'status' => true,
                 'serial_number' => $serial_number_for_user,
                 'owner_type' => 'App\Models\Patient',
-                'owner_id' => DB::table('patients')->orderBy('created_at', 'desc')->first()->id + 1
+                'owner_id' => $owner_id
             ]);
     
             $patient = Patient::create([
@@ -218,7 +227,7 @@ class AppointmentController extends AppBaseController
                 $serial_number = Appointment::latest()->first()->serial_number;
                 $serial_number = number_format($serial_number); 
                 $serial_number = ltrim($serial_number, '0');
-                $serial_number += 1 ;
+                $serial_number = intval(str_replace(',', '', $serial_number)) + 1 ;
                 $serial_number = str_pad($serial_number, 8, '0', STR_PAD_LEFT);
             }
 
@@ -298,7 +307,7 @@ class AppointmentController extends AppBaseController
             $serial_number = Appointment::latest()->first()->serial_number;
             $serial_number = number_format($serial_number);
             $serial_number = ltrim($serial_number, '0');
-            $serial_number += 1 ;
+            $serial_number = intval(str_replace(',', '', $serial_number)) + 1 ;
             $serial_number = str_pad($serial_number, 8, '0', STR_PAD_LEFT);
         }
 
@@ -376,7 +385,7 @@ class AppointmentController extends AppBaseController
                 $serial_number = Appointment::latest()->first()->serial_number;
                 $serial_number = number_format($serial_number); 
                 $serial_number = ltrim($serial_number, '0');
-                $serial_number += 1 ;
+                $serial_number = intval(str_replace(',', '', $serial_number)) + 1 ;
                 $serial_number = str_pad($serial_number, 8, '0', STR_PAD_LEFT);
             }
 
