@@ -131,6 +131,8 @@ Route::middleware('setLanguage')->group(function () {
     // Route::get('/testimonial', [Web\WebController::class, 'testimonials'])->name('testimonials');
 });
 
+
+
 //Change language
 Route::post('/change-language', [Web\WebController::class, 'changeLanguage']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout.user');
@@ -156,7 +158,7 @@ Route::get('/home', [HomeController::class, 'index'])->middleware('verified');
 
 Route::get('theme-mode', [UserController::class, 'changeThemeMode'])->name('user.mode');
 
-Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function () {
+Route::middleware('checkLogin', 'verified', 'xss', 'checkUserStatus')->group(function () {
     Route::get('profile', [UserController::class, 'editProfile']);
     Route::post('change-password', [UserController::class, 'changePassword']);
     Route::post('profile-update', [UserController::class, 'profileUpdate']);
@@ -444,6 +446,12 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         // Radiology Categories routes
         Route::get('radiology-categories',
             [RadiologyCategoryController::class, 'index'])->name('radiology.category.index')->middleware('modules');
+        Route::get('radiology-categories/add/type/{id}', [RadiologyCategoryController::class, 'radiologyCategoryAddType'])->name('radiology.category.add.type');
+
+        Route::post('radiology-categories/add/type/store', [RadiologyCategoryController::class, 'radiologyCategoryAddTypeStore'])->name('radiology.category.add.type.store');
+        Route::post('radiology-categories/add/type/update', [RadiologyCategoryController::class, 'radiologyCategoryAddTypeUpdate'])->name('radiology.category.add.type.update');
+        Route::delete('radiology-categories/add/type/destroy/{id}', [RadiologyCategoryController::class, 'radiologyCategoryAddTypeDestroy'])->name('radiology.category.add.type.destroy');
+        
         Route::post('radiology-categories', [RadiologyCategoryController::class, 'store'])->name('radiology.category.store');
         Route::get('radiology-categories/{radiologyCategory}/edit',
             [RadiologyCategoryController::class, 'edit'])->name('radiology.category.edit');
@@ -493,7 +501,9 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
         Route::post('patients/rochet-board/save', [PatientController::class, 'rochetBoardSave'])->name('patient.rochet.board.store');
         Route::post('patients/image/destroy', [PatientController::class, 'destroyImage'])->name('patient.destroy.image');
         Route::get('patients/create-order/{id}', [PatientController::class, 'createOrder'])->name('patients.create.order');
+        Route::get('patients/create-order/radiology/{id}', [PatientController::class, 'createOrderRadiology'])->name('patients.create.order.radiology');
         Route::post('patients/create-order/store', [PatientController::class, 'createOrderStore'])->name('patients.store.order');
+        Route::post('patients/create-order/radiology/store', [PatientController::class, 'createOrderRadiologyStore'])->name('patients.store.order.radiology');
         // Route::get('patients/create-order/show/{id}', [PatientController::class, 'createOrderShow'])->name('patients.show.order');
         // Route::get('patients/create-order/edit/{id}', [PatientController::class, 'createOrderEdit'])->name('patients.edit.order');
         // Route::post('patients/order/update', [PatientController::class, 'updateOrder'])->name('patients.update.order');
@@ -506,8 +516,11 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
 
     Route::middleware('role:Admin|Doctor|Lab Technician|Receptionist')->group(function () {
         Route::get('patients/create-order/show/{id}', [PatientController::class, 'createOrderShow'])->name('patients.show.order');
+        Route::get('patients/create-order-radiology/show/{id}', [PatientController::class, 'createOrderRadiologyShow'])->name('patients.show.order.radiology');
         Route::get('patients/create-order/edit/{id}', [PatientController::class, 'createOrderEdit'])->name('patients.edit.order');
+        Route::get('patients/create-order-radiology/edit/{id}', [PatientController::class, 'createOrderRadiologyEdit'])->name('patients.edit.order.radiology');
         Route::post('patients/order/update', [PatientController::class, 'updateOrder'])->name('patients.update.order');
+        Route::post('patients/order/update/radiology', [PatientController::class, 'updateOrderRadiology'])->name('patients.update.order.radiology');
     });
 
     Route::middleware('role:Admin|Doctor|Lab Technician|Pharmacist|Case Manager|Accountant|Receptionist')->group(function () {
@@ -887,6 +900,11 @@ Route::middleware('auth', 'verified', 'xss', 'checkUserStatus')->group(function 
     Route::middleware('role:Admin|Lab Technician')->group(function () {
         Route::get('lab-technician/order-list', [LabTechnicianController::class, 'labOrderList'])->name('lab.order.list');
         Route::post('lab-technician/order-list/add-file', [LabTechnicianController::class, 'addFile'])->name('lab.order.list.add.file');
+    });
+
+    Route::middleware('role:Admin|Receptionist')->group(function () {
+        Route::get('radiology/order-list', [RadiologyCategoryController::class, 'radiologyOrderList'])->name('radiology.order.list');
+        Route::post('radiology/order-list/add-file', [RadiologyCategoryController::class, 'addFile'])->name('radiology.order.list.add.file');
     });
 
     Route::middleware('role:Admin')->group(function () {

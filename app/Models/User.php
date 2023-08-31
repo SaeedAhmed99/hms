@@ -145,14 +145,14 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     const LANGUAGES = [
         'ar' => 'Arabic',
-        'zh' => 'Chinese',
+        // 'zh' => 'Chine   
         'en' => 'English',
-        'fr' => 'French',
-        'de' => 'German',
-        'pt' => 'Portuguese',
-        'ru' => 'Russian',
-        'es' => 'Spanish',
-        'tr' => 'Turkish',
+        // 'fr' => 'French',
+        // 'de' => 'German',
+        // 'pt' => 'Portuguese',
+        // 'ru' => 'Russian',
+        // 'es' => 'Spanish',
+        // 'tr' => 'Turkish',
     ];
 
     const MAIN_IPD_OPD = 'IPD_OPD';
@@ -347,10 +347,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /**
      * Accessor for Age.
      */
-    public function getAgeAttribute()
-    {
-        return Carbon::parse($this->attributes['dob'])->age;
-    }
+    // public function getAgeAttribute()
+    // {
+    //     return Carbon::parse($this->attributes['dob'])->age;
+    // }
 
     /**
      * @return MorphTo

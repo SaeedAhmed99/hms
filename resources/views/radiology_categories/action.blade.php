@@ -1,4 +1,7 @@
 <div class="d-flex align-items-center">
+    <a href="{{ route('radiology.category.add.type', $row->id) }}" class="btn px-1 text-primary fs-3 ps-0 edit-btn">
+        <i class="fa-solid fa-plus"></i>
+    </a>   
     <a href="javascript:void(0)" title="{{__('messages.common.edit') }}" data-id="{{ $row->id }}"
        class="edit-radiology-category-btn btn px-1 text-primary fs-3 ps-0">
         <i class="fa-solid fa-pen-to-square"></i>

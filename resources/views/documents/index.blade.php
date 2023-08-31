@@ -55,17 +55,28 @@
     {{--   assets/js/custom/new-edit-modal-form.js --}}
 
     <script>
-        $(document).ready(function() {
-            // عند النقر على الايقونة
-            $('.action-container').on('click', '#show-button', function() {
-                var imageUrl = $(this).attr('data-href');
+        // $(document).ready(function() {
+        //     // عند النقر على الايقونة
+        //     $('.action-container').on('click', '#show-button', function() {
+        //         var imageUrl = $(this).attr('data-href');
+        //         $('#fullscreen-image img').attr('src', imageUrl);
+        //         $('#fullscreen-image').fadeIn();
+        //     });
+
+        //     $('#fullscreen-image').on('click', function() {
+        //         $(this).fadeOut();
+        //     });
+        // });
+
+        $(document).on('click', '#show-button', function () {
+            var imageUrl = $(this).attr('data-href');
                 $('#fullscreen-image img').attr('src', imageUrl);
                 $('#fullscreen-image').fadeIn();
-            });
+      });
+      $(document).on('click', '#fullscreen-image', function () {
+        $(this).fadeOut();
 
-            $('#fullscreen-image').on('click', function() {
-                $(this).fadeOut();
-            });
-        });
+      });
     </script>
+    
 @endsection

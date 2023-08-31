@@ -8,6 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="turbo-cache-control" content="no-cache">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    @if (app()->getLocale() == 'ar')
+        <style>
+            body {
+                direction: rtl;
+            }
+        </style>
+    @endif
+    
     @php
         $settingValue = getSettingValue();
         \Carbon\Carbon::setlocale(config('app.locale'));
@@ -23,8 +32,9 @@
     @else
         <link href="{{ mix('assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ mix('assets/css/plugins.css') }}" rel="stylesheet" type="text/css"/>
-
     @endif
+
+  
     
 {{--    @livewireStyles--}}
 {{--    <script src="{{ asset('livewire/livewire.css') }}"></script>--}}
@@ -71,7 +81,7 @@
 </head>
 <body>
 <div class="d-flex flex-column flex-root">
-    <div class="d-flex flex-row flex-column-fluid">
+    <div class="d-flex flex-row-reverse flex-column-fluid">
         @include('layouts.sidebar')
         <div class="wrapper d-flex flex-column flex-row-fluid">
             <div class='container-fluid d-flex align-items-stretch justify-content-between px-0'>

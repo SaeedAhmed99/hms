@@ -21,34 +21,40 @@
                         <ul class="navbar-nav align-items-center py-2 py-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="{{ url('/') }}">
-                                    {{ __('messages.web_home.home') }}
+                                    {{-- {{ __('messages.web_home.home') }} --}}الصفحة الرئيسية
                                 </a>
                             </li>
                             
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::is('our-services') ? 'active' : '' }}" href="{{ route('our-services') }}">
-                                    {{ __('messages.web_home.services') }}
+                                    {{-- {{ __('messages.web_home.services') }} --}}الخدمات
                                 </a>
                             </li>
                             
                             <li class="nav-item">
                                 <a href="{{ route('our-doctors') }}"
-                                   class="nav-link {{ Request::is('our-doctors') ? 'active' : '' }}">{{ __('messages.web_home.doctors') }}</a>
+                                   class="nav-link {{ Request::is('our-doctors') ? 'active' : '' }}">
+                                   {{-- {{ __('messages.web_home.doctors') }} --}}الأطباء
+                                </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="{{ route('aboutUs') }}"
-                                   class="nav-link {{ Request::is('about-us') ? 'active' : '' }}">{{ __('messages.web_menu.about') }}</a>
+                                   class="nav-link {{ Request::is('about-us') ? 'active' : '' }}">
+                                   {{-- {{ __('messages.web_menu.about') }} --}}من نحن
+                                </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="{{ route('contact') }}"
-                                   class="nav-link {{ Request::is('contact-us') ? 'active' : '' }}">{{ __('messages.web_home.contact') }}</a>
+                                   class="nav-link {{ Request::is('contact-us') ? 'active' : '' }}">
+                                   {{-- {{ __('messages.web_home.contact') }} --}}اتصل بنا 
+                                </a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="#" {{ Request::is('terms-of-service', 'privacy-policy') ? 'active' : '' }}>
-                                    {{ __('messages.web_menu.our_features') }}
+                                    {{-- {{ __('messages.web_menu.our_features  ') }} --}}ميزاتنا
                                     <i class="fa-solid fa-angle-down ms-1"></i>
                                 </a>
                                 <ul class="nav submenu">
@@ -59,7 +65,7 @@
                                     </li> --}}
                                     <li class="nav-item ">
                                         <a class="nav-link {{ Request::is('working-hours') ? 'active' : '' }}" href="{{ route('working-hours') }}">
-                                            {{ __('messages.web_menu.working_hours') }}
+                                            {{-- {{ __('messages.web_menu.working_hours') }} --}}ساعات العمل
                                         </a>
                                     </li>
                                     {{-- <li class="nav-item">
@@ -69,18 +75,17 @@
                                     </li> --}}
                                     <li class="nav-item">
                                         <a class="nav-link {{ Request::is('terms-of-service') ? 'active' : '' }}" href="{{ route('terms-of-service') }}">
-                                            {{ __('messages.web_home.terms_of_service') }}
+                                            {{-- {{ __('messages.web_home.terms_of_service') }} --}}شروط الخدمة
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link {{ Request::is('privacy-policy') ? 'active' : '' }}" href="{{ route('privacy-policy') }}">
-                                            {{ __('messages.web_home.privacy_policy') }}
+                                            {{-- {{ __('messages.web_home.privacy_policy') }} --}}سياسة الخصوصية
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-{{--                                <a class="nav-link" href="javascript:void(0)"> {{getCurrentLanguageName()}}</a>--}}
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0)"> {{ __('messages.language.'.getCurrentLanguageName()) }}</a>
                                 <ul class="nav submenu language-menu">
                                     @foreach(getLanguages() as $key => $value)
@@ -96,63 +101,71 @@
                                         @endforeach
                                     @endforeach
                                 </ul>
-                            </li>
+                            </li> --}}
                         </ul>
                         <div class="text-xl-end header-btn-grp ms-xl-3">
                             @if(Auth::user())
                                 @role('Admin')
                                     <a href="{{ route('dashboard') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{-- {{ __('messages.dashboard.dashboard') }} --}}لوحة التحكم
                                     </a>
                                 @endrole 
                                 @role('Patient')
                                     <a href="{{url('patient/my-cases') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{-- {{ __('messages.dashboard.dashboard') }} --}}لوحة التحكم
                                     </a>
                                 @endrole 
                                 @role('Doctor')
                                     <a href="{{ url('today-appointments') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{-- {{ __('messages.dashboard.dashboard') }} --}}لوحة التحكم
                                     </a>
                                 @endrole 
                                 @role('Nurse')
                                     <a href="{{ url('bed-types') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{-- {{ __('messages.dashboard.dashboard') }} --}}لوحة التحكم
                                     </a>
                                 @endrole 
                                 @role('Receptionist')
                                     <a href="{{ url('today-appointments') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{-- {{ __('messages.dashboard.dashboard') }} --}}لوحة التحكم
                                     </a>
                                 @endrole 
                                 @role('Pharmacist')
                                     <a href="{{ url('employee/doctor') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{-- {{ __('messages.dashboard.dashboard') }} --}}لوحة التحكم
                                     </a>
                                 @endrole
                                 @role('Accountant')
                                     <a href="{{ url('accounts') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{ __('messages.dashboard.dashboard') }}لوحة التحكم
                                     </a>
                                 @endrole
                                 @role('Case Manager')
                                     <a href="{{ url('employee/doctor') }}"
                                        data-turbo="false"
-                                       class="btn btn-success me-2 mb-3 mb-xl-0">{{ __('messages.dashboard.dashboard') }}
+                                       class="btn btn-success me-2 mb-3 mb-xl-0">
+                                       {{ __('messages.dashboard.dashboard') }}لوحة التحكم
                                     </a>
                                 @endrole
                             @else
                                 <a href="{{ route('login') }}"
                                    data-turbo="false"
                                         class="btn btn-success me-2 mb-3 mb-xl-0">
-                                    {{ __('messages.web_menu.login') }}
+                                    {{-- {{ __('messages.web_menu.login') }} --}}تسجيل الدخول
                                 </a>
                             @endif
                                 {{-- <a href="{{ route('appointment') }}" class="btn btn-primary mb-3 mb-xl-0">

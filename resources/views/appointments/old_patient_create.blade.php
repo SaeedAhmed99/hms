@@ -92,7 +92,7 @@
                                     <select name="doctor_id" id="" class="form-select" placeholder="Select Services" data-control="select2" tabindex="-1" aria-hidden="true" required>
                                         <option value=""></option>
                                         @foreach ($doctors as $doctor)
-                                            <option value="{{ $doctor->id }}">{{ $doctor->user->first_name }} {{ $doctor->user->middle_name }} {{ $doctor->user->last_name }}</option>
+                                            <option value="{{ $doctor->id }}">{{ $doctor->user->first_name ?? '' }} {{ $doctor->user->middle_name ?? '' }} {{ $doctor->user->last_name ?? '' }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -174,6 +174,13 @@
                                 </span>
                                 </div>
                             </th>
+                            <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
+                                <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
+                                <span>{{ __('messages.common.actions') }}</span>
+                                <span class="relative">
+                                </span>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                 
@@ -203,7 +210,7 @@
 
                                 <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                     <div class="d-flex align-items-center mt-4">
-                                        {{ $item->service->name }}
+                                        {{ $item->service->name ?? '' }}
                                     </div>
                                 </td>
 
@@ -215,8 +222,9 @@
 
                                 <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                     <div class="badge bg-light-info">
-                                        <div class="mb-2">{{ \Carbon\Carbon::parse($item->opd_date)->isoFormat('LT')}}</div>
-                                        <div>{{ \Carbon\Carbon::parse($item->opd_date)->translatedFormat('jS M, Y')}}</div>
+                                        {{-- <div class="mb-2">{{ \Carbon\Carbon::parse($item->opd_date)->isoFormat('LT')}}</div> --}}
+                                        {{-- <div>{{ \Carbon\Carbon::parse($item->opd_date)->translatedFormat('jS M, Y')}}</div> --}}
+                                        <div>{{date('d-m-Y', strtotime($item->opd_date))}}</div>
                                     </div>
                                 </td>
 
@@ -225,12 +233,86 @@
                                         {{$item->userEntered->first_name ?? ''}} {{$item->userEntered->middle_name ?? ''}} {{$item->userEntered->last_name ?? ''}}
                                     </div>
                                 </td>
+
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                    @if (count($item->documents) == 0)
+                                        <a data-appointment_id="{{ $item->id }}" data-patient_id="{{ $item->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
+                                            <i class="fa-regular fa-file"></i>
+                                        </a>
+                                    @else
+                                        <a data-appointment_id="{{ $item->id }}" data-patient_id="{{ $item->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
+                                            <i class="fa-solid fa-file"></i>
+                                        </a>
+                                    @endif
+                                </td>
                     
                             </tr>
                         @endforeach
                     </tbody>
                 
                     </table>
+
+                     <!-- Modal -->
+                     <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.addfile') }}</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <form id="fileForm" action="{{ route('appointment.add.file') }}" method="post" enctype="multipart/form-data">
+                                  @csrf
+                                  @method('post')
+                                  {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
+                                  <div class="modal-body">
+                                      {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
+                                        <input type="number" name="appointment_id" id="appointment_id" hidden value="">
+                                        <input type="number" name="patient_id" id="patient_id" hidden value="">
+                                    <div class="form-group col-sm-6 mb-5">
+                                        {{ Form::label('file', __('messages.document.attachment').(':'), ['class' => 'form-label required']) }}
+                                        <br>
+                                        <div class="d-block">
+                                            <?php
+                                            $style = 'style=';
+                                            $background = 'background-image:';
+                                            ?>
+                        
+                                            <div class="image-picker">
+                                                <div class="image previewImage" id="documentPreviewImage"
+                                                {{$style}}"{{$background}} url({{ asset('assets/img/default_image.jpg')}}">
+                                                    <span class="picker-edit rounded-circle text-gray-500 fs-small" title="{{ __('messages.document.attachment') }}">
+                                                        <label>
+                                                        <i class="fa-solid fa-pen" id="profileImageIcon"></i>
+                                                            {{ Form::file('file',['id'=>'','class' => 'd-none image-upload']) }}
+                                                            <input type="hidden" name="avatar_remove"/>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Notes Field -->
+                                    <div class="form-group col-sm-12 mb-5">
+                                        {{ Form::label('notes', __('messages.appointment.description').':', ['class' => 'form-label']) }}
+                                        {{ Form::textarea('notes', null, ['class' => 'form-control', 'rows'=>'4']) }}
+                                    </div>
+                                          
+                                      </div>
+                                  <div class="modal-footer pt-0">
+                                      {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
+                                      {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                                      <button type="button" class="btn btn-primary" id="submit_file_btn">{{ __('messages.common.save') }}</button>
+                                      <button type="button" class="btn btn-secondary"
+                                              data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                  </div>
+                                {{-- {{ Form::close() }} --}}
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
                     
 
@@ -240,4 +322,33 @@
 @section('scripts')
     {{--    assets/js/incomes/incomes.js --}}
     {{--    assets/js/custom/new-edit-modal-form.js --}}
+    <script>
+        $(document).on('click', '.iconAddFile', function () {
+        console.log('s');
+              var appointment_id = $(this).attr('data-appointment_id');
+              var patient_id = $(this).attr('data-patient_id');
+              // const div1 = document.getElementById("iconAddFile");
+              // console.log(div1.getAttribute("data-appointment_id"));
+              // $(this).prev('input').val("hello world");
+              // console.log(appointment_id);
+              // console.log(patient_id);
+              $("#appointment_id").val(appointment_id);
+              $("#patient_id").val(patient_id);
+      });
+    </script>
+
+    <script>
+        $(function(){
+            $('.show-appointment-cancellation').click(function(){
+                var reason = $(this).attr('data-reason');
+                $("#show_cancel").val(reason);
+            });
+        });
+    </script>w
+
+    <script>
+        $(document).on('click', '#submit_file_btn', function () {
+            $('#fileForm').submit();
+        });
+    </script>
 @endsection

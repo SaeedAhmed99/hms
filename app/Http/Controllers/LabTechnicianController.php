@@ -13,6 +13,7 @@ use App\Models\LabTechnician;
 use App\Models\OrderLab;
 use App\Repositories\DocumentRepository;
 use App\Repositories\LabTechnicianRepository;
+use Carbon\Carbon;
 use Exception;
 use Flash;
 use Illuminate\Contracts\View\Factory;
@@ -38,7 +39,6 @@ class LabTechnicianController extends AppBaseController
     {
         $this->labTechnicianRepository = $labTechnicianRepo;
         $this->documentRepository = $documentRepo;
-
     }
 
     /**
@@ -260,6 +260,8 @@ class LabTechnicianController extends AppBaseController
             if ($labCategoryAddType) {
                 $labCategoryAddType->update($request->all());
                 return redirect()->back()->with('success', __('messages.common.saved_successfully'));
+            } else {
+                return redirect()->back();
             }
         }
     }
@@ -271,14 +273,12 @@ class LabTechnicianController extends AppBaseController
     }
 
     public function labOrderList() {
-        $orderlabs = OrderLab::orderBy('created_at', 'desc')->where('is_paid', 1)->get();
-
+        $orderlabs = OrderLab::orderBy('created_at', 'desc')->get();
         return view('patients.order_list', compact('orderlabs'));
     }
 
     public function labOrderRequestList() {
-        $orderlabs = OrderLab::orderBy('created_at', 'desc')->get();
-
+        $orderlabs = OrderLab::whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
         return view('patients.order_request_list', compact('orderlabs'));
     }
 

@@ -266,6 +266,7 @@ h3:after {
                 <tr>
                     <th style="font-family: 'almarai', sans-serif;text-align:center; color: black;">Status</th>
                     <th style="font-family: 'almarai', sans-serif;text-align:center; color: black;">Date</th>
+                    <th style="font-family: 'almarai', sans-serif;text-align:center; color: black;">Service</th>
                     <th style="font-family: 'almarai', sans-serif;text-align:center; color: black;">Fees</th>
                     <th style="font-family: 'almarai', sans-serif;text-align:center; color: black;">Patient Nmae</th>
                     <th style="font-family: 'almarai', sans-serif;text-align:center; color: black;">#</th>
@@ -281,7 +282,15 @@ h3:after {
                             canceled
                             @endif
                           </td>
-                          <td>{{ $item->opd_date }}</td>
+                          <td>{{ date('d-m-Y', strtotime($item->opd_date)) }} </td>
+                          <td>
+                            @php
+                                $servicesIds = $item->service_id;
+                                $gerServices = App\Models\Service::whereIn('id', $servicesIds)->get();
+                            @endphp
+                            @foreach ($gerServices as $service)
+                              {{ $service->name . ', ' ?? '' }}
+                            @endforeach</td>
                           <td>{{ $item->fees }}</td>
                           <td>{{ $item->patient->user->first_name }} {{ $item->patient->user->middle_name }} {{ $item->patient->user->last_name }}</td>
                           <td>{{ $loop->iteration  }}</td>

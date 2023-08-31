@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    {{ __('messages.show_medical_tests') }}
+    {{ __('messages.choose_medical_radiology') }}
 @endsection
 @section('page_css')
 
@@ -35,24 +35,25 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="container">
-                                <h1 class="mb-3">{{ __('messages.show_medical_tests') }}</h1>
+                                <h1 class="mb-3">{{ __('messages.choose_medical_radiology') }}</h1>
                                 <ul class="list-group">
-                                    @foreach ($categoryLabs as $item)
-                                        @if (count($item->labs) != 0)
+                                    @foreach ($categoryRadiology as $item)
+                                        @if (count($item->radiologies) != 0)
                                             <li style="cursor: pointer;" class="list-group-item category" data-toggle="collapse" data-target="#category{{ $item->id }}"><h3>{{ $item->name }}</h3></li>
                                             <div id="category{{ $item->id }}" class="collapse show">
                                                 <ul class="list-group">
-                                                    @foreach ($item->labs as $item1)
-                                                        @if(in_array($item1->id, $listSelectedLabs))
-                                                            <li class="list-group-item" style="background-color: #ccc;">
-                                                                <label>
-                                                                    <input disabled type="checkbox" name="labs[]" checked  >  {{ $item1->name }} - {{ $item1->price }}
-                                                                </label>
-                                                            </li>
-                                                        @endif
-                                                    @endforeach
+                                                    
+                                                        @foreach ($item->radiologies as $item1)
+                                                            @if(in_array($item1->id, $listSelectedRadiologies))
+                                                                <li class="list-group-item" style="background-color: #ccc;">
+                                                                    <label>
+                                                                        <input disabled type="checkbox" name="labs[]" checked  >  {{ $item1->name }} - {{ $item1->price }}
+                                                                    </label>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
                                                 </ul>
-                                            </div>   
+                                            </div> 
                                         @endif
                                     @endforeach
                                 </ul>
@@ -83,6 +84,7 @@
 
 @section('scripts')
 <script>
+
     $(document).on('click', '.zoomE', function (e) {
         // (A) GET ALL IMAGES
         let all = document.getElementsByClassName("zoomE");

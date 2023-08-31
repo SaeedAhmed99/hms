@@ -65,6 +65,7 @@ class AppointmentController extends AppBaseController
     }
 
     public function todayAppointments(Request $request) {
+        // dd(app()->getLocale());
         $doctor_id = $request->doctor_id ?? null;
         $first_name = $request->first_name ?? '';
         $middle_name = $request->middle_name ?? '';
@@ -79,7 +80,6 @@ class AppointmentController extends AppBaseController
                 $appointments = Appointment::with('patient', 'doctor')->where('doctor_id', auth()->user()->doctor->id)->whereDate('created_at', Carbon::today())->where('is_completed', '!=', 3)->orderBy('created_at', 'desc')->get();
             }
         } else {
-
             if ($doctor_id || $first_name || $middle_name || $last_name) {
                 $appointments = Appointment::whereHas('patient.user', function ($query) use ($first_name, $middle_name, $last_name) {
                     $query->where('first_name', 'like', '%'.$first_name.'%')->where('middle_name', 'like', '%'.$middle_name.'%')->where('last_name', 'like', '%'.$last_name.'%');
@@ -88,7 +88,6 @@ class AppointmentController extends AppBaseController
                 $appointments = Appointment::with('patient', 'doctor')->whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->get();
             }
         }
-       
         $doctors = Doctor::get();
         return view('appointments.todayAppointments', compact('appointments', 'doctors'));
     }
@@ -363,7 +362,6 @@ class AppointmentController extends AppBaseController
         $patient = Patient::where('user_id', $id)->first();
         $doctors = Doctor::get();
         $services = Service::get();
-
         return view('appointments.old_patient_create', compact('patient', 'doctors', 'services'));
     }
 
@@ -410,8 +408,8 @@ class AppointmentController extends AppBaseController
                 'problem' => $request->problem,
                 'fees' => $request->fees
             ]);
-
-            return redirect()->route('today.appointments')->with('success', __('messages.web_menu.appointment').' '.__('messages.common.saved_successfully'));
+            return redirect()->route('appointments.print');
+            // return redirect()->route('today.appointments')->with('success', __('messages.web_menu.appointment').' '.__('messages.common.saved_successfully'));
         }
     }
 
@@ -474,6 +472,18 @@ class AppointmentController extends AppBaseController
         if ($request->user()->hasRole('Patient')) {
             $input['patient_id'] = $request->user()->owner_id;
         }
+        $max_number = $appointment->counter;
+        if ($appointment->doctor_id != $request->doctor_id) {
+            $date = Carbon::today();
+            $max_number = Appointment::where('doctor_id', $request->doctor_id)->where('created_at', '>=', $date)->max('counter');
+            if ($max_number == null) {
+                $max_number = 1;
+            } else {
+                $max_number += 1 ;
+            }  
+        }
+        // dd($max_number);
+        $input['counter'] = $max_number;                    
         $input['service_id'] = $request->services_id;                    
         $appointment = $this->appointmentRepository->update($input, $appointment->id);
         $appointment->patient->user->update($input);
@@ -503,7 +513,6 @@ class AppointmentController extends AppBaseController
 
             $this->documentRepository->store($input);
             return redirect()->back()->with('success', __('messages.document.document').' '.__('messages.common.saved_successfully'));
-
         } catch (\Exception $e) {
         
             return redirect()->back()->with('error', __('messages.document.document').' '.__('messages.incomes.document_error'));

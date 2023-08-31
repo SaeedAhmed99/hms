@@ -323,7 +323,7 @@ class IncomeController extends AppBaseController
 
     public function incomesPrintLastDay() {
         $doctors = Doctor::with(['appointments' => function($q) {
-            $q->where('created_at', '>',  Carbon::yesterday())->where('created_at', '>',  Carbon::today());
+            $q->where('created_at', '>=',  Carbon::yesterday())->where('created_at', '<',  Carbon::today());
         }])->get();
         $pdf = \PDF::loadView('incomes.incomes_print_last_day_pdf',compact('doctors')); 
         return $pdf->stream('PrintLastDay.pdf');

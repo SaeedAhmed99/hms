@@ -22,10 +22,13 @@ use App\Models\labCategory;
 use App\Models\OperationReport;
 use App\Models\OrderLab;
 use App\Models\OrderLabDetails;
+use App\Models\OrderRadiology;
+use App\Models\OrderRadiologyDetails;
 use App\Models\Patient;
 use App\Models\PatientAdmission;
 use App\Models\PatientCase;
 use App\Models\Prescription;
+use App\Models\RadiologyCategory;
 use App\Models\TextHistoryAndRochet;
 use App\Models\User;
 use App\Models\Vaccination;
@@ -138,6 +141,7 @@ class PatientController extends AppBaseController
             $historyBoard = null;
             $rochetBoard = null;
             $orderlabs = null;
+            $orderradiologies = null;
             $orderlabsPaper = null;
             $texthistory = null;
             $textHistoryAndRochet = null;
@@ -145,6 +149,7 @@ class PatientController extends AppBaseController
                 $historyBoard = BoardHistoryAndRochet::where('type', 'historyBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
                 $rochetBoard = BoardHistoryAndRochet::where('type', 'rochetBoard')->where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->get();
                 $orderlabs = OrderLab::where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->orderBy('created_at', 'desc')->get();
+                $orderradiologies = OrderRadiology::where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->orderBy('created_at', 'desc')->get();
                 $textHistoryAndRochet = TextHistoryAndRochet::where('doctor_id', auth()->user()->doctor->id)->where('patient_id', $data->id)->first();
             }
             $advancedPaymentRepo = App::make(AdvancedPaymentRepository::class);
@@ -161,7 +166,7 @@ class PatientController extends AppBaseController
             natcasesort($vaccinations);
 
 
-            return view('patients.show', compact('data', 'patients', 'vaccinations', 'vaccinationPatients', 'historyBoard', 'rochetBoard', 'orderlabs', 'textHistoryAndRochet'));
+            return view('patients.show', compact('data', 'patients', 'vaccinations', 'vaccinationPatients', 'historyBoard', 'rochetBoard', 'orderlabs', 'textHistoryAndRochet', 'orderradiologies'));
         }
     }
 
@@ -422,37 +427,86 @@ class PatientController extends AppBaseController
     }
 
     public function createOrder($id) {
-        $categoryLabs = labCategory::get();
+        $categoryLabs = labCategory::orderBy('created_at', 'ASC')->get();
         return view('patients.create_order', compact('categoryLabs', 'id'));
+    }
+
+    public function createOrderRadiology($id) {
+        $categoryRadiologies = RadiologyCategory::orderBy('created_at', 'ASC')->get();
+        return view('patients.create_order_radiology', compact('categoryRadiologies', 'id'));
     }
 
     public function createOrderStore(Request $request) {
         $validator = Validator::make($request->all(), [
             'patient_id' => 'required',
-            'labs' => 'required',
+            // 'labs' => 'required',
+        ]);
+        if ($validator->fails()) {
+            Flash::error($validator->messages()->first());
+            return redirect()->back();
+        } else {
+            if ($request->labs == null && $request->other == null) {
+                Flash::error(__('messages.select_labs_order'));
+                return redirect()->back();
+            } else {
+                $order = OrderLab::create([
+                    'doctor_id' => auth()->user()->doctor->id,
+                    'patient_id' => $request->patient_id,
+                    'status' => 1,
+                    'is_paid' => 0,
+                    'other' => $request->other
+                ]);
+
+                if ($request->labs != null) {
+                    foreach ($request->labs as $item) {
+                        $order_details = OrderLabDetails::create([
+                            'order_lab_id' => $order->id,
+                            'lab_type_id' => $item
+                        ]);
+                    }
+                }
+                
+
+                Flash::success(__('messages.prescription.success_order'));
+                return redirect()->route('patients.show', $request->patient_id);
+            }
+        }
+    }
+
+    public function createOrderRadiologyStore(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'patient_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             Flash::error($validator->messages()->first());
             return redirect()->back();
         } else {
-            $order = OrderLab::create([
-                'doctor_id' => auth()->user()->doctor->id,
-                'patient_id' => $request->patient_id,
-                'status' => 1,
-                'is_paid' => 0,
-                'other' => $request->other
-            ]);
-
-            foreach ($request->labs as $item) {
-                $order_details = OrderLabDetails::create([
-                    'order_lab_id' => $order->id,
-                    'lab_type_id' => $item
+            if ($request->radiologies == null && $request->other == null) {
+                Flash::error(__('messages.select_radiologies_order'));
+                return redirect()->back();
+            } else {
+                $order = OrderRadiology::create([
+                    'doctor_id' => auth()->user()->doctor->id,
+                    'patient_id' => $request->patient_id,
+                    'status' => 1,
+                    'is_paid' => 0,
+                    'other' => $request->other
                 ]);
+                
+                if ($request->radiologies != null) {
+                    foreach ($request->radiologies as $item) {
+                        $order_details = OrderRadiologyDetails::create([
+                            'order_radiology_id' => $order->id,
+                            'radiology_type_id' => $item
+                        ]);
+                    }
+                }
+                
+    
+                Flash::success(__('messages.prescription.success_order'));
+                return redirect()->route('patients.show', $request->patient_id);
             }
-
-            Flash::success(__('messages.prescription.success_order'));
-            return redirect()->route('patients.show', $request->patient_id);
         }
     }
 
@@ -466,6 +520,16 @@ class PatientController extends AppBaseController
         return view('patients.show_order', compact('order', 'categoryLabs', 'listSelectedLabs'));
     }
 
+    public function createOrderRadiologyShow($id) {
+        $order = OrderRadiology::findOrFail($id);
+        $categoryRadiology = RadiologyCategory::get();
+        $listSelectedRadiologies = [];
+        foreach ($order->orderDetails as $item) {
+            $listSelectedRadiologies[] = $item->radiology_type_id;
+        }
+        return view('patients.show_order_radiology', compact('order', 'categoryRadiology', 'listSelectedRadiologies'));
+    }
+
     public function createOrderEdit($id) {
         $order = OrderLab::findOrFail($id);
         $categoryLabs = labCategory::get();
@@ -474,6 +538,16 @@ class PatientController extends AppBaseController
             $listSelectedLabs[] = $item->lab_type_id;
         }
         return view('patients.edit_order', compact('order', 'categoryLabs', 'listSelectedLabs'));
+    }
+
+    public function createOrderRadiologyEdit($id) {
+        $order = OrderRadiology::findOrFail($id);
+        $categoryLabs = RadiologyCategory::get();
+        $listSelectedLabs = [];
+        foreach ($order->orderDetails as $item) {
+            $listSelectedLabs[] = $item->radiology_type_id;
+        }
+        return view('patients.edit_order_radiology', compact('order', 'categoryLabs', 'listSelectedLabs'));
     }
 
     public function updateOrder(Request $request) {
@@ -486,6 +560,22 @@ class PatientController extends AppBaseController
             $order_details = OrderLabDetails::create([
                 'order_lab_id' => $request->order_id,
                 'lab_type_id' => $item
+            ]);
+        }
+        Flash::success(__('messages.prescription.update_order'));
+        return redirect()->back();
+    }
+
+    public function updateOrderRadiology(Request $request) {
+        $order = OrderRadiology::findOrFail($request->order_id);
+        foreach ($order->orderDetails as $item) {
+            $item->delete();
+        }
+
+        foreach ($request->labs as $item) {
+            $order_details = OrderRadiologyDetails::create([
+                'order_radiology_id' => $request->order_id,
+                'radiology_type_id' => $item
             ]);
         }
         Flash::success(__('messages.prescription.update_order'));

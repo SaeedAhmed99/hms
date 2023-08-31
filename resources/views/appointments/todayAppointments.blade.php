@@ -231,7 +231,7 @@
                                 </td>
 
                                 @php
-                                    $servicesIds = $row->service_id;
+                                    $servicesIds = $row->service_id ?? [];
                                     $gerServices = App\Models\Service::whereIn('id', $servicesIds)->get();
                                 @endphp
                                 <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
@@ -252,7 +252,9 @@
                                 <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                     <div class="badge bg-light-info">
                                         <div class="mb-2">{{ \Carbon\Carbon::parse($row->opd_date)->isoFormat('LT')}}</div>
-                                        <div>{{ \Carbon\Carbon::parse($row->opd_date)->translatedFormat('jS M, Y')}}</div>
+                                        {{-- <div>{{ \Carbon\Carbon::parse($row->opd_date)->translatedFormat('jS M, Y')}}</div> --}}
+                                        {{-- <div>{{$row->opd_date->format('d/m/Y')}}</div> --}}
+                                        <div>{{date('d-m-Y', strtotime($row->opd_date))}}</div>
                                     </div>
                                 </td>
 
@@ -309,6 +311,7 @@
                               <a href="{{ route('appointments.print.id', $row->id) }}" title="{{ __('messages.common.print') }}"  class="btn px-1 text-primary fs-3 pe-0">
                                   <i class="fa-solid fa-print"></i>
                               </a>
+                                
                                   @if (count($row->documents) == 0)
                                       <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
                                           <i class="fa-regular fa-file"></i>
@@ -516,7 +519,6 @@
     {{--    assets/js/incomes/incomes.js --}}
     {{--    assets/js/custom/new-edit-modal-form.js --}}
 
-    
     <script>
       $(document).on('click', '.appNote', function () {
           var id = $(this).attr('data-appointmentId');
@@ -534,18 +536,36 @@
     </script>
     
     <script>
-      $(function(){
-          $('.iconAddFile').click(function(){
-              console.log('s');
+      // $(function(){
+      //   $(document).on('click', '.iconAddFile', function () {
+      //     $('#FormNote').submit();
+      //   });
+      // });
+
+      $(document).on('click', '.iconAddFile', function () {
+        console.log('s');
               var appointment_id = $(this).attr('data-appointment_id');
               var patient_id = $(this).attr('data-patient_id');
+              // const div1 = document.getElementById("iconAddFile");
+              // console.log(div1.getAttribute("data-appointment_id"));
               // $(this).prev('input').val("hello world");
               // console.log(appointment_id);
               // console.log(patient_id);
               $("#appointment_id").val(appointment_id);
               $("#patient_id").val(patient_id);
-          });
       });
+      // $('.iconAddFile').click(function(){
+      //         console.log('s');
+      //         var appointment_id = $(this).attr('data-appointment_id');
+      //         var patient_id = $(this).attr('data-patient_id');
+      //         const div1 = document.getElementById("iconAddFile");
+      //         console.log(div1.getAttribute("data-appointment_id"));
+      //         // $(this).prev('input').val("hello world");
+      //         // console.log(appointment_id);
+      //         // console.log(patient_id);
+      //         $("#appointment_id").val(appointment_id);
+      //         $("#patient_id").val(patient_id);
+      //     });
   </script>
 
   <script>

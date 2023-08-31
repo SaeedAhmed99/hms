@@ -453,6 +453,13 @@ $radiology = getMenuLinks(\App\Models\User::MAIN_RADIOLOGY)
             <span class="d-none">{{__('messages.radiology_tests')}}</span>
         </a>
     </li>
+    <li class="nav-item {{ Request::is('radiology/order-list') ? 'active' : '' }}">
+        <a class="nav-link  d-flex align-items-center py-3"
+           href="{{ Route('radiology.order.list') }}">
+            <span class="aside-menu-icon pe-3 pe-3"><i class="fa fa-x-ray"></i></span>
+            <span class="aside-menu-title">{{ __('messages.radiologies_request') }}</span>
+        </a>
+    </li>
 @endif
 
 {{-- Services dropdown --}}
@@ -545,7 +552,7 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
         </a>
     </li>
     @endmodule
-
+    
     <?php
     $bedDoctorMGT = getMenuLinks(\App\Models\User::MAIN_DOCTOR_BED_MGT)
     ?>
@@ -575,16 +582,17 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
     </li> --}}
     @endmodule
 
-    @module('Documents',$modules)
-    <li class="nav-item  {{ Request::is('documents*') ? 'active' : '' }}">
-        <a class="nav-link  d-flex align-items-center py-3"
-           href="{{ route('documents.index') }}">
-                                                                                                                                                                <span class="aside-menu-icon pe-3 pe-3"><i
-                                                                                                                                                                            class="fas fa-file"></i></span>
-            <span class="aside-menu-title">{{ __('messages.documents') }}</span>
-        </a>
-    </li>
-    @endmodule
+    @role('Admin|Receptionist')
+        @module('Documents',$modules)
+            <li class="nav-item  {{ Request::is('documents*') ? 'active' : '' }}">
+                <a class="nav-link  d-flex align-items-center py-3"
+                href="{{ route('documents.index') }}">                                                                                                                                                                   <span class="aside-menu-icon pe-3 pe-3"><i
+                                                                                                                                                                                class="fas fa-file"></i></span>
+                    <span class="aside-menu-title">{{ __('messages.documents') }}</span>
+                </a>
+            </li>
+        @endmodule
+    @endrole
 
     {{--Diagnosis Test--}}
     <?php
@@ -1242,14 +1250,15 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
         </a>
     </li>
 
+    
     @module('Doctors',$modules)
-    <li class="nav-item {{ Request::is('employee/doctor*') ? 'active' : '' }}">
+    {{-- <li class="nav-item {{ Request::is('employee/doctor*') ? 'active' : '' }}">
         <a class="nav-link  d-flex align-items-center py-3"
            href="{{ url('employee/doctor') }}">
             <span class="aside-menu-icon pe-3 pe-3"><i class="fa fa-user-md"></i></span>
             <span class="aside-menu-title">{{ __('messages.doctors') }}</span>
         </a>
-    </li>
+    </li> --}}
     @endmodule
 
     {{--Diagnosis Test--}}

@@ -10,7 +10,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 text-lg-start text-center">
                         <div class="hero-content">
-                            <h1 class="mb-3 pb-1">
+                            <h1 class="mb-3 pb-1" @if(app()->getLocale() == 'ar') style="text-align: right;" @endif>
                                {{ __('messages.web_home.services') }}
                             </h1>
                             <nav aria-label="breadcrumb">
@@ -52,7 +52,7 @@
                             <div class="card p-c-4 my-lg-2 mx-lg-1 my-md-3 my-2 flex-fill">
                                 <img src="{{ isset($frontService->icon_url) ? $frontService->icon_url : asset('web_front/images/services/medicine.png') }}" class="card-img-top img-wh mx-auto " alt="Cardiology">
                                 <div class="card-body p-0 text-center d-flex flex-column">
-                                    <h4 class="card-title mt-4">{{ \Illuminate\Support\Str::limit($frontService->name, 16) }}</h4>
+                                    <h4 class="card-title mt-4">{{ \Illuminate\Support\Str::limit($frontService->name, 50) }}</h4>
                                     <p class="card-text">
                                         {{ \Illuminate\Support\Str::limit($frontService->short_description, 123) }}
                                     </p>

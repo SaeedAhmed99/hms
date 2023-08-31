@@ -15,12 +15,12 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 text-lg-start text-center">
                         <div class="hero-content">
-                            <h1 class="mb-3 pb-1">
+                            <h1 class="mb-3 pb-1" @if(app()->getLocale() == 'ar') style="text-align: right;" @endif>
                                 {{ __('messages.web_home.about_us') }}
                             </h1>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb justify-content-lg-start justify-content-center mb-lg-0 mb-5">
-                                    <li class="breadcrumb-item">
+                                    <li class="breadcrumb-item" >
                                         <a href="{{ url('/') }}">{{ __('messages.web_home.home') }}</a>
                                     </li>
                                     <li class="mx-3">/</li>
@@ -29,19 +29,28 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-lg-6 text-lg-end text-center">
+                    {{-- <div class="col-lg-6 text-lg-end text-center">
                         <img src="{{ !empty($frontSetting['about_us_image']) ? $frontSetting['about_us_image'] : asset('web_front/images/page-banner/About.png') }}" alt="Infy Care" class="img-fluid" />
-{{--                        <img src="{{ asset('web_front/images/page-banner/About.png') }}" alt="Infy Care" class="img-fluid" />--}}
-                    </div>
+                       <img src="{{ asset('web_front/images/page-banner/About.png') }}" alt="Infy Care" class="img-fluid" />
+                    </div> --}}
                 </div>
             </div>
         </section>
         <!-- end hero section -->
 
         <!--start about-section -->
-        <section class="about-section p-t-120 p-b-120">
+        <section class="about-section p-t-50 p-b-120">
             <div class="container">
                 <div class="row align-items-stretch flex-column-reverse flex-lg-row">
+                    <div class="col-lg-6">
+                        <div class="about-right pb-5 pt-lg-5 text-lg-start text-center">
+                            <h2  @if(app()->getLocale() == 'ar') style="text-align: right;" @endif  class="mt-md-3">{{ __('messages.web_home.about_us') }}</h2>
+                            <p  @if(app()->getLocale() == 'ar') style="text-align: right;" @endif  class="mt-4">{!! $frontSetting['about_us_description']  !!}</p>
+                            {{-- <a href="{{ route('appointment') }}" class="btn btn-primary mt-4">
+                                {{ __('messages.web_home.book_appointment') }}
+                            </a> --}}
+                        </div>
+                    </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="row h-100">
                             <div class="col-lg-7 col-md-7 about-count-block">
@@ -92,23 +101,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="about-right pb-5 pt-lg-5 text-lg-start text-center">
-                            <h2 class="mt-md-3">{{ \Illuminate\Support\Str::limit($frontSetting['about_us_title'], 50)  }}</h2>
-                            <p class="mt-4">{!! \Illuminate\Support\Str::limit($frontSetting['about_us_description'], 615)  !!}</p>
-                            {{-- <a href="{{ route('appointment') }}" class="btn btn-primary mt-4">
-                                {{ __('messages.web_home.book_appointment') }}
-                            </a> --}}
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </section>
         <!-- end about-section -->
 
         <!-- start quality-and-testimonial-section -->
-        <section class="testimonial-section p-t-120">
+        {{-- <section class="testimonial-section p-t-120">
             <div class="container">
                 <div class="col-lg-6 text-center mx-auto">
                     <h6 class="text-primary pb-2">{{ __('messages.web_home.our_testimonials') }}</h6>
@@ -149,11 +148,11 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- end quality-and-testimonial-section -->
 
         <!-- start professional-doctors section -->
-        <section class="professional-doctors-section position-relative p-t-120 p-b-100 bg-white">
+        {{-- <section class="professional-doctors-section position-relative p-t-120 p-b-100 bg-white">
             <div class="container">
                 <div class="col-lg-6 text-center mx-auto">
                     <h6 class="text-primary mb-3">{{ __('messages.web_home.professional_doctors') }}</h6>
@@ -182,7 +181,7 @@
                     @endforeach
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- end professional-doctors section -->
     </div>
     

@@ -70,7 +70,7 @@
                                 {{ Form::label('dob', __('Age').':', ['class' => 'form-label']) }}
                                 <span class="required"></span>
                                 {{-- {{ Form::number('dob', null, ['class' => (getLoggedInUser()->thememode ? 'bg-light patientBirthDate form-control' : 'bg-white patientBirthDate form-control'), 'id' => 'patientBirthDate', 'autocomplete' => 'off', 'tabindex' => '4']) }} --}}
-                                <input type="number" class="form-control" autocomplete="off" tabindex="4" value="{{ $appointment->patient->user->age }}">
+                                <input type="number" name="dob" class="form-control" autocomplete="off" tabindex="4" value="{{ $appointment->patient->user->age }}">
                             </div>
                         </div>
                         <div class="col-md-4">

@@ -796,7 +796,7 @@ function getNoteAppointment()
 
 function getCountLabRequestForRec()
 {
-    return OrderLab::where('is_paid', 0)->count();
+    return OrderLab::whereDate('created_at', Carbon::today())->where('is_paid', 0)->count();
 }
 
 function getCountLabRequestForLab()

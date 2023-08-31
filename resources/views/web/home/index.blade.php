@@ -13,20 +13,20 @@
                 <div class="row align-items-center flex-column-reverse flex-lg-row">
                     <div class="col-lg-6 text-lg-start text-center">
                         <div class="hero-content mt-5 mt-lg-0">
-                            <h6 class="text-primary mb-3">{{ $frontSetting['home_page_experience'] }} {{ __('messages.web_home.years_experience') }}</h6>
-                            <h1 class="mb-3 pb-1">
+                            <h6 @if(app()->getLocale() == 'ar') style="text-align: right;" @endif class="text-primary mb-3">{{ $frontSetting['home_page_experience'] }} {{ __('messages.web_home.years_experience') }}</h6>
+                            <h1 @if(app()->getLocale() == 'ar') style="text-align: right;" @endif class="mb-3 pb-1">
                                 {{ \Illuminate\Support\Str::limit($frontSetting['home_page_title'], 42) }}
                             </h1>
-                            <p class="mb-lg-4 pb-lg-3 mb-4">
+                            <p @if(app()->getLocale() == 'ar') style="text-align: right;" @endif class="mb-lg-4 pb-lg-3 mb-4">
                                 {{ \Illuminate\Support\Str::limit($frontSetting['home_page_description'], 170) }}</p>
                             @if(!Auth::user())
-                                <a href="{{ route('register') }}"
+                                <a @if(app()->getLocale() == 'ar') style="text-align: right;" @endif href="{{ route('register') }}"
                                    class="btn btn-primary" data-turbo="false">{{ __('messages.web_home.sign_up') }}</a>
                             @endif
                         </div>
                     </div>
                     <div class="col-lg-6 text-lg-end text-center">
-                        <img src="{{ !empty($frontSetting['home_page_image']) ? $frontSetting['home_page_image'] : asset('web_front/images/main-banner/banner-one/Home.png') }}"
+                        <img style="border-radius: 10px;" src="{{ !empty($frontSetting['home_page_image']) ? $frontSetting['home_page_image'] : asset('web_front/images/main-banner/banner-one/Home.png') }}"
                              alt="Infy Care" class="img-fluid"/>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
         <!--end book-appointment section-->
 
         <!-- start easy-solution section -->
-        <section class="easy-solution-section position-relative">
+        {{-- <section class="easy-solution-section position-relative">
             <div class="container">
                 <div class="col-lg-6 text-center mx-auto">
                     <h6 class="text-primary pb-2">{{ __('messages.web_home.easy_solutions') }}</h6>
@@ -134,13 +134,21 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- end easy-solution section -->
 
         <!--start about-section -->
-        <section class="about-section p-t-200 p-b-120">
+        <section class="about-section p-t-120 p-b-120">
             <div class="container">
                 <div class="row align-items-stretch flex-column-reverse flex-lg-row">
+                    <div class="col-lg-6">
+                        <div class="about-right pb-5 pt-lg-5 text-lg-start text-center">
+                            <h2 class="mt-md-3">{{ \Illuminate\Support\Str::limit(getFrontSettingValue(\App\Models\FrontSetting::ABOUT_US, 'about_us_title'), 31) }}</h2>
+                            <p class="mt-4">{!!  \Illuminate\Support\Str::limit(getFrontSettingValue(\App\Models\FrontSetting::ABOUT_US, 'about_us_description'), 615)  !!}</p>
+                            {{-- <a href="{{ route('appointment') }}"
+                               class="btn btn-primary mt-4">{{ __('messages.web_home.book_appointment') }}</a> --}}
+                        </div>
+                    </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="row h-100">
                             <div class="col-lg-7 col-md-7 about-count-block">
@@ -183,14 +191,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="about-right pb-5 pt-lg-5 text-lg-start text-center">
-                            <h2 class="mt-md-3">{{ \Illuminate\Support\Str::limit(getFrontSettingValue(\App\Models\FrontSetting::ABOUT_US, 'about_us_title'), 31) }}</h2>
-                            <p class="mt-4">{!!  \Illuminate\Support\Str::limit(getFrontSettingValue(\App\Models\FrontSetting::ABOUT_US, 'about_us_description'), 615)  !!}</p>
-                            {{-- <a href="{{ route('appointment') }}"
-                               class="btn btn-primary mt-4">{{ __('messages.web_home.book_appointment') }}</a> --}}
-                        </div>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -201,7 +202,7 @@
         <section class="service-section p-t-120 p-b-100 bg-gray">
             <div class="container">
                 <div class="col-lg-6 text-center mx-auto">
-                    <h6 class="text-primary mb-3">{{ __('messages.web_home.our_services') }}</h6>
+                    <h2 class="text-primary mb-3">{{ __('messages.web_home.our_services') }}</h2>
                     <h2 class="mb-4 pb-xl-4">
                         {{ __('messages.web_home.we_offer_different_services_to_improve_your_health') }}
                     </h2>
@@ -209,21 +210,41 @@
                 <div class="our-service">
                     <div class="row justify-content-center">
                         @foreach($frontServices  as $frontService)
-                            <div class="col-xl-3 col-lg-4 col-md-6 py-lg-2 card-hover d-flex align-items-stretch">
-                                <div class="card p-c-4 my-lg-2 mx-lg-1 my-md-3 my-2 flex-fill">
-                                    <img src="{{ isset($frontService->icon_url) ? $frontService->icon_url : asset('web_front/images/services/medicine.png') }}"
-                                         class="card-img-top img-wh mx-auto " alt="Cardiology">
-                                    <div class="card-body p-0 text-center flex-column">
-                                        <h4 class="card-title mt-4">{{ \Illuminate\Support\Str::limit($frontService->name, 16) }}</h4>
-                                        <p class="card-text">{{ \Illuminate\Support\Str::limit($frontService->short_description, 123) }}</p>
-                                    </div>
+                                <div class="col-xl-3 col-lg-4 col-md-6 py-lg-2 card-hover d-flex align-items-stretch" >
+                                    <button style="border: none; padding: 0; background-color: transparent;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        <div class="card p-c-4 my-lg-2 mx-lg-1 my-md-3 my-2 flex-fill">
+                                            <img src="{{ isset($frontService->icon_url) ? $frontService->icon_url : asset('web_front/images/services/medicine.png') }}"
+                                                class="card-img-top img-wh mx-auto " alt="Cardiology">
+                                            <div class="card-body p-0 text-center flex-column">
+                                                <h4 class="card-title mt-4">{{ \Illuminate\Support\Str::limit($frontService->name, 50) }}</h4>
+                                                <p class="card-text">{{ \Illuminate\Support\Str::limit($frontService->short_description, 50) }}</p>
+                                            </div>
+                                        </div>
+                                    </button>
                                 </div>
-                            </div>
                         @endforeach
                     </div>
                 </div>
             </div>
         </section>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #00AAE7;">
+            <h5 class="modal-title" id="staticBackdropLabel" style="color: white;">Modal title</h5>
+            <button type="button" style="margin-left: 0; background-color: white;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        {{-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div> --}}
+      </div>
+    </div>
+  </div>
         <!-- end service-section -->
 
         <!-- start quality-section -->
@@ -232,14 +253,14 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <div class="quality-desc mt-lg-4 text-lg-start text-center">
-                            <h6 class="text-primary pb-2">
+                            <h6 class="text-primary pb-2" @if(app()->getLocale() == 'ar') style="text-align: right;" @endif>
                                 {{ \Illuminate\Support\Str::limit($frontSetting['home_page_certified_doctor_text'], 64) }}
                             </h6>
-                            <h2 class="mb-3">
+                            <h2 class="mb-3" @if(app()->getLocale() == 'ar') style="text-align: right;" @endif>
                                 {{ \Illuminate\Support\Str::limit($frontSetting['home_page_certified_doctor_title'], 64) }}
                             </h2>
-                            <p>
-                                {{ \Illuminate\Support\Str::limit($frontSetting['home_page_certified_doctor_description'], 326) }}
+                            <p @if(app()->getLocale() == 'ar') style="text-align: right;" @endif>
+                                {{ $frontSetting['home_page_certified_doctor_description'] }}
                             </p>
                             {{-- <a href="{{ route('appointment') }}"
                                class="btn btn-primary mt-lg-4 mb-lg-0 mb-4">{{ __('messages.web_home.book_appointment') }}</a> --}}
@@ -255,14 +276,14 @@
                             <div class="icon-box br-5 me-md-4 me-2 text-primary bg-white d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-certificate fs-5"></i>
                             </div>
-
+                            <div></div>
                             <div class="desc">
                                 <h4 class="text-white">
                                     {{ \Illuminate\Support\Str::limit($frontSetting['home_page_certified_box_title'], 16) }}
                                 </h4>
-                                <p class="text-white fs-14 mb-0">
+                                {{-- <p class="text-white fs-14 mb-0">
                                     {{ \Illuminate\Support\Str::limit($frontSetting['home_page_certified_box_description'], 44) }}
-                                </p>
+                                </p> --}}
                             </div>
                         </div>
                     </div>
@@ -272,10 +293,10 @@
         <!-- end quality-section -->
 
         <!-- start professional-doctors section -->
-        <section class="professional-doctors-section shape-rectangle position-relative">
+        <section class="professional-doctors-section shape-rectangle position-relative" style="margin-bottom: 100px;">
             <div class="container">
                 <div class="col-lg-6 text-center mx-auto">
-                    <h6 class="text-primary mb-3">{{ __('messages.web_home.professional_doctors') }}</h6>
+                    <h2 class="text-primary mb-3">{{ __('messages.web_home.professional_doctors') }}</h2>
                     <h2 class="mb-5 pb-xl-3">{{ __('messages.web_home.we_are_experienced_healthcare_professionals') }}</h2>
                 </div>
 
@@ -291,12 +312,11 @@
                     @endforeach
                 </div>
             </div>
-
         </section>
         <!-- end professional-doctors section -->
 
         <!-- start testimonial-section -->
-        <section class="testimonial-section p-t-120">
+        {{-- <section class="testimonial-section p-t-120">
             <div class="container">
                 <div class="col-lg-6 text-center mx-auto">
                     <h6 class="text-primary pb-2">{{ __('messages.web_home.our_testimonials') }}</h6>
@@ -334,7 +354,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- end testimonial-section -->
+        <div class="testimonial-slider" style="display: none">
+                           
+        </div>
     </div>
 @endsection

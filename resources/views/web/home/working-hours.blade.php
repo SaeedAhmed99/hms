@@ -15,7 +15,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 text-lg-start text-center">
                         <div class="hero-content">
-                            <h1 class="mb-3 pb-1">
+                            <h1 class="mb-3 pb-1" @if(app()->getLocale() == 'ar') style="text-align: right;" @endif>
                                 {{ __('messages.web_home.working_hours') }}
                             </h1>
                             <nav aria-label="breadcrumb">
@@ -23,6 +23,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="{{ route('front') }}">{{ __('messages.web_home.home') }}</a>    
                                     </li>
+                                    <li class="mx-3">/</li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {{ __('messages.web_home.working_hours') }}
                                     </li>

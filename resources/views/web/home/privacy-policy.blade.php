@@ -11,7 +11,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 text-lg-start text-center">
                         <div class="hero-content">
-                            <h1 class="mb-3 pb-1">
+                            <h1 class="mb-3 pb-1" @if(app()->getLocale() == 'ar') style="text-align: right;" @endif>
                                 {{ __('messages.web_home.privacy_policy') }}
                             </h1>
                             <nav aria-label="breadcrumb">

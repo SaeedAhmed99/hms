@@ -88,24 +88,24 @@
                             <form action="{{ route('appointments.old.patient.search') }}" method="GET">
                                 @csrf
                                 @method('get')
-                                <div class="p-5">
-                                <div class="mb-5">
+                                <div class="p-5 row">
+                                <div class="mb-5 col-4">
                                     <label for="exampleInputSelect2" class="form-label">{{ __('messages.user.first_name') }}:</label>
                                     <input type="text" name="first_name" class="form-control">
                                 </div>
-                                <div class="mb-5">
+                                <div class="mb-5 col-4">
                                     <label for="exampleInputSelect2" class="form-label">{{ __('messages.user.middle_name') }}:</label>
                                     <input type="text" name="middle_name" class="form-control">
                                 </div>
-                                <div class="mb-5">
+                                <div class="mb-5 col-4">
                                     <label for="exampleInputSelect2" class="form-label">{{ __('messages.user.last_name') }}:</label>
                                     <input type="text" name="last_name" class="form-control">
                                 </div>
-                                <div class="mb-5">
+                                <div class="mb-5 col-6">
                                     <label for="exampleInputSelect2" class="form-label">{{ __('messages.case.phone') }}:</label>
                                     <input type="text" name="phone" class="form-control">
                                 </div>
-                                <div class="mb-5">
+                                <div class="mb-5 col-6">
                                     <label for="exampleInputSelect2" class="form-label">{{ __('messages.appointment.file_number') }}:</label>
                                     <input type="text" name="file_number" class="form-control">
                                 </div>

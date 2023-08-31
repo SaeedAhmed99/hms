@@ -23,7 +23,10 @@
         </a>
     @endif
 @endif
-
+ <a href="{{ route('appointments.edit', $row->id) }}" title="{{__('messages.common.edit') }}"
+        class="btn px-1 text-primary fs-3 ps-0">
+        <i class="fa-solid fa-pen-to-square"></i>
+    </a>  
 @if (!Auth::user()->hasRole('Doctor'))
     {{-- <a href="{{ route('appointments.edit', $row->id) }}" title="{{__('messages.common.edit') }}"
         class="btn px-1 text-primary fs-3 ps-0">

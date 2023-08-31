@@ -182,7 +182,7 @@
         }
     </style>
 <div class="m-3" id="button">
-    <a href="{{ url()->previous() }}" id="backButton" class="btn btn-primary ml-2">Back</a>
+    <a href="{{ route('today.appointments') }}" id="backButton" class="btn btn-primary ml-2">Back</a>
     <button class="btn btn-primary" id="printPageButton" onClick="window.print();">Print</button>
 </div>
     <div class="face face-front" id="libInp" >
@@ -209,13 +209,14 @@
                 <span class="T_num_span">{{$appointment->counter}}</span>
             </li>
         </ul>
-        
+        {{-- @dd($appointment->patient->user) --}}
         <ul>
             <li>
                 <label class="lable right" style="font-weight: bold">المريض: </label>
                 <span class="list">{{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->middle_name }} {{ $appointment->patient->user->last_name }}</span>
                 <br>
                 <label class="lable right" style="font-weight: bold">العمر: </label>
+                {{-- @dd($appointment->patient->user->age) --}}
                 <span class="list">{{ $appointment->patient->user->age }}</span>
                 <br>
                 <label class="lable right" style="font-weight: bold">التاريخ: </label>

@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xxl-7 col-12">
+                {{-- <div class="col-xxl-7 col-12">
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-sm-6 col-12 mb-6 mb-md-0">
                             <div class="border rounded-10 p-5 h-100">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -88,9 +88,14 @@
                 </li>
                 <li class="nav-item position-relative me-7 mb-3">
                     <a class="nav-link p-0" data-bs-toggle="tab"
-                       href="#showPatientAppointments">{{ __('messages.appointments') }}</a>
+                    href="#showPatientOrderRadiology">{{ __('messages.prescription.order_radiology') }}</a>
                 </li>
             @endif
+
+                <li class="nav-item position-relative me-7 mb-3 @if (Auth::user()->hasRole('Receptionist')) active @endif">
+                    <a class="nav-link p-0" data-bs-toggle="tab"
+                       href="#showPatientAppointments">{{ __('messages.appointments') }}</a>
+                </li>
 
             {{-- <li class="nav-item position-relative me-7 mb-3">
                 <a class="nav-link p-0" data-bs-toggle="tab"
@@ -179,10 +184,11 @@
     </div> --}}
     
     @if (Auth::user()->hasRole('Doctor'))   
-        <div class="tab-pane show active     fade" id="showPatientHistory" role="tabpanel">
+        <div class="tab-pane show active  fade" id="showPatientHistory" role="tabpanel">
             {{-- <livewire:patient-appoinment-detail-table patientId="{{ $data->id }}"/> --}}
             <div class="card">
                 <div class="card-body">
+                    
                     <div class="my-3">
                         <div class="form-group">
                             <a id="Add_History_by_text" class="btn btn-primary">{{ __('messages.Add_History_by_text') }}</a>
@@ -200,17 +206,21 @@
                         @endforelse
 
                         @foreach($data->appointments as $item)
+                        @if ($item->image_from_old_system != null)
                             <div class="col-md-4 containerImage" id="history-image">
                                 <img src="{{ asset($item->image_from_old_system) }}" alt="Report 1" class="img-fluid mb-3 zoomE" style="width: 300px; height: 300px; cursor: pointer;">
                                 <a class="btn btn-danger delete delete-image" image-name="{{ $item->image_from_old_system }}"><i class="fa-solid fa-trash"></i></a>
                             </div>
+                        @endif
                         @endforeach
 
                         @forelse ($historyBoard as $item)
-                            <div class="col-md-4 containerImage" id="history-image">
-                                <img src="{{ asset($item->link) }}" alt="Report 1" class="img-fluid mb-3 zoomE" style="width: 300px; height: 300px; cursor: pointer;">
-                                <a class="btn btn-danger delete delete-image" image-name="{{ $item->link }}"><i class="fa-solid fa-trash"></i></a>
-                            </div>
+                            @if ($item->link != null)
+                                <div class="col-md-4 containerImage" id="history-image">
+                                    <img src="{{ asset($item->link) }}" alt="Report 1" class="img-fluid mb-3 zoomE" style="width: 300px; height: 300px; cursor: pointer;">
+                                    <a class="btn btn-danger delete delete-image" image-name="{{ $item->link }}"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            @endif
                         @empty
                             @if (!$data->documents)
                                 <div class="col-md-4">
@@ -252,10 +262,13 @@
                     <div class="row mt-3" id="section_image_for_rochet">
                         
                         @forelse ($rochetBoard as $item)
-                            <div class="col-md-4 containerImage" id="prescription-image">
-                                <img src="{{ asset($item->link) }}" alt="Report 1" class="img-fluid mb-3 zoomE" style="width: 300px; height: 300px; cursor: pointer;">
-                                <a class="btn btn-danger delete delete-image" image-name="{{ $item->link }}"><i class="fa-solid fa-trash"></i></a>
-                            </div>
+                        @if ($item->link != null)
+                        <div class="col-md-4 containerImage" id="prescription-image">
+                            <img src="{{ asset($item->link) }}" alt="Report 1" class="img-fluid mb-3 zoomE" style="width: 300px; height: 300px; cursor: pointer;">
+                            <a class="btn btn-danger delete delete-image" image-name="{{ $item->link }}"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                        @endif
+                            
                         @empty
                             <div class="col-md-4">
                                 <img src="https://via.placeholder.com/300" alt="Report 1" class="img-fluid mb-3">
@@ -345,10 +358,77 @@
                 </table>
             </div>
         </div>
+        <div class="tab-pane fade" id="showPatientOrderRadiology" role="tabpanel">
+            {{-- <livewire:patient-appoinment-detail-table patientId="{{ $data->id }}"/> --}}
+            <a href="{{ route('patients.create.order.radiology', $data->id) }}" class="btn btn-primary mb-3">{{ __('messages.prescription.create_order') }}</a>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="">
+                    <tr>
+                        <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
+                        <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
+                            <span>#</span>
+                            <span class="relative">
+                            </span>
+                        </div>
+                        </th>
+
+                        <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
+                        <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
+                            <span>{{ __('messages.common.status') }}</span>
+                            <span class="relative">
+                            </span>
+                        </div>
+                        </th>
+
+                        <th scope="col" class="" style="padding-right: 7rem !important; width: 20%;"
+                        wire:key="header-col-4-WpskoqwzxJ5BdNxsPOsu">
+                        <div class="" wire:click="sortBy('amount')" style="cursor:pointer;">
+                            <span>{{ __('messages.common.action')}}</span>
+                            <span class="relative">
+                            </span>
+                        </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    
+                    <tbody class="">
+                        @foreach ($orderradiologies as $item)
+                            <tr id="Category" wire:loading.class.delay="" class="" wire:key="row-0-WpskoqwzxJ5BdNxsPOsu">
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $loop->iteration }}</td>
+
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                    @if ($item->status == '0')
+                                        {{ __('messages.common.cancel') }}
+                                    @elseif ($item->status == '1')
+                                        {{ __('messages.appointment.pending') }}
+                                    @elseif ($item->status == '2')
+                                        {{ __('messages.appointment.completed') }}
+                                    @endif
+                                </td>
+
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                     <a href="{{ route('patients.show.order.radiology', $item->id) }}" class="btn px-1 text-primary fs-3 ps-0 edit-btn">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>   
+                                    @if ($item->status == '1')
+                                        <a href="{{ route('patients.edit.order.radiology', $item->id) }}" title="{{__('messages.common.edit') }}"
+                                            class="btn px-1 text-primary fs-3 ps-0 edit-btn">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a> 
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     @endif
-    <div class="tab-pane fade" id="showPatientAppointments" role="tabpanel">
+    <div class="tab-pane fade @if (Auth::user()->hasRole('Receptionist')) active @endif" id="showPatientAppointments" role="tabpanel">
         <livewire:patient-appoinment-detail-table patientId="{{ $data->id }}"/>
     </div>
+    
     {{-- <div class="tab-pane fade" id="showPatientBills" role="tabpanel">
         <livewire:patient-bill-detail-table patientId="{{ $data->id }}"/>
     </div>

@@ -1,9 +1,8 @@
 @extends('layouts.app')
 @section('title')
-    {{__('messages.lab_technician_category')}}
+    {{__('messages.radiologies_request')}}
 @endsection
 @section('css')
-{{--    <link rel="stylesheet" href="{{ asset('assets/css/sub-header.css') }}">--}}
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -29,7 +28,7 @@
                       </div>
                       <div class="d-md-flex justify-content-between mb-3 livewire-search-box align-items-center">
                         <div class="d-md-flex">
-                            <h1 class="text-gray-900 mb-0">{{ __('messages.prescription.order_lab_list') }}</h1>
+                            <h1 class="text-gray-900 mb-0">{{ __('messages.radiologies_request') }}</h1>
                         </div>
                   
                         <div class="d-flex justify-content-end ">
@@ -89,30 +88,6 @@
                             </th>
 
                             <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
-                                <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
-                                    <span>{{ __('messages.is_paid') }}</span>
-                                    <span class="relative">
-                                    </span>
-                                </div>
-                            </th>
-
-                            <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
-                            <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
-                                <span>{{ __('messages.original_price') }}</span>
-                                <span class="relative">
-                                </span>
-                            </div>
-                            </th>
-
-                            <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
-                            <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
-                                <span>{{ __('messages.price_after_discount') }}</span>
-                                <span class="relative">
-                                </span>
-                            </div>
-                            </th>
-
-                            <th scope="col" class="" wire:key="header-col-0-WpskoqwzxJ5BdNxsPOsu">
                             <div class="" wire:click="sortBy('invoice_number')" style="cursor:pointer;">
                                 <span>{{ __('messages.case.date') }}</span>
                                 <span class="relative">
@@ -132,7 +107,7 @@
                         </thead>
                 
                         <tbody class="">
-                            @foreach ($orderlabs as $item)
+                            @foreach ($ordersRadiology as $item)
                                 <tr id="Category" wire:loading.class.delay="" class="" wire:key="row-0-WpskoqwzxJ5BdNxsPOsu">
                                     <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $loop->iteration }}</td>
 
@@ -150,78 +125,78 @@
                                         @endif
                                     </td>
 
-                                    <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
-                                        @if ($item->is_paid == '0')
-                                            <span style="color: red;">{{ __('messages.un_paid') }}</span>
-                                        @elseif ($item->is_paid == '1')
-                                            <span style="color: green;">{{ __('messages.paid') }}</span>
-                                        @endif
-                                    </td>
-
-                                    @php
-                                        $sum_price = 0;
-                                        foreach ($item->orderDetails as $item01) {
-                                            $sum_price += $item01->lab_type->price;
-                                        }
-                                    @endphp
-                                    <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $sum_price }}</td>
-
-                                    <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $item->price_after_discount ?? 0 }}</td>
-
                                     <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">{{ $item->created_at }}</td>
     
                                     <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
-                                        <a href="{{ route('patients.show.order', $item->id) }}" class="btn px-1 text-primary fs-3 ps-0 edit-btn">
+                                         <a href="{{ route('patients.show.order.radiology', $item->id) }}" class="btn px-1 text-primary fs-3 ps-0 edit-btn">
                                             <i class="fa-solid fa-eye"></i>
-                                        </a>  
-                                        {{-- @if ($item->is_paid == '0')
-                                            <a data-order_lab_id="{{ $item->id }}" data-original_price="" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
-                                                <i class="fa-regular fa-money-bill-1"></i>
-                                            </a> 
-                                        @endif  --}}
+                                        </a>   
+                                        @if (count($item->documents) == 0)
+                                            <a data-order_radiology_id="{{ $item->id }}" data-patient_id="{{ $item->patient_id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
+                                                <i class="fa-regular fa-file"></i>
+                                            </a>
+                                        @else
+                                            <a data-order_radiology_id="{{ $item->id }}" data-patient_id="{{ $item->patient_id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
+                                                <i class="fa-solid fa-file"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
+                            <!-- Modal -->
+                            <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.addfile') }}</h3>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <form id="fileForm" action="{{ route('radiology.order.list.add.file') }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('post')
+                                        <div class="modal-body">
+                                            <input type="number" name="patient_id" id="patient_id" hidden value="">
+                                            <input type="number" name="order_radiology_id" id="order_radiology_id" hidden value="">
+                                            <div class="form-group col-sm-6 mb-5">
+                                                {{ Form::label('file', __('messages.document.attachment').(':'), ['class' => 'form-label required']) }}
+                                                <br>
+                                                <div class="d-block">
+                                                    <?php
+                                                    $style = 'style=';
+                                                    $background = 'background-image:';
+                                                    ?>
+                                
+                                                    <div class="image-picker">
+                                                        <div class="image previewImage" id="documentPreviewImage"
+                                                        {{$style}}"{{$background}} url({{ asset('assets/img/default_image.jpg')}}">
+                                                            <span class="picker-edit rounded-circle text-gray-500 fs-small" title="{{ __('messages.document.attachment') }}">
+                                                                <label>
+                                                                <i class="fa-solid fa-pen" id="profileImageIcon"></i>
+                                                                    {{ Form::file('file',['id'=>'','class' => 'd-none image-upload']) }}
+                                                                    <input type="hidden" name="avatar_remove"/>
+                                                                </label>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                
+                                            </div>
+                                        <div class="modal-footer pt-0">
+                                            <button type="button" class="btn btn-primary" id="submit_file_btn">Save</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                        </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
                         </tbody>
                     </table>
-                     <!-- Modal -->
-                     <div id="addFile" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.paid') }}</h3>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <form id="fileForm" action="{{ route('lab.order.request.list.post') }}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('post')
-                                <div class="modal-body">
-                                    <input type="number" name="order_lab_id" id="order_lab_id" hidden value="">
-                                    <div class="form-group col-sm-12 mb-5">
-                                        {{ Form::label('Price', __('messages.original_price').':', ['class' => 'form-label']) }}
-                                        {{-- {{ Form::text('price', null, ['class' => 'form-control']) }}  --}}
-                                        <input readonly type="number" name="original_price" class="form-control" id="original_price" value="">
-                                    </div>
-                                    <div class="form-group col-sm-12 mb-5">
-                                        {{ Form::label('Price After Discount', __('messages.price_after_discount').':', ['class' => 'form-label']) }}
-                                        {{ Form::number('price_after_discount', null, ['class' => 'form-control', 'require']) }} 
-                                    </div>
-                                    </div>
-                                <div class="modal-footer pt-0">
-                                    {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
-                                    {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
-                                    <button type="button" class="btn btn-primary" id="submit_file_btn">Save</button>
-                                    <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
-                                </div>
-                                {{-- {{ Form::close() }} --}}
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
+                    {{ $ordersRadiology->links() }}
                 </div>
             </div>
         </div>
@@ -230,18 +205,19 @@
     {{--    assets/js/incomes/incomes.js --}}
     {{--    assets/js/custom/new-edit-modal-form.js --}}
     <script>
-        $(function(){
-            $('.iconAddFile').click(function(){
-                
-                // var original_price = $(this).attr('data-original_price');
-                var order_lab_id = $(this).attr('data-order_lab_id');
-                var row = $(this).closest('tr');
-                var price = row.find('td:eq(5)').text();
-                console.log(price);
-                console.log(order_lab_id);
-                $("#original_price").val(price);
-                $("#order_lab_id").val(order_lab_id);
-            });
+        // $(function(){
+        //     $('.iconAddFile').click(function(){
+        //         var patient_id = $(this).attr('data-patient_id');
+        //         var order_radiology_id = $(this).attr('data-order_radiology_id');
+        //         $("#patient_id").val(patient_id);
+        //         $("#order_radiology_id").val(order_radiology_id);
+        //     });
+        // });
+        $(document).on('click', '.iconAddFile', function(){
+            var patient_id = $(this).attr('data-patient_id');
+            var order_radiology_id = $(this).attr('data-order_radiology_id');
+            $("#patient_id").val(patient_id);
+            $("#order_radiology_id").val(order_radiology_id);
         });
     </script>
 

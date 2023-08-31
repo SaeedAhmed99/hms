@@ -50,4 +50,12 @@ class RadiologyCategory extends Model
     public static $rules = [
         'name' => 'required|unique:radiology_categories,name',
     ];
+
+    /**
+     * @return HasMany
+     */
+    public function radiologies()
+    {
+        return $this->hasMany(radiologyCategoryAddType::class, 'category_id');
+    }
 }

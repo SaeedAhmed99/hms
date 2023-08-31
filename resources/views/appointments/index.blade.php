@@ -109,18 +109,25 @@
     {{--    @endif--}}
 
     <script>
-        $(function(){
-            $('.iconAddFile').click(function(){
-                console.log('s');
-                var appointment_id = $(this).attr('data-appointment_id');
-                var patient_id = $(this).attr('data-patient_id');
-                // $(this).prev('input').val("hello world");
-                // console.log(appointment_id);
-                // console.log(patient_id);
-                $("#appointment_id").val(appointment_id);
-                $("#patient_id").val(patient_id);
-            });
-        });
+        // $(function(){
+        //     $('.iconAddFile').click(function(){
+        //         console.log('s');
+        //         var appointment_id = $(this).attr('data-appointment_id');
+        //         var patient_id = $(this).attr('data-patient_id');
+        //         // $(this).prev('input').val("hello world");
+        //         // console.log(appointment_id);
+        //         // console.log(patient_id);
+        //         $("#appointment_id").val(appointment_id);
+        //         $("#patient_id").val(patient_id);
+        //     });
+        // });
+
+        $(document).on('click', '.iconAddFile', function () {
+              var appointment_id = $(this).attr('data-appointment_id');
+              var patient_id = $(this).attr('data-patient_id');
+              $("#appointment_id").val(appointment_id);
+              $("#patient_id").val(patient_id);
+      });
     </script>
 
     <script>

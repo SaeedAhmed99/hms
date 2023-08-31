@@ -97,6 +97,7 @@ class Kernel extends HttpKernel
         'checkUserStatus' => CheckUserStatus::class,
         'modules' => CheckModule::class,
         'setLanguage' => SetLanguage::class,
+        'checkLogin' => \App\Http\Middleware\checkLogin::class,
     ];
 
     /**

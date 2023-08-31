@@ -104,7 +104,7 @@
                           </div>
                         </th>
               
-                        <th scope="col" class="" wire:key="header-col-3-WpskoqwzxJ5BdNxsPOsu">
+                        {{-- <th scope="col" class="" wire:key="header-col-3-WpskoqwzxJ5BdNxsPOsu">
                           <div class="" wire:click="sortBy('date')" style="cursor:pointer;">
                             <span>Note</span>
               
@@ -112,7 +112,7 @@
                             </span>
                           </div>
                         </th>
-                      </tr>
+                      </tr> --}}
                     </thead>
               
                     <tbody class="">
@@ -148,11 +148,11 @@
                                   </div>
                                   </td>
 
-                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                {{-- <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                 <div class="d-flex align-items-center mt-3">
                                   {{ $item->note ?? '' }}
                                 </div>
-                                </td>
+                                </td> --}}
                     
                             </tr>
                         @endforeach
