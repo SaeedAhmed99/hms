@@ -97,7 +97,6 @@
                 @include('layouts.footer')
             </div>
         </div>
-        
         @include('user_profile.edit_profile_modal')
         @include('user_profile.change_password_modal')
     </div>
@@ -119,14 +118,23 @@
     {{Form::hidden('ajaxCallIsRunning',false,['class'=>'ajaxCallIsRunning'])}}
     {{Form::hidden('userCurrentLanguage',getLoggedInUser()->language,['class'=>'userCurrentLanguage'])}}
     {{Form::hidden('sweetAlertIcon',asset('assets/images/remove.png'),['class'=>'sweetAlertIcon'])}}
-    {{ Form::hidden('deleteVariable', __('messages.common.delete'), ['class' => 'deleteVariable']) }}
-    {{ Form::hidden('yesVariable', __('messages.common.yes'), ['class' => 'yesVariable']) }}
-    {{ Form::hidden('noVariable', __('messages.common.no'), ['class' => 'noVariable']) }}
-    {{ Form::hidden('cancelVariable', __('messages.common.cancel'), ['class' => 'cancelVariable']) }}
-    {{ Form::hidden('confirmVariable', __('messages.common.are_you_sure_want_to_delete_this'), ['class' => 'confirmVariable']) }}
-    {{ Form::hidden('deletedVariable', __('messages.common.deleted'), ['class' => 'deletedVariable']) }}
-    {{ Form::hidden('hasBeenDeletedVariable', __('messages.common.has_been_deleted'), ['class' => 'hasBeenDeletedVariable']) }}
-    {{ Form::hidden('okVariable', __('messages.common.ok'), ['class' => 'okVariable']) }}
+    {{Form::hidden('deleteVariable', __('messages.common.delete'), ['class' => 'deleteVariable']) }}
+    {{Form::hidden('yesVariable', __('messages.common.yes'), ['class' => 'yesVariable']) }}
+    {{Form::hidden('noVariable', __('messages.common.no'), ['class' => 'noVariable']) }}
+    {{Form::hidden('cancelVariable', __('messages.common.cancel'), ['class' => 'cancelVariable']) }}
+    {{Form::hidden('confirmVariable', __('messages.common.are_you_sure_want_to_delete_this'), ['class' => 'confirmVariable']) }}
+    {{Form::hidden('deletedVariable', __('messages.common.deleted'), ['class' => 'deletedVariable']) }}
+    {{Form::hidden('hasBeenDeletedVariable', __('messages.common.has_been_deleted'), ['class' => 'hasBeenDeletedVariable']) }}
+    {{Form::hidden('okVariable', __('messages.common.ok'), ['class' => 'okVariable']) }}
 </div>
+
+    <script>
+        // const refreshInterval = 30 * 1000;
+        const refreshInterval = 5 * 60 * 1000;
+        function refreshPage() {
+        location.reload();
+        }
+        setInterval(refreshPage, refreshInterval);
+    </script>
 </body>
 </html>

@@ -5,12 +5,7 @@
 <header class="position-relative">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-1 col-4">
-                <a href="{{ url('/') }}" class="header-logo">
-                    <img src="{{ getLogoUrl() }}" alt="Infy HMS" class="img-fluid" />
-                </a>
-            </div>
-            <div class="col-lg-11 col-8 ps-0">
+            <div class="col-lg-11 col-8 ps-0" style="direction: ltr;">
                 <nav class="navbar navbar-expand-xl navbar-light justify-content-end py-0">
                     <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -18,7 +13,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                        <ul class="navbar-nav align-items-center py-2 py-lg-0">
+                        <ul class="navbar-nav align-items-center flex-row-reverse py-2 py-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="{{ url('/') }}">
                                     {{-- {{ __('messages.web_home.home') }} --}}الصفحة الرئيسية
@@ -52,12 +47,12 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item" >
                                 <a class="nav-link" href="#" {{ Request::is('terms-of-service', 'privacy-policy') ? 'active' : '' }}>
                                     {{-- {{ __('messages.web_menu.our_features  ') }} --}}ميزاتنا
                                     <i class="fa-solid fa-angle-down ms-1"></i>
                                 </a>
-                                <ul class="nav submenu">
+                                <ul class="nav submenu" style="text-align: right;">
                                     {{-- <li class="nav-item">
                                         <a class="nav-link {{ Request::is('appointment') ? 'active' : '' }}" href="{{ route('appointment') }}">
                                             {{ __('messages.web_menu.appointment') }}
@@ -85,7 +80,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            {{-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0)"> {{ __('messages.language.'.getCurrentLanguageName()) }}</a>
                                 <ul class="nav submenu language-menu">
                                     @foreach(getLanguages() as $key => $value)
@@ -101,7 +96,7 @@
                                         @endforeach
                                     @endforeach
                                 </ul>
-                            </li> --}}
+                            </li>
                         </ul>
                         <div class="text-xl-end header-btn-grp ms-xl-3">
                             @if(Auth::user())
@@ -175,6 +170,13 @@
                     </div>
                 </nav>
             </div>
+
+            <div class="col-lg-1 col-4">
+                <a href="{{ url('/') }}" class="header-logo">
+                    <img src="{{ getLogoUrl() }}" alt="Infy HMS" class="img-fluid"/>
+                </a>
+            </div>
+            
         </div>
     </div>
 </header>

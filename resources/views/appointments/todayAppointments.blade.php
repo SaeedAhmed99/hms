@@ -4,6 +4,12 @@
 @endsection
 @section('css')
 {{--    <link rel="stylesheet" href="{{ asset('assets/css/sub-header.css') }}">--}}
+<style>
+  .table-striped>tbody>tr.selected:nth-of-type(odd)>* {
+    --bs-table-accent-bg: transparent;
+    color: blue;
+}
+</style>
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -209,171 +215,171 @@
               
                     <tbody class="">
                         @foreach ($appointments as $row)
-                            <tr wire:loading.class.delay="" class="" wire:key="row-0-WpskoqwzxJ5BdNxsPOsu">
-                                <td class="" wire:key="cell-0-0-WpskoqwzxJ5BdNxsPOsu">
-                                    <div class="d-flex align-items-center">
-                                        <div class="image image-mini me-3">
-                                            {{$row->counter}} - 
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <a href="{{route('patients.show',$row->patient->id)}}"
-                                               class="mb-1 text-decoration-none">{{$row->patient->user->first_name ?? ''}} {{$row->patient->user->middle_name ?? ''}} {{$row->patient->user->last_name ?? ''}} @if(count($row->patient->appointments) == 1) <small style="color: green">(new)</small> @endif</a>
-                                            {{-- <span>{{$row->patient->patientUser->email}}</span> --}}
-                                        </div>
-                                    </div>                                    
-                                </td>
-                    
-                                <td class="p-5" wire:key="cell-0-1-WpskoqwzxJ5BdNxsPOsu">
+                          <tr>
+                            <td class="" wire:key="cell-0-0-WpskoqwzxJ5BdNxsPOsu">
+                                <div class="d-flex align-items-center">
+                                    <div class="image image-mini me-3">
+                                        {{$row->counter}} - 
+                                    </div>
                                     <div class="d-flex flex-column">
-                                        <a href="{{ url('doctors',$row->doctor->id) }}"
-                                           class="mb-1 text-decoration-none">{{ $row->doctor->user->first_name ?? ''}} {{ $row->doctor->user->middle_name ?? ''}} {{ $row->doctor->user->last_name ?? ''}}</a>
+                                        <a href="{{route('patients.show',$row->patient->id)}}"
+                                           class="mb-1 text-decoration-none">{{$row->patient->user->first_name ?? ''}} {{$row->patient->user->middle_name ?? ''}} {{$row->patient->user->last_name ?? ''}} @if(count($row->patient->appointments) == 1) <small style="color: green">(new)</small> @endif</a>
+                                        {{-- <span>{{$row->patient->patientUser->email}}</span> --}}
                                     </div>
-                                </td>
+                                </div>                                    
+                            </td>
+                
+                            <td class="p-5" wire:key="cell-0-1-WpskoqwzxJ5BdNxsPOsu">
+                                <div class="d-flex flex-column">
+                                    <a href="{{ url('doctors',$row->doctor->id) }}"
+                                       class="mb-1 text-decoration-none">{{ $row->doctor->user->first_name ?? ''}} {{ $row->doctor->user->middle_name ?? ''}} {{ $row->doctor->user->last_name ?? ''}}</a>
+                                </div>
+                            </td>
 
-                                @php
-                                    $servicesIds = $row->service_id ?? [];
-                                    $gerServices = App\Models\Service::whereIn('id', $servicesIds)->get();
-                                @endphp
-                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
-                                    <div class="d-flex align-items-center mt-4">
-                                        {{-- {{$row->service->name ?? ''}} --}}
-                                        @foreach ($gerServices as $service)
-                                            {{ $service->name . ', ' ?? '' }}
-                                        @endforeach
-                                    </div>
-                                </td>
-
-                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
-                                    <div class="d-flex align-items-center mt-4">
-                                        {{$row->fees ?? ''}}
-                                    </div>
-                                </td>
-
-                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
-                                    <div class="badge bg-light-info">
-                                        <div class="mb-2">{{ \Carbon\Carbon::parse($row->opd_date)->isoFormat('LT')}}</div>
-                                        {{-- <div>{{ \Carbon\Carbon::parse($row->opd_date)->translatedFormat('jS M, Y')}}</div> --}}
-                                        {{-- <div>{{$row->opd_date->format('d/m/Y')}}</div> --}}
-                                        <div>{{date('d-m-Y', strtotime($row->opd_date))}}</div>
-                                    </div>
-                                </td>
-
-                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
-                                    <div class="d-flex align-items-center mt-4">
-                                        {{$row->userEntered->first_name ?? ''}} {{$row->userEntered->middle_name ?? ''}} {{$row->userEntered->last_name ?? ''}}
-                                    </div>
-                                </td>
+                            @php
+                                $servicesIds = $row->service_id ?? [];
+                                $gerServices = App\Models\Service::whereIn('id', $servicesIds)->get();
+                            @endphp
+                            <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                <div class="d-flex align-items-center mt-4">
+                                    {{-- {{$row->service->name ?? ''}} --}}
+                                    @foreach ($gerServices as $service)
+                                        {{ $service->name . ', ' ?? '' }}
+                                    @endforeach
+                                </div>
+                            </td>
 
                             <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
-                                  @if($row->is_completed == 3)
-                                  {{-- <a data-bs-toggle="tooltip" data-placement="top" data-bs-toggle="modal" data-bs-target="#showCancelAppointment" data-bs-original-title=" {{__('messages.common.canceled')}} " class="btn px-1 text-danger fs-3 pe-0">
-                                      <i class="fas fa-calendar-times text-danger"></i>
+                                <div class="d-flex align-items-center mt-4">
+                                    {{$row->fees ?? ''}}
+                                </div>
+                            </td>
+
+                            <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                <div class="badge bg-light-info">
+                                    {{-- <div class="mb-2">{{ \Carbon\Carbon::parse($row->opd_date)->isoFormat('LT')}}</div> --}}
+                                    {{-- <div>{{ \Carbon\Carbon::parse($row->opd_date)->translatedFormat('jS M, Y')}}</div> --}}
+                                    {{-- <div>{{$row->opd_date->format('d/m/Y')}}</div> --}}
+                                    <div>{{date('d-m-Y', strtotime($row->opd_date))}}</div>
+                                </div>
+                            </td>
+
+                            <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                <div class="d-flex align-items-center mt-4">
+                                    {{$row->userEntered->first_name ?? ''}} {{$row->userEntered->middle_name ?? ''}} {{$row->userEntered->last_name ?? ''}}
+                                </div>
+                            </td>
+
+                        <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                              @if($row->is_completed == 3)
+                              {{-- <a data-bs-toggle="tooltip" data-placement="top" data-bs-toggle="modal" data-bs-target="#showCancelAppointment" data-bs-original-title=" {{__('messages.common.canceled')}} " class="btn px-1 text-danger fs-3 pe-0">
+                                  <i class="fas fa-calendar-times text-danger"></i>
+                              </a> --}}
+                              <a data-reason="{{ $row->cancel_reason }}" data-bs-toggle="modal" data-bs-target="#showCancelAppointment" data-bs-original-title="{{ __('messages.common.cancel')}}"
+                                  class="btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }} show-appointment-cancellation">
+                                  <i class="fas fa-calendar-times text-danger"></i>
+                              </a>
+                          @else
+                              @if (!Auth::user()->hasRole('Doctor'))
+                                  {{-- <a data-bs-toggle="tooltip" data-placement="top" data-bs-original-title="{{ __('messages.common.cancel')}}" data-id="{{$row->id}}"
+                                      class="cancel-appointment btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }}">
+                                      <i class="far fa-calendar-times {{$row->is_completed == 1 ? "text-danger"  : "" }}"></i>
                                   </a> --}}
-                                  <a data-reason="{{ $row->cancel_reason }}" data-bs-toggle="modal" data-bs-target="#showCancelAppointment" data-bs-original-title="{{ __('messages.common.cancel')}}"
-                                      class="btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }} show-appointment-cancellation">
-                                      <i class="fas fa-calendar-times text-danger"></i>
+                                  <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#cancelAppointment" data-bs-original-title="{{ __('messages.common.cancel')}}"
+                                      class="btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }} appointment-cancellation">
+                                      <i class="far fa-calendar-times {{$row->is_completed == 1 ? "text-danger"  : "" }}"></i>
+                                  </a>
+                              @endif
+                          @endif
+
+                          @if (!getLoggedinPatient())
+                              @if ($row->is_completed == 1 || $row->is_completed == 3)
+                                  <a title="Completed"
+                                     class="btn px-1 text-primary fs-3 pe-0 {{$row->is_completed == 3 ? "d-none"  : "" }}">
+                                      <i class="fas fa-calendar-check text-success {{$row->is_completed == 3 ? "d-none"  : ""}}"></i>
+                                  </a>
+                              @endif
+                              @if (Auth::user()->hasRole('Doctor'))
+                                @if ($row->is_completed == 0)
+                                    <a title="{{ __('messages.common.confirm') }}" data-id="{{$row->id}}" class="appointment-complete-status btn px-1 text-primary fs-3 pe-0">
+                                        <i class="far fa-calendar-check"></i>
+                                    </a>
+                                @endif
+                              @endif
+                          @endif
+                          
+                          @if (!Auth::user()->hasRole('Doctor'))
+                              <a href="{{ route('appointments.edit', $row->id) }}" title="{{__('messages.common.edit') }}"
+                                  class="btn px-1 text-primary fs-3 ps-0">
+                                  <i class="fa-solid fa-pen-to-square"></i>
+                              </a>  
+                          
+                          <a href="{{ route('appointments.print.id', $row->id) }}" title="{{ __('messages.common.print') }}"  class="btn px-1 text-primary fs-3 pe-0">
+                              <i class="fa-solid fa-print"></i>
+                          </a>
+                            
+                              @if (count($row->documents) == 0)
+                                  <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
+                                      <i class="fa-regular fa-file"></i>
                                   </a>
                               @else
-                                  @if (!Auth::user()->hasRole('Doctor'))
-                                      {{-- <a data-bs-toggle="tooltip" data-placement="top" data-bs-original-title="{{ __('messages.common.cancel')}}" data-id="{{$row->id}}"
-                                          class="cancel-appointment btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }}">
-                                          <i class="far fa-calendar-times {{$row->is_completed == 1 ? "text-danger"  : "" }}"></i>
-                                      </a> --}}
-                                      <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#cancelAppointment" data-bs-original-title="{{ __('messages.common.cancel')}}"
-                                          class="btn px-1 text-danger fs-3 pe-0 {{$row->is_completed == 1 ? "d-none"  : "" }} appointment-cancellation">
-                                          <i class="far fa-calendar-times {{$row->is_completed == 1 ? "text-danger"  : "" }}"></i>
-                                      </a>
-                                  @endif
+                                  <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
+                                      <i class="fa-solid fa-file"></i>
+                                  </a>
                               @endif
+                          @endif
+                          
+                          
+                          <?php if($is_role = getLoggedInUser()->hasRole(['Admin', 'Patient'])) { ?>
+                          <a title="<?php echo __('messages.common.delete') ?>" data-id="{{$row->id}}"
+                             class="appointment-delete-btn btn px-1 text-danger fs-3 pe-0" wire:key="{{$row->id}}">
+                              <i class="fa-solid fa-trash"></i>
+                          </a>
+                          <?php }?>
+                          
+                          {{-- @if (Auth::user()->hasRole('Doctor')) --}}
+                            <button data-appointmentId="{{ $row->id }}" data-note="{{ $row->problem }}" type="button" class="btn px-1 @if($row->problem) text-success @else text-primary @endif fs-3 pe-0 appNote" data-bs-toggle="modal" data-bs-target="#appointmentNote" title="note"><i class="fa-solid fa-notes-medical"></i></button>
+                          {{-- @endif --}} 
 
-                              @if (!getLoggedinPatient())
-                                  @if ($row->is_completed == 1 || $row->is_completed == 3)
-                                      <a title="Completed"
-                                         class="btn px-1 text-primary fs-3 pe-0 {{$row->is_completed == 3 ? "d-none"  : "" }}">
-                                          <i class="fas fa-calendar-check text-success {{$row->is_completed == 3 ? "d-none"  : ""}}"></i>
-                                      </a>
-                                  @endif
-                                  @if (Auth::user()->hasRole('Doctor'))
-                                    @if ($row->is_completed == 0)
-                                        <a title="{{ __('messages.common.confirm') }}" data-id="{{$row->id}}" class="appointment-complete-status btn px-1 text-primary fs-3 pe-0">
-                                            <i class="far fa-calendar-check"></i>
-                                        </a>
-                                    @endif
-                                  @endif
-                              @endif
-                              
-                              @if (!Auth::user()->hasRole('Doctor'))
-                                  <a href="{{ route('appointments.edit', $row->id) }}" title="{{__('messages.common.edit') }}"
-                                      class="btn px-1 text-primary fs-3 ps-0">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                  </a>  
-                              
-                              <a href="{{ route('appointments.print.id', $row->id) }}" title="{{ __('messages.common.print') }}"  class="btn px-1 text-primary fs-3 pe-0">
-                                  <i class="fa-solid fa-print"></i>
-                              </a>
-                                
-                                  @if (count($row->documents) == 0)
-                                      <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
-                                          <i class="fa-regular fa-file"></i>
-                                      </a>
-                                  @else
-                                      <a data-appointment_id="{{ $row->id }}" data-patient_id="{{ $row->patient->id }}" data-bs-toggle="modal" data-bs-target="#addFile" title="{{ __('messages.addfile') }}"  class="btn px-1 text-primary fs-3 pe-0 iconAddFile">
-                                          <i class="fa-solid fa-file"></i>
-                                      </a>
-                                  @endif
-                              @endif
-                              
-                              
-                              <?php if($is_role = getLoggedInUser()->hasRole(['Admin', 'Patient'])) { ?>
-                              <a title="<?php echo __('messages.common.delete') ?>" data-id="{{$row->id}}"
-                                 class="appointment-delete-btn btn px-1 text-danger fs-3 pe-0" wire:key="{{$row->id}}">
-                                  <i class="fa-solid fa-trash"></i>
-                              </a>
-                              <?php }?>
-                              
-                              {{-- @if (Auth::user()->hasRole('Doctor')) --}}
-                                <button data-appointmentId="{{ $row->id }}" data-note="{{ $row->problem }}" type="button" class="btn px-1 @if($row->problem) text-success @else text-primary @endif fs-3 pe-0 appNote" data-bs-toggle="modal" data-bs-target="#appointmentNote" title="note"><i class="fa-solid fa-notes-medical"></i></button>
-                              {{-- @endif --}} 
-
-                              <!-- Modal -->
-                              <div id="cancelAppointment" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.common.cancel_appointment') }}</h3>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <form id="cancelForm" action="{{ route('appointment.cancellation') }}" method="post">
-                                          @csrf
-                                          @method('post')
-                                          {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
-                                          <div class="modal-body">
-                                              {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
-                                                <input type="number" name="appointment_id" id="cancel_appointment_id" hidden value="{{ $row->id }}">
-                                            
-                                            <!-- Notes Field -->
-                                            <div class="form-group col-sm-12 mb-5">
-                                                {{ Form::label('cancel_reason', __('messages.common.Reason_for_cancellation').':', ['class' => 'form-label']) }}
-                                                {{ Form::textarea('cancel_reason', null, ['class' => 'form-control', 'rows'=>'4']) }}
-                                            </div>
-                                                  
-                                              </div>
-                                          <div class="modal-footer pt-0">
-                                              {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
-                                              {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
-                                              <button type="button" class="btn btn-primary" id="submit_cancel_btn">{{ __('messages.common.confirm') }}</button>
-                                              <button type="button" class="btn btn-secondary"
-                                                      data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
-                                          </div>
-                                        {{-- {{ Form::close() }} --}}
-                                        </form>
-
+                          <!-- Modal -->
+                          <div id="cancelAppointment" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="exampleModalLabel">{{ __('messages.common.cancel_appointment') }}</h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
+                                    <form id="cancelForm" action="{{ route('appointment.cancellation') }}" method="post">
+                                      @csrf
+                                      @method('post')
+                                      {{-- {{ Form::hidden('currency_symbol', getCurrentCurrency(), ['class' => 'currencySymbol']) }} --}}
+                                      <div class="modal-body">
+                                          {{-- <div class="alert alert-danger d-none hide" id="expenseErrorsBox"></div> --}}
+                                            <input type="number" name="appointment_id" id="cancel_appointment_id" hidden value="{{ $row->id }}">
+                                        
+                                        <!-- Notes Field -->
+                                        <div class="form-group col-sm-12 mb-5">
+                                            {{ Form::label('cancel_reason', __('messages.common.Reason_for_cancellation').':', ['class' => 'form-label']) }}
+                                            {{ Form::textarea('cancel_reason', null, ['class' => 'form-control', 'rows'=>'4']) }}
+                                        </div>
+                                              
+                                          </div>
+                                      <div class="modal-footer pt-0">
+                                          {{-- {{ Form::button(__('messages.common.save'), ['type' => 'submit','class' => 'btn btn-primary m-0']) }} --}}
+                                          {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                                          <button type="button" class="btn btn-primary" id="submit_cancel_btn">{{ __('messages.common.confirm') }}</button>
+                                          <button type="button" class="btn btn-secondary"
+                                                  data-bs-dismiss="modal">{{ __('messages.common.cancel') }}</button>
+                                      </div>
+                                    {{-- {{ Form::close() }} --}}
+                                    </form>
+
                                 </div>
-                              </div>
-                            </tr>
+                            </div>
+                          </div>
+                        </tr>              
                         @endforeach
 
                       

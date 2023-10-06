@@ -827,6 +827,13 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
             <span class="aside-menu-title">{{ __('messages.new_appointments') }}</span>
         </a>
     </li>
+    <li class="nav-item  {{ Request::is('appointment/old-patient-search*') ? 'active' : '' }}">
+        <a class="nav-link  d-flex align-items-center py-3"
+           href="{{ route('appointments.old.patient.search') }}">
+            <span class="aside-menu-icon pe-3 pe-3"><i class="fas fa-calendar-check"></i></span>
+            <span class="aside-menu-title">{{ __('messages.appointment.new_appointments_for_old_patient') }}</span>
+        </a>
+    </li>
     @endmodule
 
     {{--Doctors--}}
@@ -1011,6 +1018,13 @@ $vaccinationsPatient = getMenuLinks(\App\Models\User::MAIN_VACCINATION_MGT)
                 <span class="aside-menu-title">{{ __('messages.radiologies') }}</span>
                 <span class="d-none">{{__('messages.radiology_categories')}}</span>
                 <span class="d-none">{{__('messages.radiology_tests')}}</span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('radiology/order-list') ? 'active' : '' }}">
+            <a class="nav-link  d-flex align-items-center py-3"
+               href="{{ Route('radiology.order.list') }}">
+                <span class="aside-menu-icon pe-3 pe-3"><i class="fa fa-x-ray"></i></span>
+                <span class="aside-menu-title">{{ __('messages.radiologies_request') }}</span>
             </a>
         </li>
     @endif

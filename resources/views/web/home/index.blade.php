@@ -211,7 +211,10 @@
                     <div class="row justify-content-center">
                         @foreach($frontServices  as $frontService)
                                 <div class="col-xl-3 col-lg-4 col-md-6 py-lg-2 card-hover d-flex align-items-stretch" >
-                                    <button style="border: none; padding: 0; background-color: transparent;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <button style="border: none; padding: 0; background-color: transparent;"
+                                    data-titleService="{{ \Illuminate\Support\Str::limit($frontService->name, 50) }}"
+                                    data-ContentService="{{ \Illuminate\Support\Str::limit($frontService->short_description, 50) }}"
+                                     type="button" class="btn btn-primary show-modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         <div class="card p-c-4 my-lg-2 mx-lg-1 my-md-3 my-2 flex-fill">
                                             <img src="{{ isset($frontService->icon_url) ? $frontService->icon_url : asset('web_front/images/services/medicine.png') }}"
                                                 class="card-img-top img-wh mx-auto " alt="Cardiology">
@@ -229,7 +232,7 @@
         </section>
   
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  {{-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header" style="background-color: #00AAE7;">
@@ -239,12 +242,9 @@
         <div class="modal-body">
           ...
         </div>
-        {{-- <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div> --}}
       </div>
     </div>
-  </div>
+  </div> --}}
         <!-- end service-section -->
 
         <!-- start quality-section -->
@@ -360,4 +360,22 @@
                            
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).on("click", '.show-modal', function() {
+            // var row = $(this).closest("tr");
+            // var id = $(this).data("id");
+            // var title = row.find("td:eq(0)").text();
+            // var description = row.find("td:eq(1)").text();
+            const titleService = $(this).data('titleService');
+            const ContentService = $(this).data('ContentService');
+            console.log(titleService);
+            console.log(ContentService);
+            // $("#categoryId-input").val(id);
+            // $("#name-input").val(title);
+            // $("#price-input").val(description);
+        });
+    </script>
 @endsection

@@ -26,26 +26,28 @@
                   <div class="d-flex flex-column">
                     <div>
                     </div>
-                    <div class="d-md-flex justify-content-between mb-3 livewire-search-box align-items-center">
+                    <div class="">
+                      <form action="">
+                        <div class="position-relative d-flex width-470">
+                          <input style="padding: 0 10px;" type="date" name="due" value="{{ $due }}" class='form-control' style="margin-left: 10px;">
+                          <input style="padding: 0 10px;" type="date" name="due_end" value="{{ $due_end }}" class='form-control' style="margin-left: 10px;">
+                          <input type="submit" value="Search" class="form-control btn btn-primary" style="margin-left: 10px;">
+                        </div>
+                      </form>
                       <div class="d-md-flex">
-                        <div class="mb-3 mb-sm-0">
-                          <form action="">
-                            <div class="position-relative d-flex width-470">
-                              <input style="padding: 0 10px;" type="date" name="due" value="{{ $due }}" class='form-control' style="margin-left: 10px;">
-                              <input type="submit" value="Search" class="form-control btn btn-primary" style="margin-left: 10px;">
-                            </div>
-                          </form>
-                        </div>
-                        <div>
-                          <button @if (!$due) disabled @endif  href="" class="btn btn-primary" style="margin-left: 10px;" data-bs-toggle="modal" data-bs-target="#payTheAmount"><svg style="font-size: 23px; margin-right: 7px; color: white;" class="svg-inline--fa fa-money-bill" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="money-bill" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M512 64C547.3 64 576 92.65 576 128V384C576 419.3 547.3 448 512 448H64C28.65 448 0 419.3 0 384V128C0 92.65 28.65 64 64 64H512zM128 384C128 348.7 99.35 320 64 320V384H128zM64 192C99.35 192 128 163.3 128 128H64V192zM512 384V320C476.7 320 448 348.7 448 384H512zM512 128H448C448 163.3 476.7 192 512 192V128zM288 352C341 352 384 309 384 256C384 202.1 341 160 288 160C234.1 160 192 202.1 192 256C192 309 234.1 352 288 352z"></path></svg>
-                          </button>
-                        </div>
-                        <div>
-                          <a  href="{{route('incomes.doctors.exportPdf', ['doctor_id' => $doctor->id, 'date' => $due])}}" target="_blank" class="btn btn-primary" style="margin-left: 10px;"><i class="fa-solid fa-print"></i></a>
-                        </div>
-                        <div class="mb-3 mb-sm-0" style="margin-left: 20px;">
+                        
+                        <div class="my-3 mb-sm-0">
+                          
                           <div class="position-relative d-flex width-500">
-                            <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; cursor: auto;">Earning: {{ $total_earning }}</button>
+                            <div>
+                              
+                            </div>
+                            <button @if (!$due || $due_end) disabled @endif  href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#payTheAmount"><svg style="font-size: 23px; margin-right: 7px; color: white;" class="svg-inline--fa fa-money-bill" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="money-bill" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M512 64C547.3 64 576 92.65 576 128V384C576 419.3 547.3 448 512 448H64C28.65 448 0 419.3 0 384V128C0 92.65 28.65 64 64 64H512zM128 384C128 348.7 99.35 320 64 320V384H128zM64 192C99.35 192 128 163.3 128 128H64V192zM512 384V320C476.7 320 448 348.7 448 384H512zM512 128H448C448 163.3 476.7 192 512 192V128zM288 352C341 352 384 309 384 256C384 202.1 341 160 288 160C234.1 160 192 202.1 192 256C192 309 234.1 352 288 352z"></path></svg>
+                            </button>
+                            <div>
+                              <a  href="{{route('incomes.doctors.exportPdf', ['doctor_id' => $doctor->id, 'date' => $due])}}" target="_blank" class="btn btn-primary" style="margin-left: 10px;"><i class="fa-solid fa-print"></i></a>
+                            </div>
+                            <button class="btn btn-primary" style="margin-right: 10px; margin-left: 10px; width: fit-content; cursor: auto;">Earning: {{ $total_earning }}</button>
                             <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; cursor: auto;">Withdrawn: {{ $total_withdrawn }}</button>
                             <button class="btn btn-primary" style="margin-right: 10px; width: fit-content; cursor: auto;">Remaining: {{ $total_earning - $total_withdrawn }}</button>
                           </div>
@@ -103,6 +105,15 @@
                             </span>
                           </div>
                         </th>
+
+                        <th scope="col" class="" wire:key="header-col-2-WpskoqwzxJ5BdNxsPOsu">
+                          <div class="" wire:click="sortBy('income_head')" style="cursor:pointer;">
+                            <span>Action</span>
+              
+                            <span class="relative">
+                            </span>
+                          </div>
+                        </th>
               
                         {{-- <th scope="col" class="" wire:key="header-col-3-WpskoqwzxJ5BdNxsPOsu">
                           <div class="" wire:click="sortBy('date')" style="cursor:pointer;">
@@ -146,7 +157,15 @@
                                   <div class="d-flex align-items-center mt-3">
                                     {{ $item->type ?? '' }}
                                   </div>
-                                  </td>
+                                </td>
+
+                                <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
+                                  <div class="d-flex align-items-center mt-3">
+                                    <a class=" btn px-1 text-danger fs-3 pe-0 delete-incom" incom_id="{{ $item->id }}">
+                                       <i class="fa-solid fa-trash"></i>
+                                   </a>
+                                  </div>
+                                </td>
 
                                 {{-- <td class="" wire:key="cell-0-2-WpskoqwzxJ5BdNxsPOsu">
                                 <div class="d-flex align-items-center mt-3">
@@ -274,6 +293,7 @@
                     </tbody>
               
                   </table>
+                  <p class="mt-3">{{ $appointments->links() }}</p>
                 </div>
                   <!-- Modal -->
                                
@@ -328,5 +348,50 @@
       }
   </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  $(document).on('click', '.delete-incom', function (e) {
+    e.preventDefault();
+    var incom_id = $(this).attr('incom_id');
+    var delincom = $(this).parent().parent().parent();
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'post',
+                url: "/incomes/more/destroy-incomes",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: incom_id
+                },
+                success: function (data) {
+                    delincom.remove();
+                    Swal.fire(
+                        'Deleted!',
+                        'Record has been deleted.',
+                        'success'
+                    )
+                },
+                error: function (data) {
+                    Swal.fire(
+                        'Not Deleted!',
+                        data.responseJSON.message,
+                        'error'
+                    )
+                }
+            });
+
+        }
+    })
+});
+</script>
 
 @endsection

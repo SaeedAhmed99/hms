@@ -96,6 +96,7 @@ use App\Http\Controllers\VaccinatedPatientController;
 use App\Http\Controllers\VaccinationController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\Web;
+use App\Http\Controllers\WelcomingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -225,6 +226,8 @@ Route::middleware('checkLogin', 'verified', 'xss', 'checkUserStatus')->group(fun
         Route::get('opd-timelines', [OpdTimelineController::class, 'index'])->name('opd.timelines.index');
         Route::get('opd-timelines-download/{opdTimeline}', [OpdTimelineController::class, 'downloadMedia']);
     });
+
+
 
     // excel export routes.
     Route::middleware('role:Patient')->group(function () {
@@ -734,6 +737,7 @@ Route::middleware('checkLogin', 'verified', 'xss', 'checkUserStatus')->group(fun
         Route::post('incomes/{income}/update', [IncomeController::class, 'update'])->name('incomes.update');
         Route::get('incomes/{income}/edit', [IncomeController::class, 'edit'])->name('incomes.edit');
         Route::get('incomes/{id}/more/', [IncomeController::class, 'financialMore'])->name('incomes.more');
+        Route::post('incomes/more/destroy-incomes', [IncomeController::class, 'destroyIncomes'])->name('more.incomes.destroy');
         Route::post('incomes/withdraw/', [IncomeController::class, 'financialWithdraw'])->name('incomes.withdraw');
         Route::get('income/print-last-day/', [IncomeController::class, 'incomesPrintLastDay'])->name('incomes.print.last.day');
 
@@ -1313,6 +1317,10 @@ Route::middleware('checkLogin', 'verified', 'xss', 'checkUserStatus')->group(fun
         Route::post('user-zoom-credential',
                 [LiveConsultationController::class, 'zoomCredentialCreate'])->name('zoom.credential.create');
     });
+});
+
+Route::middleware('role:Receptionist')->group(function () {
+    Route::get('welcoming-sarah-alrayyes', [WelcomingController::class, 'index'])->middleware('checkLogin');
 });
 
 Route::get('hms-logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);

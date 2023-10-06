@@ -443,6 +443,14 @@
        {{ __('messages.appointment.appointments_today') }}
     </a>
 </li>
+
+<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('appointments*','appointment-calendars', 'today-appointments', 'appointment/old-patient-search', 'appointment/old-patient-search/create*')) ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('appointment/old-patient-search') ? 'active' : '' }}"
+       href="{{ route('appointments.old.patient.search') }}">
+       {{ __('messages.appointment.new_appointments_for_old_patient') }}
+    </a>
+</li>
+
 @endrole
 
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('appointments*','appointment-calendars', 'today-appointments')) ? 'd-none' : '' }}">

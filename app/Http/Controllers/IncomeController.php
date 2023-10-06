@@ -9,6 +9,7 @@ use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\FinancialTransaction;
 use App\Models\Income;
+use App\Models\Transaction;
 use App\Repositories\IncomeRepository;
 use Carbon\Carbon;
 use Exception;
@@ -237,6 +238,7 @@ class IncomeController extends AppBaseController
         $total_earning = 0;
         $total_withdrawn = 0;
         $due = $request->due ?? date("Y-m-d");
+        $due_end = $request->due_end;
         if ($request->has('due')) {
             $due = $request->due;
         }
@@ -246,15 +248,28 @@ class IncomeController extends AppBaseController
             $transactions = FinancialTransaction::where('doctor_id', $doctor->id)->where('due_date', 'LIKE', '%' . $due . '%')->orderBy('id', 'DESC')->simplePaginate(25);
             $total_earning = Appointment::where('is_completed', '!=', '3')->where('doctor_id', $doctor->id)->where('created_at', 'LIKE', '%' . $due . '%')->sum('fees');
             $total_withdrawn = $transactions->sum('transaction_amount');
-            $appointments = Appointment::where('doctor_id', $id)->whereDate('created_at', $due )->get();
+            $appointments = Appointment::where('doctor_id', $id)->whereDate('created_at', $due )->paginate(50);
         } else {
             $transactions = FinancialTransaction::where('doctor_id', $doctor->id)->orderBy('id', 'DESC')->simplePaginate(15);
             $total_earning = Appointment::where('is_completed', '!=', '3')->where('doctor_id', $doctor->id)->sum('fees');
             $total_withdrawn = FinancialTransaction::where('doctor_id', $doctor->id)->sum('transaction_amount');
-            $appointments = Appointment::where('doctor_id', $id)->get();
+            $appointments = Appointment::where('doctor_id', $id)->paginate(50);
         }
 
-        return view('incomes.doctor_info', compact('doctor', 'transactions', 'total_earning', 'total_withdrawn', 'due', 'appointments'));
+        if ($due_end) {
+            $transactions = FinancialTransaction::where('doctor_id', $doctor->id)->whereDate('due_date', '>=', $due)->whereDate('due_date', '<=', $due_end)->orderBy('id', 'DESC')->simplePaginate(25);
+            $total_earning = Appointment::where('is_completed', '!=', '3')->where('doctor_id', $doctor->id)->whereDate('created_at', '>=', $due)->whereDate('created_at', '<=', $due_end)->sum('fees');
+            $total_withdrawn = $transactions->sum('transaction_amount');
+            $appointments = Appointment::where('doctor_id', $id)->whereDate('created_at', '>=', $due)->whereDate('created_at', '<=', $due_end)->paginate(50);
+        }
+
+        return view('incomes.doctor_info', compact('doctor', 'transactions', 'total_earning', 'total_withdrawn', 'due', 'appointments', 'due_end'));
+    }
+
+    public function destroyIncomes(Request $request) {
+        $transaction = FinancialTransaction::findOrFail($request->id);
+        $transaction->delete();
+        return true;
     }
 
     public function financialWithdraw(Request $request) {
@@ -322,8 +337,18 @@ class IncomeController extends AppBaseController
     }
 
     public function incomesPrintLastDay() {
-        $doctors = Doctor::with(['appointments' => function($q) {
-            $q->where('created_at', '>=',  Carbon::yesterday())->where('created_at', '<',  Carbon::today());
+        $currentDate = Carbon::now();
+        if (Carbon::now()->dayOfWeek === Carbon::SATURDAY) {
+            $start = Carbon::yesterday();
+            $end = now()->subDays(2);
+        } else {
+            $start = Carbon::today();
+            $end = Carbon::yesterday();
+        }
+
+        // dd(now()->subDays(2));
+        $doctors = Doctor::with(['appointments' => function($q) use ($start, $end) {
+            $q->whereDate('created_at', '>=',  $end)->whereDate('created_at', '<',  $start);
         }])->get();
         $pdf = \PDF::loadView('incomes.incomes_print_last_day_pdf',compact('doctors')); 
         return $pdf->stream('PrintLastDay.pdf');
